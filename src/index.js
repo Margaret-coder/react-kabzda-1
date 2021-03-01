@@ -10,6 +10,7 @@ ReactDOM.render(
     <App
       dialogsPage={state.dialogsPage}
       postsPage={state.postsPage}
+      sidebar={state.sidebar}
     />
   </React.StrictMode>,
   document.getElementById("root")

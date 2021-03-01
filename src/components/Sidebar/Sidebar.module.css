@@ -35,19 +35,7 @@ display: block;
 
 } */
 
-.listItem {
-    color: yellow;
-    display: inline;
-    border: 6px solid #f30808;
-}
-.circle{
-    width: 30px;
-    height: 30px;
-    background: blue;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-    border-radius: 50px;
-}
+
 /* .circle{
     display: unset;
 } */

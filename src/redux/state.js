@@ -26,6 +26,11 @@ const state = {
     { id: 8, message: "Pokurit ne naydetsa", likesCount: 4 },
     { id: 9, message: "It's my life, now and ever", likesCount: 8 },
     { id: 10, message: "Hello", likesCount: 1 },
+  ]},
+  sidebar: {sidebarData: [
+    {id: 1, name: "FirstMember"}, 
+    {id: 2, name: "SecondMember"}, 
+    {id: 3, name: "ThirdMember"}, 
   ]}
 }
 export default state
