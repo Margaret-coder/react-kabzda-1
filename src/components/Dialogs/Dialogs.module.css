@@ -1,0 +1,53 @@
+.dialogs{
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+}
+.dialogsItems{
+    padding: 10px;
+    color: white;
+}
+.dialogsItems img{
+    width: 40px;
+    border-radius: 40px;
+}
+.dialogsItems a{
+    text-decoration: none;
+    color: #a52a2a;
+}
+.dialogsItems .active{
+    color: gold;
+}
+.messages{
+    padding: 50px;
+    margin-left: 100px;
+    margin-right: 250px;
+    background-color: turquoise;
+}
+.messageContainer .message{
+    background-color: rgba(223, 143, 180, 0.363);
+}
+.notPageOwner{
+  margin-left: 50%;
+ }
+.message{
+    color: white;
+    background-color:#68b9e770;
+}
+.circle{
+    width:30px;
+    height:30px;
+    display:block;
+    border-radius:50px;
+    -moz-border-radius:50px;
+    -webkit-border-radius:50px;
+    -khtml-border-radius:50px;
+    line-height:100px;
+    background-color: rgba(238, 199, 24, 0.877);
+}
+.notPageOwner .message{
+    color: yellow;
+    background-color: rgba(209, 191, 216, 0.815);
+}
+.notPageOwner .circle{
+    background:rgba(137, 43, 226, 0.781);
+}
