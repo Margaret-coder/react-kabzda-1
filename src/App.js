@@ -12,10 +12,10 @@ const App = (props) => {
     <div className="app-wrapper">
       <Header />
       <Navbar />
-      <Sidebar sidebar={props.sidebar}/>
+      <Sidebar sidebar={props.state.sidebar}/>
       <div className="app-wrapper-content">
-      <Route path="/dialogs" render={() => <Dialogs dialogsPage={props.dialogsPage}/>}/>
-      <Route path="/profile" render={()=><Profile postsPage={props.postsPage} />}/>
+      <Route path="/dialogs" render={() => <Dialogs dialogsPage={props.state.dialogsPage}/>}/>
+      <Route path="/profile" render={()=><Profile postsPage={props.state.postsPage} />}/>
       </div>
     </div>
     </BrowserRouter>
