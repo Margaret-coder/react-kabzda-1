@@ -51,3 +51,13 @@
 .notPageOwner .circle{
     background:rgba(137, 43, 226, 0.781);
 }
+.textarea{
+    margin-left: 159%;
+}
+.btn{
+    display: block;
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 5px;
+    background-color:bisque;
+}
