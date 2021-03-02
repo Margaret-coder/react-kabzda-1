@@ -1,12 +1,25 @@
 import s from './MyPosts.module.css'
 import React from 'react'
-import Post from '../Post/Post.jsx'
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import App from "../../../App"
+import state from "../../../redux/state"
 
 const MyPosts = (props) => {
+//    debugger
     let newPostElement = React.createRef()
-    const addPost = () => {
+    const handleAddPost = () => {
         let text = newPostElement.current.value
-        alert(text)
+        props.addPost(text)
+        ReactDOM.render(
+            <BrowserRouter>
+              <App
+             state={state}
+             addPost={props.addPost}
+              />
+          </BrowserRouter>, document.getElementById("root")
+          );
+          newPostElement.current.value = ""
     }
     return (
         <div className={s.postsBlock}>
@@ -15,7 +28,7 @@ const MyPosts = (props) => {
                 <div>
                     <textarea ref={newPostElement}></textarea>
                 </div>
-                <div><button onClick={addPost}>Add post</button></div>
+                <div><button onClick={handleAddPost}>Add post</button></div>
             </div>
             <div className={s.posts}>
                 {props.posts}

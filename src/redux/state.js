@@ -33,4 +33,9 @@ const state = {
     {id: 3, name: "ThirdMember"}, 
   ]}
 }
+export let postsDataLength = state.postsPage.postsData.length
+export let addPost = (postMessage) => {
+  const newPost = { id: 11, message: postMessage, likesCount: 122 }
+  state.postsPage.postsData.push(newPost)
+}
 export default state
