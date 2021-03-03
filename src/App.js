@@ -5,8 +5,6 @@ import Header from "./components/Header/Header.jsx";
 import Navbar from "./components/Navbar/Navbar.jsx";
 import Profile from "./components/Profile/Profile.jsx";
 import Sidebar from "./components/Sidebar/Sidebar";
-import { addPost } from "./redux/state";
-
 
 const App = (props) => {
   return (

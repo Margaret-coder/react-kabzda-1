@@ -1,3 +1,5 @@
+import { rerenderEntireTree } from "../render"
+
 const state = {
     dialogsPage: {dialogsData : [
     { id: 1, userId: 1, name: "Member 1", image_src: "https://images.pexels.com/photos/905021/pexels-photo-905021.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" },
@@ -37,5 +39,6 @@ export let postsDataLength = state.postsPage.postsData.length
 export let addPost = (postMessage) => {
   const newPost = { id: 11, message: postMessage, likesCount: 122 }
   state.postsPage.postsData.push(newPost)
+  rerenderEntireTree(state)
 }
 export default state
