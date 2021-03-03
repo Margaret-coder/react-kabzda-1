@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App';
 import { addPost } from './redux/state';
 
-let rerenderEntireTree = (state) => {
+export let rerenderEntireTree = (state) => {
 ReactDOM.render(
   <BrowserRouter>
     <App
@@ -13,4 +13,3 @@ ReactDOM.render(
 </BrowserRouter>, document.getElementById("root")
 );
 }
-export default rerenderEntireTree

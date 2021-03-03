@@ -1,9 +1,6 @@
 import s from './MyPosts.module.css'
 import React from 'react'
-import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-import App from "../../../App"
-import state from "../../../redux/state"
+
 
 const MyPosts = (props) => {
 //    debugger
@@ -11,15 +8,7 @@ const MyPosts = (props) => {
     const handleAddPost = () => {
         let text = newPostElement.current.value
         props.addPost(text)
-        ReactDOM.render(
-            <BrowserRouter>
-              <App
-             state={state}
-             addPost={props.addPost}
-              />
-          </BrowserRouter>, document.getElementById("root")
-          );
-          newPostElement.current.value = ""
+        newPostElement.current.value = ""
     }
     return (
         <div className={s.postsBlock}>
