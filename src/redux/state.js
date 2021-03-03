@@ -28,17 +28,22 @@ const state = {
     { id: 8, message: "Pokurit ne naydetsa", likesCount: 4 },
     { id: 9, message: "It's my life, now and ever", likesCount: 8 },
     { id: 10, message: "Hello", likesCount: 1 },
-  ]},
+  ],
+  newPostText: ''
+},
   sidebar: {sidebarData: [
     {id: 1, name: "FirstMember"}, 
     {id: 2, name: "SecondMember"}, 
     {id: 3, name: "ThirdMember"}, 
   ]}
 }
-export let postsDataLength = state.postsPage.postsData.length
 export let addPost = (postMessage) => {
   const newPost = { id: 11, message: postMessage, likesCount: 122 }
   state.postsPage.postsData.push(newPost)
+  rerenderEntireTree(state)
+}
+export let updatePost = (postText) => {
+  state.postsPage.newPostText = postText
   rerenderEntireTree(state)
 }
 export default state
