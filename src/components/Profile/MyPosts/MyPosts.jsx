@@ -1,14 +1,14 @@
 import s from './MyPosts.module.css'
 import React from 'react'
 
+
 const MyPosts = (props) => {
-//    debugger
     let newPostElement = React.createRef()
     const handleAddPost = () => {
+        console.log("props: ", props)
         let text = newPostElement.current.value
         props.addPost(text)
         newPostElement.current.value = ""
-        props.newPostText = ""
     }
     const handleUpdatePost = () => {
         let text = newPostElement.current.value

@@ -8,7 +8,6 @@ import Sidebar from "./components/Sidebar/Sidebar";
 
 const App = (props) => {
   return (
-    <BrowserRouter>
     <div className="app-wrapper">
       <Header />
       <Navbar />
@@ -18,7 +17,6 @@ const App = (props) => {
       <Route path="/profile" render={()=><Profile postsPage={props.state.postsPage} addPost={props.addPost} updatePost={props.updatePost}/>}/>
       </div>
     </div>
-    </BrowserRouter>
   );
 };
 
