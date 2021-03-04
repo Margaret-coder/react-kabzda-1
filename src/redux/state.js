@@ -16,7 +16,9 @@ const state = {
     { id: 4, message: "But wait", userId: 2 },
     { id: 5, message: "Bye", userId: 0 },
     { id: 6, message: "But wtrtrtrtrait", userId: 2 },
-  ]},
+  ],
+  newMessageText: ''
+},
   postsPage: {postsData : [
     { id: 1, message: "Hello", likesCount: 12 },
     { id: 2, message: "Yo", likesCount: 24 },
@@ -38,12 +40,22 @@ const state = {
   ]}
 }
 export let addPost = (postMessage) => {
-  const newPost = { id: 11, message: postMessage, likesCount: 122 }
+  const newPost = { id: 11, message: postMessage, likesCount: 0 }
   state.postsPage.postsData.push(newPost)
   rerenderEntireTree(state)
 }
 export let updatePost = (postText) => {
   state.postsPage.newPostText = postText
+  rerenderEntireTree(state)
+}
+export let addMessage = (messageText) => {
+  const newMessage = {id:7, message: messageText, userId: 0}
+  state.dialogsPage.messagesData.push(newMessage)
+  console.log(state.dialogsPage.newMessageText)
+  rerenderEntireTree(state)
+}
+export let updateMessage = (messageText) => {
+  state.dialogsPage.newMessageText = messageText
   rerenderEntireTree(state)
 }
 export default state
