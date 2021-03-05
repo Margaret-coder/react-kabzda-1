@@ -13,13 +13,13 @@ const Dialogs = (props) => {
         let referenceMessage = React.createRef()
     const sendMessage = () => {
         const text = referenceMessage.current.value
-        props.store.addMessage(text)
+        props.addMessage(text)
         referenceMessage.current.value = ""
         props.dialogsPage.newMessageText = ""
     }
     const handleUpdateMessage = () => {
         const text = referenceMessage.current.value
-        props.store.updateMessage(text)
+        props.updateMessage(text)
         console.log(newMessageText)
     }
     return (
