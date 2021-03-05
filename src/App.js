@@ -15,8 +15,8 @@ const App = (props) => {
       <Navbar />
       <Sidebar sidebar={props.store._state.sidebar}/>
       <div className="app-wrapper-content">
-      <Route path="/dialogs" render={() => <Dialogs dialogsPage={props.store._state.dialogsPage} addMessage={props.store.addMessage.bind(props.store)} updateMessage={props.store.updateMessage.bind(props.store)}/>}/>
-      <Route path="/profile" render={()=><Profile postsPage={props.store._state.postsPage} addPost={props.store.addPost.bind(props.store)} updatePost={props.store.updatePost.bind(props.store)}/>}/>
+      <Route path="/dialogs" render={() => <Dialogs dialogsPage={props.store._state.dialogsPage} dispatch={props.dispatch}/>}/>
+      <Route path="/profile" render={()=><Profile postsPage={props.store._state.postsPage} dispatch={props.dispatch}/>}/>
       </div>
     </div>
   );

@@ -45,33 +45,61 @@ let store = {
     //debugger
     return this._state
   },
-  rerenderEntireTree () {
+  callSubscriber () {
     console.log("State changed")
   },
-  addPost (postMessage) {
-    const newPost = { id: 11, message: postMessage, likesCount: 0 }
+  _addPost () {
+    const newPost = { 
+      id: 11, 
+      message: this._state.postsPage.newPostText, 
+      likesCount: 0 }
     this._state.postsPage.postsData.push(newPost)
     this._state.postsPage.newPostText = ''
-    this.rerenderEntireTree(this._state)
+    this.callSubscriber(this._state)
   },
-    updatePost (postText) {
-      //debugger;
-      let get = this.getState()
-      console.log(this._state)
+  _updatePost (postText) {
     this._state.postsPage.newPostText = postText
-    this.rerenderEntireTree(this._state)
+    this.callSubscriber(this._state)
   },
-    addMessage (messageText) {
-    const newMessage = {id:7, message: messageText, userId: 0}
+  _addMessage () {
+    const newMessage = {
+      id:7, 
+      message:  this._state.dialogsPage.newMessageText, 
+      userId: 0}
     this._state.dialogsPage.messagesData.push(newMessage)
-    this.rerenderEntireTree(this._state)
+    this.callSubscriber(this._state)
   },
-    updateMessage (messageText) {
+  _updateMessage (messageText) {
     this._state.dialogsPage.newMessageText = messageText
-    this.rerenderEntireTree(this._state)
+    this.callSubscriber(this._state)
   },
     subscribe (observer) {
-    this.rerenderEntireTree = observer
+    this.callSubscriber = observer
+  },
+  dispatch(action){
+    if(action.type === 'ADD-POST'){
+      const newPost = { id: 11, message: this._state.postsPage.newPostText, likesCount: 0 }
+      this._state.postsPage.postsData.push(newPost)
+      this._state.postsPage.newPostText = ''
+      this.callSubscriber(this._state)
+    }
+    else if(action.type === 'UPDATE-NEW-POST-TEXT'){
+      this._state.postsPage.newPostText = action.text
+      this.callSubscriber(this._state)
+    }
+    else if(action.type === 'ADD-MESSAGE'){
+      const newMessage = {
+        id:7, 
+        message:  this._state.dialogsPage.newMessageText, 
+        userId: 0}
+      this._state.dialogsPage.messagesData.push(newMessage)
+      this.callSubscriber(this._state)
+    }
+    else if(action.type === 'UPDATE-NEW-MESSAGE-TEXT'){
+      this._state.dialogsPage.newMessageText = action.text
+      this.callSubscriber(this._state)
+    }
   }
+
 }
 export default store

@@ -11,15 +11,19 @@ const Dialogs = (props) => {
         <Message key={message.id} message={message.message} userId={message.userId} id={message.id} />)
     let newMessageText = props.dialogsPage.newMessageText
         let referenceMessage = React.createRef()
+
     const sendMessage = () => {
-        const text = referenceMessage.current.value
-        props.addMessage(text)
+       // const text = referenceMessage.current.value
+      //  props.addMessage(text)
+      props.dispatch({type: 'ADD-MESSAGE'})
         referenceMessage.current.value = ""
         props.dialogsPage.newMessageText = ""
     }
     const handleUpdateMessage = () => {
         const text = referenceMessage.current.value
-        props.updateMessage(text)
+      //  props.updateMessage(text)
+      let action = {type: 'UPDATE-NEW-MESSAGE-TEXT', text: text}
+      props.dispatch(action)
         console.log(newMessageText)
     }
     return (
