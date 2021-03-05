@@ -1,20 +1,16 @@
 import s from './MyPosts.module.css'
 import React from 'react'
+import {addPostActionCreator, updatePostActionCreator} from '../../../redux/state'
 
 const MyPosts = (props) => {
     let newPostElement = React.createRef()
     const handleAddPost = () => {
-        console.log("props: ", props)
-        let text = newPostElement.current.value
-        //props.addPost(text)
-        props.dispatch({type : 'ADD-POST'})
+        props.dispatch(addPostActionCreator())
         newPostElement.current.value = ""
     }
     const handleUpdatePost = () => {
         let text = newPostElement.current.value
-        //props.updatePost(text)
-        let action = {type: 'UPDATE-NEW-POST-TEXT', text: text}
-        props.dispatch(action)
+        props.dispatch(updatePostActionCreator(text))
     }
     return (
         <div className={s.postsBlock}>
