@@ -1,4 +1,3 @@
-import { NavLink } from 'react-router-dom'
 import DialogItem from './DialogItem/DialogItem'
 import s from './Dialogs.module.css'
 import Message from './Message/Message'
@@ -14,13 +13,13 @@ const Dialogs = (props) => {
         let referenceMessage = React.createRef()
     const sendMessage = () => {
         const text = referenceMessage.current.value
-        props.addMessage(text)
+        props.store.addMessage(text)
         referenceMessage.current.value = ""
         props.dialogsPage.newMessageText = ""
     }
     const handleUpdateMessage = () => {
         const text = referenceMessage.current.value
-        props.updateMessage(text)
+        props.store.updateMessage(text)
         console.log(newMessageText)
     }
     return (
