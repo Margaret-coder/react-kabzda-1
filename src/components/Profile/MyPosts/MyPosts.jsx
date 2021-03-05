@@ -7,12 +7,13 @@ const MyPosts = (props) => {
     const handleAddPost = () => {
         console.log("props: ", props)
         let text = newPostElement.current.value
-        props.addPost(text)
+        props.store.addPost(text)
         newPostElement.current.value = ""
     }
     const handleUpdatePost = () => {
+      //  debugger;
         let text = newPostElement.current.value
-        props.updatePost(text)
+        props.store.updatePost(text)
     }
     return (
         <div className={s.postsBlock}>

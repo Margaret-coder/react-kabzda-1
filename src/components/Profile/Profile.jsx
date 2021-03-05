@@ -6,10 +6,11 @@ const Profile = (props) => {
         return <Post key={post.id} message={post.message} likecount={post.likesCount}/>
       })
       let newPostText = props.postsPage.newPostText
+  //    debugger
     return (
         <div>
             <ProfileInfo />
-            <MyPosts posts={postsElements} newPostText={newPostText} addPost={props.addPost} updatePost={props.updatePost}/>
+            <MyPosts store={props.store} state={props.state} posts={postsElements} newPostText={newPostText} addPost={props.addPost} updatePost={props.updatePost}/>
         </div>
     )
 }
