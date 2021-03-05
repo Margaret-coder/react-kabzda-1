@@ -6,13 +6,15 @@ const MyPosts = (props) => {
     const handleAddPost = () => {
         console.log("props: ", props)
         let text = newPostElement.current.value
-        props.addPost(text)
+        //props.addPost(text)
+        props.dispatch({type : 'ADD-POST'})
         newPostElement.current.value = ""
     }
     const handleUpdatePost = () => {
-      //  debugger;
         let text = newPostElement.current.value
-        props.updatePost(text)
+        //props.updatePost(text)
+        let action = {type: 'UPDATE-NEW-POST-TEXT', text: text}
+        props.dispatch(action)
     }
     return (
         <div className={s.postsBlock}>
