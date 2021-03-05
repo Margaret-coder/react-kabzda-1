@@ -1,19 +1,18 @@
 import s from './MyPosts.module.css'
 import React from 'react'
 
-
 const MyPosts = (props) => {
     let newPostElement = React.createRef()
     const handleAddPost = () => {
         console.log("props: ", props)
         let text = newPostElement.current.value
-        props.store.addPost(text)
+        props.addPost(text)
         newPostElement.current.value = ""
     }
     const handleUpdatePost = () => {
       //  debugger;
         let text = newPostElement.current.value
-        props.store.updatePost(text)
+        props.updatePost(text)
     }
     return (
         <div className={s.postsBlock}>
