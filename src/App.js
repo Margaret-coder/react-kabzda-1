@@ -7,16 +7,15 @@ import Profile from "./components/Profile/Profile.jsx";
 import Sidebar from "./components/Sidebar/Sidebar";
 
 const App = (props) => {
-  //debugger;
-  console.log("props", props)
+  const state = props.store.getState()
   return (
     <div className="app-wrapper">
       <Header />
       <Navbar />
-      <Sidebar sidebar={props.store._state.sidebar}/>
+      <Sidebar sidebar={state.sidebarReducer}/>
       <div className="app-wrapper-content">
-      <Route path="/dialogs" render={() => <Dialogs dialogsPage={props.store._state.dialogsPage} dispatch={props.dispatch}/>}/>
-      <Route path="/profile" render={()=><Profile postsPage={props.store._state.postsPage} dispatch={props.dispatch}/>}/>
+      <Route path="/dialogs" render={() => <Dialogs dialogsPage={state.dialogsReducer} dispatch={props.dispatch}/>}/>
+      <Route path="/profile" render={()=><Profile postsPage={state.profileReducer} dispatch={props.dispatch}/>}/>
       </div>
     </div>
   );
