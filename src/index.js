@@ -1,11 +1,8 @@
 import "./index.css";
-import store from "./redux/state";
+import store from "./redux/store";
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App';
-import { addMessage, addPost, updateMessage, updatePost } from './redux/state';
-
-
 
 export let rerenderEntireTree = (state) => {
     ReactDOM.render(

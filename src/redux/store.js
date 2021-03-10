@@ -1,27 +1,6 @@
-const ADD_POST = 'ADD-POST'
-const UPDATE_NEW_POST_TEXT ='UPDATE-NEW-POST-TEXT'
-const ADD_MESSAGE = 'ADD-MESSAGE'
-const UPDATE_NEW_MESSAGE_TEXT ='UPDATE-NEW-MESSAGE-TEXT'
-
-export const addPostActionCreator = () => ({
-  type: ADD_POST,
-  userId: 11
-})
-
-export const updatePostActionCreator = (text) => ({
-  type: UPDATE_NEW_POST_TEXT,
-  text: text
-})
-
-export const addMessageActionCreator = () => ({
-  type: ADD_MESSAGE,
-  userId: 11
-})
-
-export const updateMessageActionCreator = (text) => ({
-  type: UPDATE_NEW_MESSAGE_TEXT,
-  text: text
-})
+import dialogsReducer from "./dialogsReducer"
+import profileReducer from "./profileReducer"
+import sidebarReducer from "./sidebarReducer"
 
 let store = {
   _subscriber(){
@@ -102,29 +81,11 @@ let store = {
     this.callSubscriber = observer
   },
   dispatch(action){
-    if(action.type === 'ADD-POST'){
-      const newPost = { id: 11, message: this._state.postsPage.newPostText, likesCount: 0 }
-      this._state.postsPage.postsData.push(newPost)
-      this._state.postsPage.newPostText = ''
-      this.callSubscriber(this._state)
-    }
-    else if(action.type === 'UPDATE-NEW-POST-TEXT'){
-      this._state.postsPage.newPostText = action.text
-      this.callSubscriber(this._state)
-    }
-    else if(action.type === 'ADD-MESSAGE'){
-      const newMessage = {
-        id:7, 
-        message:  this._state.dialogsPage.newMessageText, 
-        userId: 0}
-      this._state.dialogsPage.messagesData.push(newMessage)
-      this.callSubscriber(this._state)
-    }
-    else if(action.type === 'UPDATE-NEW-MESSAGE-TEXT'){
-      this._state.dialogsPage.newMessageText = action.text
-      this.callSubscriber(this._state)
-    }
+console.log( "HI",   this._state.postsPage)
+    this._state.postsPage = profileReducer(this._state.postsPage, action)
+    this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+    this._state.sidebar = sidebarReducer(this._state.sidebar, action)
+    this.callSubscriber(this._state)
   }
-
 }
 export default store
