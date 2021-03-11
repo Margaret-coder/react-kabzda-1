@@ -2,25 +2,21 @@ import DialogItem from './DialogItem/DialogItem'
 import s from './Dialogs.module.css'
 import Message from './Message/Message'
 import React from 'react'
-import { addMessageActionCreator, updateMessageActionCreator } from '../../redux/dialogsReducer'
 
 const Dialogs = (props) => {
-    let dialogsElements = props.dialogsPage.dialogsData.map(dialog =>
+    let state = props.dialogsPage
+    let dialogsElements = state.dialogsData.map(dialog =>
         <DialogItem key={dialog.id} name={dialog.name} userId={dialog.userId} image_src={dialog.image_src} id={dialog.id} />)
-
-    let messageElements = props.dialogsPage.messagesData.map(message =>
+    let messageElements = state.messagesData.map(message =>
         <Message key={message.id} message={message.message} userId={message.userId} id={message.id} />)
-    let newMessageText = props.dialogsPage.newMessageText
-        let referenceMessage = React.createRef()
+    let newMessageText = state.newMessageText
 
-    const sendMessage = () => {
-        props.dispatch(addMessageActionCreator())
-        referenceMessage.current.value = ""
-        props.dialogsPage.newMessageText = ""
+    const sendMessageClick = () => {
+        props.sendMessage()
     }
-    const handleUpdateMessage = () => {
-      const text = referenceMessage.current.value
-      props.dispatch(updateMessageActionCreator(text))
+    const handleUpdateMessage = (e) => {
+      const text = e.target.value
+      props.updateNewMessage(text)
     }
     return (
         <div className={s.dialogs}>
@@ -31,8 +27,11 @@ const Dialogs = (props) => {
                 {messageElements}
             </div>
             <div className={s.textarea}>
-                <textarea onChange={handleUpdateMessage} value={newMessageText} ref={referenceMessage}></textarea>
-                <button className={s.btn} onClick={sendMessage}>Send message</button>
+                <textarea 
+                    onChange={handleUpdateMessage} 
+                    value={newMessageText}>
+                </textarea>
+                <button className={s.btn} onClick={sendMessageClick}>Send message</button>
             </div>
         </div>
     )

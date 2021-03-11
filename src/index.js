@@ -5,11 +5,11 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App';
 
 export let rerenderEntireTree = (state) => {
-  //debugger
+  debugger
     ReactDOM.render(
       <BrowserRouter>
         <App
-        store={store} dispatch={store.dispatch.bind(store)}
+        state={state} store={store} dispatch={store.dispatch.bind(store)}
         />
     </BrowserRouter>, document.getElementById("root")
     );
