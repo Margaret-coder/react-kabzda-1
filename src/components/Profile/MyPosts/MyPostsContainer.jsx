@@ -18,8 +18,8 @@ const MyPostsContainer = () => {
                 let state = store.getState()
                 return(
                 <MyPosts updateNewPostText={handleUpdatePost}
-                addPost={handleAddPost} posts={state.profileReducer.postsData}
-                newPostText={state.profileReducer.newPostText}/>
+                addPost={handleAddPost} posts={state.profilePage.postsData}
+                newPostText={state.profilePage.newPostText}/>
                 )
             }
         }
