@@ -1,28 +1,32 @@
 import s from './MyPosts.module.css'
 import React from 'react'
-import {addPostActionCreator, updatePostActionCreator} from '../../../redux/profileReducer'
+import Post from '../Post/Post'
 
 const MyPosts = (props) => {
-    let newPostElement = React.createRef()
-    const handleAddPost = () => {
-        props.dispatch(addPostActionCreator())
-        newPostElement.current.value = ""
+    debugger
+    let postsElements = props.posts.map(
+        p=><Post message={p.message} likesCount={p.likesCount}/>)
+        const addNewPost = () => {
+        props.addPost()
     }
-    const handleUpdatePost = () => {
-        let text = newPostElement.current.value
-        props.dispatch(updatePostActionCreator(text))
+    const updatePost = (e) => {
+        let text = e.target.value
+        props.updateNewPostText(text)
     }
     return (
         <div className={s.postsBlock}>
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea value={props.newPostText} onChange={handleUpdatePost} ref={newPostElement}></textarea>
+                    <textarea 
+                        value={props.newPostText} 
+                        onChange={updatePost}>
+                    </textarea>
                 </div>
-                <div><button onClick={handleAddPost}>Add post</button></div>
+                <div><button onClick={addNewPost}>Add post</button></div>
             </div>
             <div className={s.posts}>
-                {props.posts}
+                {postsElements}
             </div>
         </div>
     )
