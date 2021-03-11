@@ -8,7 +8,7 @@ const DialogsContainer = () => {
         <StoreContext.Consumer>
         {
             (store) => {
-                let state = store.getState().dialogsReducer
+                let state = store.getState().dialogsPage
                 let handleSendMessage = () => {
                     store.dispatch(addMessageActionCreator())
                 }
