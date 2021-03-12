@@ -7,17 +7,22 @@ const Dialogs = (props) => {
     let state = props.dialogsPage
     let dialogsElements = state.dialogsData.map(dialog =>
         <DialogItem key={dialog.id} name={dialog.name} userId={dialog.userId} image_src={dialog.image_src} id={dialog.id} />)
-    let messageElements = state.messagesData.map(message =>
-        <Message key={message.id} message={message.message} userId={message.userId} id={message.id} />)
-    let newMessageText = state.newMessageText
+        let messageElements = state.messagesData.map(message =>
+            <Message key={message.id} message={message.message} userId={message.userId} id={message.id} />)
+            let newMessageText = state.newMessageText
+            const ref = React.createRef();  
 
-    const sendMessageClick = () => {
-        props.sendMessage()
+    const addMessage = () => {
+        let val = ref.current.value
+        debugger
+        props.handleSendMessage()
     }
-    const handleUpdateMessage = (e) => {
-      const text = e.target.value
-      props.updateNewMessage(text)
+    const updateMessage = (e) => {
+        const text = e.target.value
+        props.handleUpdateMessage(text)
+        newMessageText = newMessageText + text
     }
+    console.log(props)
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
@@ -27,11 +32,10 @@ const Dialogs = (props) => {
                 {messageElements}
             </div>
             <div className={s.textarea}>
-                <textarea 
-                    onChange={handleUpdateMessage} 
-                    value={newMessageText}>
+                <textarea ref={ref}
+                    onChange={updateMessage}>
                 </textarea>
-                <button className={s.btn} onClick={sendMessageClick}>Send message</button>
+                <button className={s.btn} onClick={addMessage}>Send message</button>
             </div>
         </div>
     )
