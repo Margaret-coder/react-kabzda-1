@@ -28,18 +28,22 @@ export const addPostActionCreator = () => ({
 const profileReducer = (state = initialState, action) => {
        switch (action.type){
        case ADD_POST: {
-         console.log("state",state)
-              const newPost = { id: 11, message: state.newPostText, likesCount: 0 }
-              state.postsData.push(newPost)
-              state.newPostText = ''
-              return state
+         let stateCopy = {...state}
+         stateCopy.postsData = Array.from(state.postsData)
+         const newPost = { id: 11, message: state.newPostText, likesCount: 0 }
+         stateCopy.postsData.push(newPost)
+         stateCopy.newPostText = ''
+         debugger
+              return stateCopy
         }
         case UPDATE_NEW_POST_TEXT: {
-              state.newPostText = action.text
-              return state
+          let stateCopy = {...state}
+          stateCopy.newPostText = action.text
+          return stateCopy
         }
         default: {
-          return state}
+          return state
+        }
     }
 }
 export default profileReducer
