@@ -14,7 +14,6 @@ let mapDispatchToProps = (dispatch) => {
             dispatch(action)
         },
         handleSendMessage: () => {
-            debugger
             let action = addMessageActionCreator()
             dispatch(action)
         }

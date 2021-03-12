@@ -3,11 +3,13 @@ import React from 'react'
 import Post from '../Post/Post'
 
 const MyPosts = (props) => {
+    let newPostText = props.profilePage.newPostText
     let postsElements = props.profilePage.postsData.map(
         p=><Post message={p.message} likesCount={p.likesCount}/>)
+
         const addNewPost = () => {
-            debugger
         props.handleAddPost()
+        debugger
     }
 
     const updatePost = (e) => {
@@ -19,7 +21,7 @@ const MyPosts = (props) => {
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea 
+                    <textarea value={newPostText}  
                         onChange={updatePost}>
                     </textarea>
                 </div>

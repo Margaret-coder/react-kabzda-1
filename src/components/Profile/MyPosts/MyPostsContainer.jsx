@@ -12,7 +12,6 @@ let mapDispatchToProps = (dispatch) => {
         handleAddPost : () => {
             let action = addPostActionCreator() 
             dispatch(action)
-            debugger
         },
         handleUpdatePost : (text) => {
             let action = updatePostActionCreator(text)
