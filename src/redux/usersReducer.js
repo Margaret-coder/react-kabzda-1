@@ -1,6 +1,8 @@
 let FOLLOW = 'FOLLOW'
 let UNFOLLOW = 'UNFOLLOW'
 let SET_USERS = 'SET_USERS'
+let SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
+let SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
 
 let initialState = {
      users: [
@@ -16,7 +18,10 @@ let initialState = {
     //     profilePhoto: 'https://images.pexels.com/photos/5051699/pexels-photo-5051699.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500', 
     //     fullName: 'A Horse', status: 'Igogo', followed: false, location: {city: 'Chorni', country: 'Bile'}
     // }
-]
+    ],
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 8
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -48,7 +53,13 @@ const usersReducer = (state = initialState, action) => {
             return stateCopy
         }
         case SET_USERS: {
-            return {...state, users: [...state.users, ...action.users]}
+            return {...state, users: action.users}
+        }
+        case SET_CURRENT_PAGE: {
+            return {...state, currentPage: action.currentPage}
+        }
+        case SET_TOTAL_USERS_COUNT: {
+            return {...state, totalUsersCount: action.count}
         }
         default: return state
     }
@@ -57,5 +68,7 @@ const usersReducer = (state = initialState, action) => {
 export const followAC = (userId) => ({type: FOLLOW, userId: userId})
 export const unfollowAC = (userId) => ({type: UNFOLLOW, userId: userId})
 export const setUsersAC = (users) => ({type: SET_USERS, users: users})
+export const setCurrentPageAC = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage})
+export const setTotalUsersCountAC = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, count: totalUsersCount})
 
 export default usersReducer
