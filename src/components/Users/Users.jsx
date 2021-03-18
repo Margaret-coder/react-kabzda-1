@@ -1,6 +1,7 @@
 import s from './Users.module.css'
 import userPhoto from '../../assets/images/samurai.png'
 import React from 'react'
+import Preloader from '../Common/Preloader/Preloader'
 
 const Users = (props) => {
     debugger
@@ -11,6 +12,7 @@ const Users = (props) => {
     }
     return (
     <div>
+        <div>{props.isLoading? <Preloader/> : null}</div>
         <div>{pages.map(p=> {
             return <span className=
             {props.currentPage === p && s.selectedPage}

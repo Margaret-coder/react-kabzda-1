@@ -1,6 +1,8 @@
 import Users from './Users'
 import {connect} from 'react-redux'
-import {followAC, unfollowAC, setUsersAC, setCurrentPageAC, setTotalUsersCountAC} from '../../redux/usersReducer'
+import {followAC, unfollowAC, setUsersAC, 
+    setCurrentPageAC, setTotalUsersCountAC,
+    setIsLoadingAC} from '../../redux/usersReducer'
 import * as axios from 'axios'
 import React from 'react'
 
@@ -10,22 +12,29 @@ class UsersContainer extends React.Component {
         console.log("I am constructor of Users")
     }
     componentDidMount(){
+        this.props.setIsLoading(true)
         axios.get(
             `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
             .then(response => {
+                this.props.setIsLoading(false)
                 this.props.setUsers(response.data.items)
                 this.props.setTotalUsersCount(response.data.totalCount)
             })
     }
     onPageChanged = (pageNumber) => {
+        this.props.setIsLoading(true)
         this.props.setCurrentPage(pageNumber)
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
         .then(response => {
+            this.props.setIsLoading(false)
             this.props.setUsers(response.data.items)
         })         
     }
     render () {
-        return <Users 
+        let l = this.props.isLoading
+        debugger
+        return <Users
+        isLoading={this.props.isLoading} 
         totalUsersCount={this.props.totalUsersCount}
         pageSize={this.props.pageSize}
         currentPage={this.props.currentPage}
@@ -41,11 +50,16 @@ let mapStateToProps = (state) => {
         users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage
+        currentPage: state.usersPage.currentPage,
+        isLoading: state.usersPage.isLoading
     }
 }
 let mapDispatchToProps = (dispatch) => {
     return {
+        setIsLoading: (isLoading)=>{
+            dispatch(setIsLoadingAC(isLoading))
+        }
+        ,
         follow: (userId) => {
             dispatch(followAC(userId))
         },
