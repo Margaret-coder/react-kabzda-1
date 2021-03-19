@@ -38,7 +38,6 @@ const usersReducer = (state = initialState, action) => {
                     return u
                 })
             }
-            debugger
             return stateCopy
         }
         case UNFOLLOW: {
@@ -51,7 +50,6 @@ const usersReducer = (state = initialState, action) => {
                     return u
                 })
             }
-            debugger
             return stateCopy
         }
         case SET_USERS: {
@@ -64,7 +62,6 @@ const usersReducer = (state = initialState, action) => {
             return {...state, totalUsersCount: action.count}
         }
         case SET_IS_LOADING_VAL: {
-            debugger
             return {...state, isLoading: action.isLoading}
         }
         default: return state
