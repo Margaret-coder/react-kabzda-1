@@ -9,7 +9,6 @@ const MyPosts = (props) => {
 
         const addNewPost = () => {
         props.handleAddPost()
-        debugger
     }
 
     const updatePost = (e) => {
