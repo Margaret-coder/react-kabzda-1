@@ -11,5 +11,6 @@ import usersReducer from './usersReducer'
      usersPage: usersReducer
  })
  let store = createStore(reducers)
+window.store = store
 
  export default store

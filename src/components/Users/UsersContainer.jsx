@@ -32,7 +32,6 @@ class UsersContainer extends React.Component {
     }
     render () {
         let l = this.props.isLoading
-        debugger
         return <Users
         isLoading={this.props.isLoading} 
         totalUsersCount={this.props.totalUsersCount}
