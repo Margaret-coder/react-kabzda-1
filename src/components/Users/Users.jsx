@@ -3,7 +3,7 @@ import userPhoto from '../../assets/images/samurai.png'
 import React from 'react'
 import Preloader from '../Common/Preloader/Preloader'
 import { NavLink } from 'react-router-dom'
-import axios from 'axios'
+import {userAPI} from '../../api/api'
 
 const Users = (props) => {
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
@@ -35,12 +35,9 @@ const Users = (props) => {
                     <div>
                         {u.followed ?
                             <button onClick={()=> {
-                                axios.delete
-                                ( `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
-                                {withCredentials: true, 
-                                    // headers: {"API-KEY": ""}
-                                },)
+                                userAPI.unfollow(u.id)
                                 .then(response => {
+                                    debugger
                                     if(response.data.resultCode 
                                         === 0)
                                     {
@@ -52,14 +49,9 @@ const Users = (props) => {
                             </button> 
                             :
                             <button onClick={()=> {
-                                        // this.props.toggleIsFetching(false);
-                                axios.post
-                                ( `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
-                                {},
-                                {withCredentials: true,
-                                    // headers: {"API-KEY": ""}
-                                })
-                                .then(response => {
+                                // this.props.toggleIsFetching(false);
+                                userAPI.follow(u.id).then(response => {
+                                    debugger
                                     if(response.data.resultCode 
                                         === 0)
                                     {
