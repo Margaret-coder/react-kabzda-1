@@ -25,7 +25,7 @@ let initialState = {
     ],
     pageSize: 5,
     totalUsersCount: 0,
-    currentPage: 8,
+    currentPage: 1,
     isFetching: false,
     followingInProgress: []
 }
@@ -97,6 +97,7 @@ export const getUsers = (currentPage, pageSize) => {
                 dispatch(toggleIsFetching(false))
                 dispatch(setUsers(data.items))
                 dispatch(setTotalUsersCount(data.totalCount))
+                dispatch(setCurrentPage(currentPage))
             })
         }
 }

@@ -12,9 +12,11 @@ const Users = (props) => {
         pages.push(i)
     }
     return (
-    <div>
+        <div>
         <div>{props.isFetching? <Preloader/> : null}</div>
         <div>{pages.map(p=> { 
+            if(props.currentPage === p && s.selectedPage){
+            }
             return <span key={p.id} className=
             {props.currentPage === p && s.selectedPage}
             onClick={(e) => {props.onPageChanged(p)}}>{p} </span>
