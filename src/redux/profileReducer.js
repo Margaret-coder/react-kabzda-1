@@ -51,7 +51,6 @@ export const addPostActionCreator = () => ({
 
 export const getUserProfile = (userId) => (dispatch) => {
   usersAPI.getUserProfile(userId).then(response => {
-    debugger
     dispatch(setUserProfile(response))
   })
 }
