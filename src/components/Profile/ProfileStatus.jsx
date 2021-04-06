@@ -5,12 +5,18 @@ class ProfileStatus extends React.Component {
         editMode: false,
         status: this.props.status
     }
+    componentDidUpdate(prevProps, prevState){
+        if(prevProps.status !== this.props.status){
+            this.setState({
+                status: this.props.status
+            })
+            debugger
+        }
+    }
     activateEditMode = () => {
         this.setState({
             editMode : true,
-            status: this.props.status
         })
-        debugger
     }
     deactivateEditMode = () => {
         this.setState({
@@ -22,6 +28,7 @@ class ProfileStatus extends React.Component {
         this.setState({
             status: e.currentTarget.value
         })
+        debugger
     }
     render(){
         return(
