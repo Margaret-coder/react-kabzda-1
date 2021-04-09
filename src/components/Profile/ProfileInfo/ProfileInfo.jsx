@@ -14,26 +14,26 @@ const ProfileInfo = (props) => {
                     alt="sea img"
                 /> */}
                 <div className={s.descriptionBlock}>
-                    <img src={props.profile.data.photos.large} alt="large_pic"/>
+                    <img src={props.profile.photos.large} alt="large_pic"/>
                 </div>
                 <div>
                     <ProfileStatus status={props.status}
                     updateStatus={props.updateStatus}/>
                 </div>
-                <div>About me: {props.profile.data.aboutMe}</div>
+                <div>About me: {props.profile.aboutMe}</div>
                 <ul className={s.no_bullets}>Contacts: 
-                    {Object.keys(props.profile.data.contacts).map
+                    {Object.keys(props.profile.contacts).map
                     (function (key)
                     {
                         return (
-                        <li key={props.profile.data.userId} className={s.no_bullets}>{props.profile.data.contacts[key]}</li>
+                        <li key={props.profile.userId} className={s.no_bullets}>{props.profile.contacts[key]}</li>
                         )
                     })}</ul>
-                <div>Looking for a job: {props.profile.data.lookingForAJob.toString()}</div>
-                <div>Looking for a job description: {props.profile.data.lookingForAJobDescription}</div>
-                <div>Fullname: {props.profile.data.fullName}</div>
+                <div>Looking for a job: {props.profile.lookingForAJob.toString()}</div>
+                <div>Looking for a job description: {props.profile.lookingForAJobDescription}</div>
+                <div>Fullname: {props.profile.fullName}</div>
             </div>
-            <div className={s.descriptionBlock}>ava + description</div>
+             <div className={s.descriptionBlock}>ava + description</div>
         </div>
     )
 }
