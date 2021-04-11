@@ -3,22 +3,38 @@ import DialogItem from './DialogItem/DialogItem'
 import s from './Dialogs.module.css'
 import Message from './Message/Message'
 import React from 'react'
+import {Field, reduxForm} from 'redux-form'
+
+const DialogsForm = (props) => {
+    debugger
+    return (
+        <form onSubmit={props.handleSubmit} className={s.textarea}>
+                <div>
+                    <Field 
+                    component={"textarea"} placeholder={"Your Message"} 
+                    name={"newMessageText"}/>
+                </div>
+                <div>
+                    <button className={s.btn}>Send message</button>
+                </div>
+        </form>
+    )
+}
+
+const DialogsReduxForm = reduxForm({form:"dialogs form"})
+(DialogsForm)
 
 const Dialogs = (props) => {
+    debugger
     let state = props.dialogsPage
     let dialogsElements = state.dialogsData.map(dialog =>
         <DialogItem key={dialog.id} name={dialog.name} userId={dialog.userId} image_src={dialog.image_src} id={dialog.id} />)
         let messageElements = state.messagesData.map(message =>
             <Message key={message.id} message={message.message} userId={message.userId} id={message.id} />)
-            let newMessageText = state.newMessageText
-    const addMessage = () => {
-        props.handleSendMessage()
+    const addNewMessage = (values) => {
+        props.handleSendMessage(values.newMessageText)
+        values.newMessageText = ''
     }
-    const updateMessage = (e) => {
-        const text = e.target.value
-        props.handleUpdateMessage(text)
-    }
-    
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
@@ -27,12 +43,7 @@ const Dialogs = (props) => {
             <div className={s.messages}>
                 {messageElements}
             </div>
-            <div className={s.textarea}>
-                <textarea value={newMessageText} 
-                onChange={updateMessage}>
-                </textarea>
-                <button className={s.btn} onClick={addMessage}>Send message</button>
-            </div>
+            <DialogsReduxForm onSubmit={addNewMessage}/>
         </div>
     )
 }

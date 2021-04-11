@@ -19,7 +19,8 @@ const MyPostsForm = (props) => {
     )
 } 
 
-const MyPostsReduxForm = reduxForm({form: 'myPostsReduxForm'})(MyPostsForm)
+const MyPostsReduxForm = reduxForm({form: 'message form'})
+(MyPostsForm)
 
 const MyPosts = (props) => {
     let postsElements = props.profilePage.postsData.map(
@@ -38,6 +39,5 @@ const MyPosts = (props) => {
     </div> 
     )
 }
-
     
 export default MyPosts

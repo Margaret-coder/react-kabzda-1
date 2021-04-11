@@ -1,5 +1,4 @@
 const ADD_MESSAGE = 'ADD-MESSAGE'
-const UPDATE_NEW_MESSAGE_TEXT ='UPDATE-NEW-MESSAGE-TEXT'
 
  let initialState = {dialogsData : [
     { id: 1, userId: 1, name: "Member 1", image_src: "https://images.pexels.com/photos/905021/pexels-photo-905021.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" },
@@ -17,32 +16,21 @@ const UPDATE_NEW_MESSAGE_TEXT ='UPDATE-NEW-MESSAGE-TEXT'
     { id: 5, message: "Bye", userId: 0 },
     { id: 6, message: "But wtrtrtrtrait", userId: 2 },
   ],
- newMessageText: ''
 }
 
-export const addMessageActionCreator = () => ({
+export const addMessageActionCreator = (newMessageText) => ({
   type: ADD_MESSAGE,
-  userId: 11
-})
-
-export const updateMessageActionCreator = (text) => ({
-  type: UPDATE_NEW_MESSAGE_TEXT,
-  text: text
+  text: newMessageText
 })
 
 const dialogsReducer = (state = initialState, action) => {
     switch (action.type){
     case ADD_MESSAGE: {
+      debugger
       let stateCopy = {...state}
       stateCopy.messagesData = Array.from(state.messagesData)
-      const newMessage = { id: 7, message: state.newMessageText, userId: 0 }
+      const newMessage = { id: 7, message: action.text, userId: 0 }
       stateCopy.messagesData.push(newMessage)
-      stateCopy.newMessageText = ''
-      return stateCopy
-    }
-    case UPDATE_NEW_MESSAGE_TEXT: {
-      let stateCopy = {...state}
-      stateCopy.newMessageText = action.text
       return stateCopy
     }
     default: return state
