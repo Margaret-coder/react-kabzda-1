@@ -10,7 +10,6 @@ import { Textarea } from '../Common/FormControls/FormControls'
 const maxLength10 = maxLengthCreator(10)
 
 const DialogsForm = (props) => {
-    debugger
     return (
         <form onSubmit={props.handleSubmit} className={s.textarea}>
                 <div>
@@ -31,7 +30,6 @@ const DialogsReduxForm = reduxForm({form:"dialogs form"})
 (DialogsForm)
 
 const Dialogs = (props) => {
-    debugger
     let state = props.dialogsPage
     let dialogsElements = state.dialogsData.map(dialog =>
         <DialogItem key={dialog.id} name={dialog.name} userId={dialog.userId} image_src={dialog.image_src} id={dialog.id} />)
