@@ -26,7 +26,6 @@ export const addMessageActionCreator = (newMessageText) => ({
 const dialogsReducer = (state = initialState, action) => {
     switch (action.type){
     case ADD_MESSAGE: {
-      debugger
       let stateCopy = {...state}
       stateCopy.messagesData = Array.from(state.messagesData)
       const newMessage = { id: 7, message: action.text, userId: 0 }
