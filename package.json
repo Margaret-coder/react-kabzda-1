@@ -40,6 +40,15 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
+    ],
+    "jest": {
+      "moduleDirectories": [
+        "node_modules",
+        "src"
+      ]
+    }
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.13.8"
   }
 }
