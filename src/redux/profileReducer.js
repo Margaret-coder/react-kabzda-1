@@ -1,13 +1,14 @@
-import { profileAPI, usersAPI} from "../api/api"
+import { profileAPI} from "../api/api"
 
 const ADD_POST = 'ADD-POST'
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
 const SET_STATUS = 'SET_STATUS'
+const DELETE_POST = 'DELETE_POST'
 
 let initialState = {postsData : [
-  // { id: 1, message: "Hello", likesCount: 12 },
-  // { id: 2, message: "Yo", likesCount: 24 },
-  // { id: 3, message: "Again", likesCount: 2 },
+  { id: 1, message: "Hello", likesCount: 12 },
+  { id: 2, message: "Yo", likesCount: 24 },
+  { id: 3, message: "Again", likesCount: 2 },
   // { id: 4, message: "But wait", likesCount: 0 },
   // { id: 5, message: "Bye", likesCount: 18 },
   // { id: 6, message: "But wtrtrtrtrait", likesCount: 3 },
@@ -38,6 +39,11 @@ const profileReducer = (state = initialState, action) => {
       case SET_USER_PROFILE: {
         return {...state, profile: action.profile}
       }
+      case DELETE_POST: {
+        let stateCopy = {...state}
+        stateCopy.postsData.splice(action.id, 1)
+        return stateCopy
+      }
       case SET_STATUS: {
         return {...state, status: action.status}
       }
@@ -50,6 +56,11 @@ const profileReducer = (state = initialState, action) => {
 export const addPostActionCreator = (newPostText) => ({
     type: ADD_POST,
     text: newPostText
+})
+
+export const deletePostActionCreator = (id) => ({
+    type: DELETE_POST,
+    id
 })
   
 export const setUserProfile = (profile) => ({
