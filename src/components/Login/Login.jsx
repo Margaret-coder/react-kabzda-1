@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import {Field, reduxForm} from 'redux-form'
+import {reduxForm} from 'redux-form'
 import {loginUser} from '../../redux/authReducer'
 import { maxLengthCreator, required } from '../../utils/validators/validators'
 import { createField, Input } from '../Common/FormControls/FormControls'
