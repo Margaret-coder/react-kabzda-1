@@ -1,6 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
-import { Route, withRouter } from "react-router-dom";
+import { connect, Provider } from "react-redux";
+import { BrowserRouter, Route, withRouter } from "react-router-dom";
 import { compose } from "redux";
 import {initializeApp} from '../src/redux/appReducer'
 import "./App.css";
@@ -12,6 +12,7 @@ import Navbar from "./components/Navbar/Navbar.jsx";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import Sidebar from "./components/Sidebar/Sidebar";
 import UsersContainer from "./components/Users/UsersContainer";
+import store from "./redux/redux-store";
 
 class App extends React.Component {
   componentDidMount(){
@@ -43,9 +44,21 @@ const mapStateToProps = (state) => ({
   initialized: state.app.initialized
 })
 
-export default compose(
+let AppContainer = compose(
   withRouter, 
   connect(mapStateToProps, {initializeApp}))(App);
+
+const WrapApp = (props) => {
+  return <BrowserRouter>
+  <Provider store={store}><AppContainer/></Provider>
+  </BrowserRouter>
+} 
+
+export default WrapApp
+
+// export default compose(
+//   withRouter, 
+//   connect(mapStateToProps, {initializeApp}))(App);
 
 //export default withRouter(connect(mapStateToProps, {getAuthUserData})(App));
 //export default connect(mapStateToProps, {getAuthUserData})(App);
