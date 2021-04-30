@@ -25,6 +25,7 @@ let initialState = {
     // }
     ],
     pageSize: 5,
+    paginatorPortionSize: 10,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,

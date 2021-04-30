@@ -6,7 +6,7 @@ import {follow, unfollow,
 import React from 'react'
 import { getUsers, getUsersCurrentPage,
      getUsersPageSize, getUsersTotalCount, 
-     getUsersIsFetching, getUsersFollowingInProgress } from '../../redux/usersSelectors'
+     getUsersIsFetching, getUsersFollowingInProgress, getPaginatorPortionSize } from '../../redux/usersSelectors'
 
 class UsersContainer extends React.Component {
     componentDidMount(){
@@ -20,6 +20,7 @@ class UsersContainer extends React.Component {
         <Users
         totalUsersCount={this.props.totalUsersCount}
         pageSize={this.props.pageSize}
+        paginatorPortionSize={this.props.paginatorPortionSize}
         currentPage={this.props.currentPage}
         onPageChanged={this.onPageChanged}
         users={this.props.users}
@@ -35,6 +36,7 @@ let mapStateToProps = (state) => {
     return {
         users: getUsers(state),
         pageSize: getUsersPageSize(state),
+        paginatorPortionSize: getPaginatorPortionSize(state),
         totalUsersCount: getUsersTotalCount(state),
         currentPage: getUsersCurrentPage(state),
         isFetching: getUsersIsFetching(state),
