@@ -14,6 +14,10 @@ export const getUsersPageSize = (state) => {
     return state.usersPage.pageSize
 }
 
+export const getPaginatorPortionSize = (state) => {
+    return state.usersPage.paginatorPortionSize
+}
+
 export const getUsersTotalCount = (state) => {
     return state.usersPage.totalUsersCount
 }
