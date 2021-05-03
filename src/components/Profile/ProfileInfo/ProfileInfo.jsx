@@ -1,6 +1,5 @@
 import s from "./ProfileInfo.module.css"
 import Preloader from "../../Common/Preloader/Preloader"
-import ProfileStatus from '../ProfileStatus'
 import ProfileStatusWithHooks from "../ProfileStatusWithHooks"
 
 const ProfileInfo = (props) => {
@@ -27,7 +26,7 @@ const ProfileInfo = (props) => {
                     (function (key)
                     {
                         return (
-                        <li key={props.profile.userId} className={s.no_bullets}>{props.profile.contacts[key]}</li>
+                        <li key={key} className={s.no_bullets}>{props.profile.contacts[key]}</li>
                         )
                     })}</ul>
                 <div>Looking for a job: {props.profile.lookingForAJob.toString()}</div>
