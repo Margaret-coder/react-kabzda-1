@@ -1,6 +1,7 @@
 {
   "name": "react-kabzda-1",
   "version": "0.1.0",
+  "homepage": "http://margaret-coder.github.io/react-kabzda-1/",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.13.16",
@@ -9,7 +10,6 @@
     "axios": "^0.21.1",
     "browserslist": "^4.16.5",
     "classnames": "^2.3.1",
-    "eslint": "^7.25.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.2",
@@ -25,7 +25,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -42,6 +44,8 @@
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.13.8",
     "@testing-library/jest-dom": "^5.12.0",
+    "eslint": "^7.25.0",
+    "gh-pages": "^3.1.0",
     "react-test-renderer": "^17.0.2",
     "redux-devtools-extension": "^2.13.9"
   },
@@ -55,6 +59,5 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Margaret-coder/react-kabzda-1/issues"
-  },
-  "homepage": "/"
+  }
 }
