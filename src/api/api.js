@@ -1,7 +1,6 @@
 import * as axios from 'axios'
 import { follow } from '../redux/usersReducer'
 
-
 const instance = axios.create({
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -43,6 +42,12 @@ export const profileAPI = {
     },
     updateStatus(status){
         return instance.put(`profile/status`, {status: status})
+    },
+    requestPosts(){
+        return axios.get("http://localhost:5500/api/posts/", 
+        {crossdomain: true}).then(response => {
+            return response.data
+        })
     }
 }
 export const authAPI = {

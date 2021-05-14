@@ -4,21 +4,12 @@ const ADD_POST = 'social-network/profile/ADD-POST'
 const SET_USER_PROFILE = 'social-network/profile/SET_USER_PROFILE'
 const SET_STATUS = 'social-network/profile/SET_STATUS'
 const DELETE_POST = 'social-network/profile/DELETE_POST'
+const SET_POSTS = 'social-network/profile/SET_POSTS'
 
-let initialState = {postsData : [
-  { id: 1, message: "Hello", likesCount: 12 },
-  { id: 2, message: "Yo", likesCount: 24 },
-  { id: 3, message: "Again", likesCount: 2 },
-  // { id: 4, message: "But wait", likesCount: 0 },
-  // { id: 5, message: "Bye", likesCount: 18 },
-  // { id: 6, message: "But wtrtrtrtrait", likesCount: 3 },
-  // { id: 7, message: "Bili Bili Bili bli", likesCount: 2 },
-  // { id: 8, message: "Pokurit ne naydetsa", likesCount: 4 },
-  // { id: 9, message: "It's my life, now and ever", likesCount: 8 },
-  // { id: 10, message: "Hello", likesCount: 1 },
-],
-//newPostText: '',
-profile: null
+let initialState = {
+  postsData : [],
+  //newPostText: '',
+  profile: null
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -47,6 +38,9 @@ const profileReducer = (state = initialState, action) => {
       case SET_STATUS: {
         return {...state, status: action.status}
       }
+      case SET_POSTS: {
+        return {...state, postsData: action.posts}
+      }
       default: {
         return state
       }
@@ -72,6 +66,17 @@ export const setStatus = (text) => ({
     type: SET_STATUS,
     status: text
 })
+
+export const setPostsData = (posts) => ({
+    type: SET_POSTS,
+    posts: posts
+
+})
+
+export const getProfilePosts = () => async (dispatch) => {
+  const response = await profileAPI.requestPosts()
+  dispatch (setPostsData(response))
+}
 
 export const getUserProfile = (userId) => async (dispatch) => {
   const response = await profileAPI.getProfile(userId)
