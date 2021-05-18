@@ -31,7 +31,8 @@ const MyPosts = (props) => {
     let postsElements = props.profilePage.postsData.map(
         p=><Post key={p._id} message={p.message} likesCount={p.likesCount}/>)
     const addNewPost = (values) => {
-        props.handleAddPost(values.newPostText)
+     //   props.handleAddPost(values.newPostText)
+        props.sendNewPost(values.newPostText)
         values.newPostText = ''
     }
     return (

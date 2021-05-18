@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
-import { addPostActionCreator } from '../../../redux/profileReducer'
+import { withRouter } from 'react-router'
+import { compose } from 'redux'
+import { addPostActionCreator, sendNewPost } from '../../../redux/profileReducer'
 import MyPosts from './MyPosts'
 
 let mapStateToProps = (state) => {
@@ -7,16 +9,19 @@ let mapStateToProps = (state) => {
         profilePage: state.profilePage
     }
 }
-let mapDispatchToProps = (dispatch) => {
-    return {
-        handleAddPost : (newPostText) => {
-            let action = addPostActionCreator(newPostText) 
-            dispatch(action)
-        }
-    }
-}
+// let mapDispatchToProps = (dispatch) => {
+//     return {
+//         handleAddPost : (newPostText) => {
+//             let action = addPostActionCreator(newPostText) 
+//             dispatch(action)
+//         }
+//     }
+// }
 
-const MyPostsContainer = connect(mapStateToProps, 
-    mapDispatchToProps)
-    (MyPosts)
-export default MyPostsContainer
+
+// const MyPostsContainer = connect(mapStateToProps, 
+//     mapDispatchToProps)
+//     (MyPosts)
+//export default MyPostsContainer
+
+export default compose (connect(mapStateToProps, {sendNewPost}), withRouter)(MyPosts)

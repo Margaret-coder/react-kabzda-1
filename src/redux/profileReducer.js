@@ -15,11 +15,16 @@ let initialState = {
 const profileReducer = (state = initialState, action) => {
     switch (action.type){
       case ADD_POST: {
-        let stateCopy = {...state}
+         let stateCopy = {...state}
         stateCopy.postsData = Array.from(state.postsData)
-        const newPost = { id: 11, message: action.text, likesCount: 0 }
+        const newPost = action.text
+        debugger
         stateCopy.postsData.push(newPost)
         stateCopy.newPostText = ''
+        console.log(action.text)
+        debugger
+debugger
+
         return stateCopy
         // return {
         //   ...state, 
@@ -39,6 +44,7 @@ const profileReducer = (state = initialState, action) => {
         return {...state, status: action.status}
       }
       case SET_POSTS: {
+        debugger
         return {...state, postsData: action.posts}
       }
       default: {
@@ -74,8 +80,17 @@ export const setPostsData = (posts) => ({
 })
 
 export const getProfilePosts = () => async (dispatch) => {
+  debugger
   const response = await profileAPI.requestPosts()
+  debugger
   dispatch (setPostsData(response))
+}
+
+export const sendNewPost = (message = "message") => async (dispatch) => {
+  debugger
+  const response = await profileAPI.sendNewPost(message)
+  debugger
+  dispatch (addPostActionCreator(response.data))
 }
 
 export const getUserProfile = (userId) => async (dispatch) => {

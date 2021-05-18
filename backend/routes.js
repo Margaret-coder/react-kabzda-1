@@ -3,11 +3,13 @@ const Post = require("./models/Post")
 const router = express.Router()
 
 router.get("/posts", async(req, res) => {
+	console.log("get posts")
     const posts = await Post.find()
     res.send(posts)
 })
 
 router.get("/posts/:id", async(req, res) => {
+	console.log("get single post by id")
 	try{
 	const post = await Post.findOne({ _id: req.params.id})
 	res.send(post)
@@ -19,6 +21,7 @@ router.get("/posts/:id", async(req, res) => {
 })
 
 router.post("/posts", async (req, res) => {
+	console.log("post new message")
 	const post = new Post({
 		message: req.body.message,
 		likesCount: 0
@@ -28,6 +31,7 @@ router.post("/posts", async (req, res) => {
 })
 
 router.patch("/posts/:id", async(req, res) => {
+	console.log("update post")
 	try{
 		const post = await Post.findOne({_id: req.params.id})
 		if(req.body.message){
@@ -46,6 +50,7 @@ router.patch("/posts/:id", async(req, res) => {
 })
 
 router.delete("/posts/:id", async(req, res) => {
+	console.log("delete post")
 	try{
 		await Post.deleteOne({_id: req.params.id})
 		res.status(204).send()
