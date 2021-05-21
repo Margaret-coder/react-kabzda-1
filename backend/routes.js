@@ -31,7 +31,7 @@ router.post("/posts", async (req, res) => {
 })
 
 router.patch("/posts/:id", async(req, res) => {
-	console.log("update post")
+	console.log("patch update post")
 	try{
 		const post = await Post.findOne({_id: req.params.id})
 		if(req.body.message){
@@ -52,8 +52,10 @@ router.patch("/posts/:id", async(req, res) => {
 router.delete("/posts/:id", async(req, res) => {
 	console.log("delete post")
 	try{
+		const post = await Post.findOne({_id: req.params.id})
 		await Post.deleteOne({_id: req.params.id})
-		res.status(204).send()
+		res.send(post)
+		//res.status(204).send(post)
 	} catch {
 		res.status(404)
 		res.send({error: "Not possible to delete post due to wrong id number"})

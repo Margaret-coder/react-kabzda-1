@@ -1,7 +1,7 @@
 import * as axios from 'axios'
 import { follow } from '../redux/usersReducer'
 
-const apiURL = 'http://localhost:5500/api/'
+const postsURL = 'http://localhost:5500/api/posts'
 
 const instance = axios.create({
     withCredentials: true,
@@ -45,14 +45,24 @@ export const profileAPI = {
     updateStatus(status){
         return instance.put(`profile/status`, {status: status})
     },
+    deletePost(post_id){
+        const url = postsURL + '/' + post_id
+        return axios.delete(url)
+    },
+    editPost(post){
+        const url = postsURL + '/' + post._id
+        return axios.patch(url, 
+            {_id: post._id, message: post.message, 
+                likesCount: post.likesCount, __v: post.__v})
+    },
     requestPosts(){
+        console.log("request posts")
         return axios.get("http://localhost:5500/api/posts/", 
         {crossdomain: true}).then(response => {
             return response.data
         })
     },
     sendNewPost(message){
-        debugger
         return axios.post('http://localhost:5500/api/posts/', {message})
     }
 }
