@@ -4,6 +4,7 @@ const ADD_POST = 'social-network/profile/ADD-POST'
 const SET_USER_PROFILE = 'social-network/profile/SET_USER_PROFILE'
 const SET_STATUS = 'social-network/profile/SET_STATUS'
 const DELETE_POST = 'social-network/profile/DELETE_POST'
+const EDIT_POST = 'social-network/profile/EDIT_POST'
 const SET_POSTS = 'social-network/profile/SET_POSTS'
 
 let initialState = {
@@ -15,36 +16,26 @@ let initialState = {
 const profileReducer = (state = initialState, action) => {
     switch (action.type){
       case ADD_POST: {
-         let stateCopy = {...state}
-        stateCopy.postsData = Array.from(state.postsData)
-        const newPost = action.text
-        debugger
-        stateCopy.postsData.push(newPost)
-        stateCopy.newPostText = ''
-        console.log(action.text)
-        debugger
-debugger
-
+        let stateCopy = {...state}
+        stateCopy.postsData.push(action.content)
         return stateCopy
-        // return {
-        //   ...state, 
-        //   postsData: { ...state.postsData, newPost},
-        //   newPostText: ''
-        // }
       }
       case SET_USER_PROFILE: {
         return {...state, profile: action.profile}
       }
       case DELETE_POST: {
-        let stateCopy = {...state}
-        stateCopy.postsData.splice(action.id, 1)
-        return stateCopy
+        return {...state, 
+          postsData: state.postsData.filter
+          (item => item._id !== action.element._id)}
+      }
+      case EDIT_POST: {
+        return {...state, postsData: state.postsData.filter(item => item._id === action.element._id ?
+          item = action.element : item)}
       }
       case SET_STATUS: {
         return {...state, status: action.status}
       }
       case SET_POSTS: {
-        debugger
         return {...state, postsData: action.posts}
       }
       default: {
@@ -53,16 +44,21 @@ debugger
     }
   }
 
-export const addPostActionCreator = (newPostText) => ({
+export const addPostActionCreator = (newPost) => ({
     type: ADD_POST,
-    text: newPostText
+    content: newPost
 })
 
-export const deletePostActionCreator = (id) => ({
+export const deletePostActionCreator = (element) => ({
     type: DELETE_POST,
-    id
+    element
 })
-  
+
+export const editPostActionCreator = (element) => ({
+  type: EDIT_POST,
+  element
+})
+
 export const setUserProfile = (profile) => ({
     type: SET_USER_PROFILE, 
     profile: profile
@@ -80,17 +76,23 @@ export const setPostsData = (posts) => ({
 })
 
 export const getProfilePosts = () => async (dispatch) => {
-  debugger
   const response = await profileAPI.requestPosts()
-  debugger
-  dispatch (setPostsData(response))
+  dispatch(setPostsData(response))
+}
+
+export const deletePost = (id) => async (dispatch) => {
+  const response = await profileAPI.deletePost(id)
+  dispatch(deletePostActionCreator(response.data))
+}
+
+export const editPost = (post) => async (dispatch) => {
+  const response = await profileAPI.editPost(post)
+  dispatch(editPostActionCreator(response.data))
 }
 
 export const sendNewPost = (message = "message") => async (dispatch) => {
-  debugger
   const response = await profileAPI.sendNewPost(message)
-  debugger
-  dispatch (addPostActionCreator(response.data))
+  dispatch(addPostActionCreator(response.data))
 }
 
 export const getUserProfile = (userId) => async (dispatch) => {
