@@ -32,6 +32,10 @@ class Post extends React.Component {
             message : e.currentTarget.value
         })
     }
+    Like = (post_id) => {
+        const currentUser_id = '2' // TO DO get current user id
+        this.props.likePost(post_id, currentUser_id)
+    }
     render(){
         return (
             <div className={s.item}>
@@ -47,6 +51,7 @@ class Post extends React.Component {
             <div>
                 <span><button onClick={() => this.onDeleteButtonClick(this.props.post._id)}>delete</button></span>
                 <span><button onClick={this.activateEditMode}>edit</button></span>
+                <span><button onClick={() => this.Like(this.props.post._id)}>like</button></span>
             </div>
             </div>
         </div>
