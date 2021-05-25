@@ -36,12 +36,33 @@ router.patch("/posts/:id", async(req, res) => {
 		const post = await Post.findOne({_id: req.params.id})
 		if(req.body.message){
 			post.message = req.body.message
+			await post.save()
+			res.send(post)
+			console.log("Post was sent")
 		}
-		if(req.body.likesCount){
-			post.likesCount = req.body.likesCount
+		if(req.body.user_id){
+			// console.log("Hello from patch user_id")
+			var find
+			console.log('req.body.user_id',req.body.user_id)
+			if(post.likeIds.length > 0){
+				find = post.likeIds.find(item => item === req.body.user_id)
+				console.log("find", find)
+			}
+			if(find){ // take your like back
+				console.log("found", find)
+				post.likeIds = post.likeIds.filter(item => item !== req.body.user_id);
+				console.log("post.likeIds after filter", post.likeIds)
+				post.likesCount = post.likeIds.length
+			}
+			else {
+				console.log('adding')
+				post.likeIds.push(req.body.user_id)
+				post.likesCount = post.likeIds.length
+			}
 		}
 		await post.save()
 		res.send(post)
+		console.log("post saved and sent")
 	}
 	catch {
 		res.status(404)

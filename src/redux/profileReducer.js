@@ -4,8 +4,9 @@ const ADD_POST = 'social-network/profile/ADD-POST'
 const SET_USER_PROFILE = 'social-network/profile/SET_USER_PROFILE'
 const SET_STATUS = 'social-network/profile/SET_STATUS'
 const DELETE_POST = 'social-network/profile/DELETE_POST'
-const EDIT_POST = 'social-network/profile/EDIT_POST'
+const UPDATE_POST = 'social-network/profile/UPDATE_POST'
 const SET_POSTS = 'social-network/profile/SET_POSTS'
+const LIKE_POST = 'social-network/profile/LIKE_POST'
 
 let initialState = {
   postsData : [],
@@ -20,6 +21,15 @@ const profileReducer = (state = initialState, action) => {
         stateCopy.postsData.push(action.content)
         return stateCopy
       }
+      case LIKE_POST: {
+        let stateCopy = {...state}
+        var index = stateCopy.postsData.findIndex(item => item._id === action.element._id)
+        if(index !== -1){
+          stateCopy.postsData.splice(index, 1, action.element)
+        }
+        debugger
+        return stateCopy
+      }
       case SET_USER_PROFILE: {
         return {...state, profile: action.profile}
       }
@@ -28,9 +38,8 @@ const profileReducer = (state = initialState, action) => {
           postsData: state.postsData.filter
           (item => item._id !== action.element._id)}
       }
-      case EDIT_POST: {
-        return {...state, postsData: state.postsData.filter(item => item._id === action.element._id ?
-          item = action.element : item)}
+      case UPDATE_POST: {
+        return state // post value is already in state inside class jsx
       }
       case SET_STATUS: {
         return {...state, status: action.status}
@@ -54,9 +63,14 @@ export const deletePostActionCreator = (element) => ({
     element
 })
 
-export const editPostActionCreator = (element) => ({
-  type: EDIT_POST,
+export const updatePostActionCreator = (element) => ({
+  type: UPDATE_POST,
   element
+})
+
+export const likePostActionCreator = (post_data) => ({
+  type: LIKE_POST,
+  element: post_data
 })
 
 export const setUserProfile = (profile) => ({
@@ -72,7 +86,6 @@ export const setStatus = (text) => ({
 export const setPostsData = (posts) => ({
     type: SET_POSTS,
     posts: posts
-
 })
 
 export const getProfilePosts = () => async (dispatch) => {
@@ -87,7 +100,13 @@ export const deletePost = (id) => async (dispatch) => {
 
 export const editPost = (post) => async (dispatch) => {
   const response = await profileAPI.editPost(post)
-  dispatch(editPostActionCreator(response.data))
+  dispatch(updatePostActionCreator(response.data)) // updatePostActionCreator is not needed 
+}
+
+export const likePost = (post_id, user_id) => async (dispatch) => {
+  const response = await profileAPI.likePost(post_id, user_id)
+  debugger
+  dispatch(likePostActionCreator(response.data))
 }
 
 export const sendNewPost = (message = "message") => async (dispatch) => {

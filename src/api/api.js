@@ -52,11 +52,14 @@ export const profileAPI = {
     editPost(post){
         const url = postsURL + '/' + post._id
         return axios.patch(url, 
-            {_id: post._id, message: post.message, 
-                likesCount: post.likesCount, __v: post.__v})
+            {message: post.message})
+    },
+    likePost(post_id, user_id ){
+        console.log("like post api userId", user_id)
+        const url = postsURL + '/' + post_id
+        return axios.patch(url, {user_id: user_id})
     },
     requestPosts(){
-        console.log("request posts")
         return axios.get("http://localhost:5500/api/posts/", 
         {crossdomain: true}).then(response => {
             return response.data
