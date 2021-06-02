@@ -105,7 +105,6 @@ export const editPost = (post) => async (dispatch) => {
 
 export const likePost = (post_id, user_id) => async (dispatch) => {
   const response = await profileAPI.likePost(post_id, user_id)
-  debugger
   dispatch(likePostActionCreator(response.data))
 }
 

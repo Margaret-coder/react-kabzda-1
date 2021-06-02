@@ -6,8 +6,9 @@ import {initializeApp} from '../src/redux/appReducer'
 import "./App.css";
 import Preloader from "./components/Common/Preloader/Preloader";
 import HeaderContainer from "./components/Header/HeaderContainer.jsx";
-import LoginPage from "./components/Login/Login";
+import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar.jsx";
+import Registration from "./components/Registration/Registration";
 import Sidebar from "./components/Sidebar/Sidebar";
 import UsersContainer from "./components/Users/UsersContainer";
 import { withSuspense } from "./hoc/withSuspense";
@@ -37,7 +38,8 @@ class App extends React.Component {
         <Route path="/profile/:userId?" 
         render={withSuspense(ProfileContainer)} />
           <Route path="/users" render={()=><UsersContainer/>}/>
-          <Route path="/login" render={()=><LoginPage/>}/>
+          <Route path="/login" render={()=><Login/>}/>
+          <Route path="/registration" render={()=><Registration/>}/>
         </div>
       </div>
     );

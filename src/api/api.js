@@ -79,6 +79,10 @@ export const authAPI = {
     },
     logout(){
         return instance.delete(`auth/login`)
+    },
+    register(username, email, password){
+        debugger
+        return axios.post('http://localhost:5500/api/users/', {username, email, password})
     }
 }
 
