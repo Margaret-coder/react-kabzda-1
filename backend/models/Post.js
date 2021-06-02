@@ -5,10 +5,10 @@ const mongoose = require("mongoose")
 // likeIds: [{ type : mongoose.Types.ObjectId, ref: 'User' }]
 
 
-const schema = mongoose.Schema({
+const postSchema = mongoose.Schema({
     message: String,
     likesCount: Number,
     likeIds: [{type: String}]
 })
 
-module.exports = mongoose.model("Post", schema) 
+module.exports = mongoose.model("Post", postSchema) 
