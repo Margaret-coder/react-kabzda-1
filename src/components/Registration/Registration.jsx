@@ -26,6 +26,7 @@ const RegistrationReduxForm = reduxForm({form: 'registration'})(RegistrationForm
 const Registration = (props) => {
     const onSubmit = (formData) => {
         let {login, email, password} = formData
+        console.log("login, email, password",login, email, password)
         props.registrationUser(login, email, password)
     }
     return <div>
