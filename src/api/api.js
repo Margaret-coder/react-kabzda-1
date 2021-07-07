@@ -1,7 +1,7 @@
 import * as axios from 'axios'
 import { follow } from '../redux/usersReducer'
 
-const postsURL = 'http://localhost:5500/api/posts'
+const URL_str = 'http://localhost:5500/api/'
 
 const instance = axios.create({
     withCredentials: true,
@@ -10,6 +10,11 @@ const instance = axios.create({
          "API-KEY": "4d2b6a2a-3174-4cd7-9821-448af9ec5222"
     }
 })
+
+const my_instance = axios.create({
+    withCredentials: true,
+    baseURL: 'http://localhost:5500/api/'
+  })
 
 export const usersAPI = {
     requestUsers(currentPage = 1, pageSize = 10){
@@ -46,43 +51,62 @@ export const profileAPI = {
         return instance.put(`profile/status`, {status: status})
     },
     deletePost(post_id){
-        const url = postsURL + '/' + post_id
+        const url = URL_str + '/' + post_id
         return axios.delete(url)
     },
     editPost(post){
-        const url = postsURL + '/' + post._id
+        const url = URL_str + '/' + post._id
         return axios.patch(url, 
             {message: post.message})
     },
     likePost(post_id, user_id ){
         console.log("like post api userId", user_id)
-        const url = postsURL + '/' + post_id
+        const url = URL_str + '/' + post_id
         return axios.patch(url, {user_id: user_id})
     },
     requestPosts(){
-        return axios.get("http://localhost:5500/api/posts/", 
+        return axios.get(`${URL_str}posts/`, 
         {crossdomain: true}).then(response => {
             return response.data
         })
     },
     sendNewPost(message){
-        return axios.post('http://localhost:5500/api/posts/', {message})
+        return axios.post(`${URL_str}posts/`, {message})
     }
 }
 export const authAPI = {
-    me(){
-        return instance.get('auth/me')
+    me(email, password, rememberMe = false){
+    // //    return axios.get(`${URL_str}me/`)
+    // //     email = 'mouse@mouse.mouse'
+    // //     password = '111'
+    // //     return axios.post(`${URL_str}login/`, {email, password, rememberMe}) 
     },
+    // me(){
+    //     return instance.get('auth/me')
+    // },
+    // login(email, password, rememberMe = false){
+    //     return instance.post(`auth/login`, 
+    //     {email, password, rememberMe})
+    //  },
+    //  logout(){
+    //      return instance.delete(`auth/login`)
+    //  },
+
     login(email, password, rememberMe = false){
-        return instance.post(`auth/login`, 
-        {email, password, rememberMe})
-    },
+      //  return my_instance.post(`/login`, {email, password, rememberMe}) 
+        return axios.post(`http://localhost:5500/api/login`, {email, password, rememberMe}, {withCredentials: true,
+        method: 'POST',
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        }}) 
+     },
     logout(){
-        return instance.delete(`auth/login`)
+        return my_instance.delete(`auth/login`)
     },
     register(username, email, password){
-        debugger
-        return axios.post('http://localhost:5500/api/users/', {username, email, password})
+        console.log("API REGISTER:", username, email, password)
+        return my_instance.post(`users/`, {username, email, password})
     }
 }
 
