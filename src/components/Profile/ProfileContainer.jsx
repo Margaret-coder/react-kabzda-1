@@ -10,7 +10,9 @@ import { compose } from 'redux'
 
 class ProfileContainer extends React.Component{
     componentDidMount(){
+        console.log('ProfileContainer componentDidMount this.props', this.props)
         let userId = this.props.match.params.userId
+        console.log('userId', this.props.authorizedUserId)
         if(!userId) {
             userId=this.props.authorizedUserId
             if(!userId){
@@ -19,7 +21,7 @@ class ProfileContainer extends React.Component{
         }
         this.props.getUserProfile(userId)
         this.props.getStatus(userId)
-        this.props.getProfilePosts()
+        this.props.getProfilePosts() 
     }
     render(){
         return (

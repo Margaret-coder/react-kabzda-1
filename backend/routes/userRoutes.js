@@ -1,5 +1,4 @@
 const express = require("express")
-//const { createDispatchHook } = require("react-redux")
 const User = require('../models/User')
 const router = express.Router()
 
@@ -17,12 +16,10 @@ router.post("/users", async(req, res) => {
         await user.save()
     }
     catch (err){
-        res.send("User already exists")
+        res.send("User already exists", user)
         console.log("ERROR:",err)
         console.log("END_ERR")
     }
-    console.log("user.username:", user.username, "user.email:", user.email, "user.pass:", user.password)
-    res.send(user)
 })
 
 router.delete("/users/:id", async(req, res) => {
@@ -44,22 +41,18 @@ router.delete("/users/:id", async(req, res) => {
 // })
 
 router.get("/me", async(req, res) => {
-	console.log("!/me auth user req GET method")
-    if (!req.session) {
-        console.log("No session")
-       // res.send('FUCK YOU');
-       res.redirect('/login')
-        console.log('/me session:', req.session);
+    console.log('router /me')
+    if (req.session&&req.session.user) {
+        console.log('req.sessionID', req.sessionID)
+        res.send(req.session.user)
     } 
     else {
-        console.log("!!!")
-        console.log("SESSION EXISTS:", req.session.username)
+        console.log("no data, redirect to login")
+        res.send('no data')
     }
 }) 
 
 router.post("/login", async(req, res) => {
-    res.cookie('connect.sid', req.sessionID, { maxAge: 86400000, httpOnly: true, domain: 'localhost:3000' })
-    console.log("req.sessionID", req.sessionID)
 	try{
         User.findOne({email: req.body.email}, function(err, user){
             if(err) throw err
@@ -68,21 +61,23 @@ router.post("/login", async(req, res) => {
                 user.comparePassword(req.body.password, function(err, isMatch){
                     try{
                         if(err) {
-                            console.log("SHIT no isMatch") 
                             throw err
                         }
                     }
                     catch(e){
                         console.log("catch:", e.message)
                     }
-                    req.session.username = user.username
+                    let sessionUser = {}
+                    sessionUser.id = user._id
+                    sessionUser.username = user.username
+                    req.session.user = sessionUser
                     res.session = req.session
-                    res.send(user)
+                    res.redirect('/api/profile')
                 })
-            }
+            }  
             else {
                 console.log("Wrong data! User not found")
-                res.send("Wrong data")
+                res.send("Wrong input data, no match in db")
             }
         }
         })
@@ -93,6 +88,10 @@ router.post("/login", async(req, res) => {
 	}
 })
 
-
+router.delete('/login', async(req, res) => {
+    res.clearCookie('connect.sid');
+    req.logout();
+    res.redirect('/');
+})
 
 module.exports = router

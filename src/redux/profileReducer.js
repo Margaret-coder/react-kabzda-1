@@ -114,6 +114,7 @@ export const sendNewPost = (message = "message") => async (dispatch) => {
 }
 
 export const getUserProfile = (userId) => async (dispatch) => {
+  console.log('profileReducer getProfile userId', userId)
   const response = await profileAPI.getProfile(userId)
     dispatch(setUserProfile(response.data))
 }

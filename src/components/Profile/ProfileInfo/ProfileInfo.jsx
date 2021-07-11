@@ -6,6 +6,7 @@ const ProfileInfo = (props) => {
     if (!props.profile) {
         return <Preloader/>
     }
+    console.log("ProfileInfo props:", props)
     return (
         <div>
             <div className={s.item}>
@@ -14,7 +15,8 @@ const ProfileInfo = (props) => {
                     alt="sea img"
                 /> */}
                 <div className={s.descriptionBlock}>
-                    <img src={props.profile.photos.large} alt="large_pic"/>
+                    {/* <img src={props.profile.photos.large} alt="large_pic"/> */}
+                    <img src={props.profile.avaPath} alt="large_pic"/>
                 </div>
                 <div>
                     <ProfileStatusWithHooks status={props.status}
@@ -29,11 +31,12 @@ const ProfileInfo = (props) => {
                         <li key={key} className={s.no_bullets}>{props.profile.contacts[key]}</li>
                         )
                     })}</ul>
-                <div>Looking for a job: {props.profile.lookingForAJob.toString()}</div>
-                <div>Looking for a job description: {props.profile.lookingForAJobDescription}</div>
+                {/* <div>Looking for a job: {props.profile.lookingForAJob.toString()}</div> */}
+                <div>Looking for a job: {props.profile.lookingForJob.toString()}</div>
+                {/* <div>Looking for a job description: {props.profile.lookingForAJobDescription}</div> */}
+                <div>Looking for a job description: {props.profile.LFJobDescription}</div>
                 <div>Fullname: {props.profile.fullName}</div>
             </div>
-             <div className={s.descriptionBlock}>ava + description</div>
         </div>
     )
 }

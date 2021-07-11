@@ -47,9 +47,7 @@ async (dispatch) => {
 
 export const registrationUser = (login, email, password) =>
 async (dispatch) => {
-    console.log("<<<<authReducer", login, email, password)
     let response = await authAPI.register(login, email, password)
-    console.log('RESPONSE', response)
     if(response.status === 200){
         dispatch(setAuthUserData(response.data._id, response.data.username, response.data.email, true))
     } else {
@@ -64,15 +62,28 @@ export const logoutUser = () => async (dispatch) => {
         }
 }
 
-export const setAuthUserData = (userId, login, email, isAuth) => 
-({type: SET_USER_DATA, data:{userId, login, email, isAuth}})
+export const setAuthUserData = (userId, login, isAuth) => 
+({type: SET_USER_DATA, data:{userId, login, isAuth}})
+
+// export const setAuthUserData = (userId, login, email, isAuth) => 
+// ({type: SET_USER_DATA, data:{userId, login, email, isAuth}})
 
 export const getAuthUserData = () => async (dispatch) => {
     let response = await authAPI.me()
-        if(response&&response.data.resultCode === 0){
-            let{id, login, email} = response.data.data
-            dispatch(setAuthUserData(id, email, login, true))
+    if(response&&response.status === 200){
+            let{id, username} = response.data
+            dispatch(setAuthUserData(id, username))
         }
 }
+
+// export const getAuthUserData = () => async (dispatch) => {
+//     console.log("GET AUTH USER DATA")
+//     let response = await authAPI.me()
+//     console.log('getAuthUserData response', response)
+//         if(response&&response.data.resultCode === 0){
+//             let{id, login, email} = response.data.data
+//             dispatch(setAuthUserData(id, email, login, true))
+//         }
+// }
 
 export default authReducer
