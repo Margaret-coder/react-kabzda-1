@@ -2,10 +2,44 @@ const express = require("express")
 const Profile = require("../models/Profile")
 const router = express.Router()
 
+router.patch('/profile/status', async(req, res) => {
+    console.log('Router PATCH')
+    if(req.session&&req.session.user){
+        Profile.findOne({userId: req.session.user.id}, function(err, profile){
+            if(profile) {
+                profile.status = req.body.status
+                console.log("profile", profile)
+                profile.save(function(err){
+                    if(err){
+                        return res.send('/status', {
+                            errors:err.errors,
+                            profile: profile
+                        })
+                   }
+                    else {
+                        res.jsonp(profile)
+                    }
+                })
+            }
+            else res.send("Profile not found")
+        })
+    }
+})
+
+router.get('/profile/status/:id', async(req, res) => {
+    if(req.session&&req.session.user){
+        Profile.findOne({userId: req.session.user.id}, function(err, profile){ //req.userId
+            if(profile) {
+                res.send(profile.status)
+            }
+            else res.send("Profile not found")
+        })
+    }
+})
+
 router.get('/profile/:id', async(req, res) => {
-    if(req.session) { 
+    if(req.session&&req.session.user) { 
         Profile.findOne({userId: req.session.user.id}, function(err, profile) {
-            console.log("GET PROFILE:", profile)
             if(profile) res.send(profile)
             else res.send("Profile not found")
         })

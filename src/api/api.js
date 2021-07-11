@@ -42,7 +42,6 @@ export const usersAPI = {
 }
 export const profileAPI = {
     getProfile(userId){
-        console.log('api.js user.id', userId)
         return my_instance.get(`profile/` + userId)
     },
     setProfile(avaPath, status, aboutMe, contacts, lookingForJob, LFJobDescription, fullname){
@@ -52,12 +51,19 @@ export const profileAPI = {
     // getProfile(userId){
     //     return instance.get(`profile/` + userId)
     // },
+    // getStatus(userId){
+    //     return instance.get(`profile/status/` + userId)
+    // },
     getStatus(userId){
-        return instance.get(`profile/status/` + userId)
-    },
+        return my_instance.get(`profile/status/` + userId)
+    }, 
     updateStatus(status){
-        return instance.put(`profile/status`, {status: status})
+        console.log('API.js Update status')
+        return my_instance.patch(`profile/status/`, {status: status})
     },
+    // updateStatus(status){
+    //     return instance.put(`profile/status`, {status: status})
+    // },
     deletePost(post_id){
         const url = URL_str + '/' + post_id
         return axios.delete(url)
@@ -68,7 +74,6 @@ export const profileAPI = {
             {message: post.message})
     },
     likePost(post_id, user_id ){
-        console.log("like post api userId", user_id)
         const url = URL_str + '/' + post_id
         return axios.patch(url, {user_id: user_id})
     },
@@ -94,7 +99,6 @@ export const authAPI = {
     //      return instance.delete(`auth/login`)
     //  },
     me(){
-        console.log("api.js /me")
        return my_instance.get(`/me`) 
     },
     login(email, password, rememberMe = false){
@@ -104,7 +108,6 @@ export const authAPI = {
         return my_instance.delete(`/login`)
     },
     register(username, email, password){
-        console.log("API REGISTER:", username, email, password)
         return my_instance.post(`users/`, {username, email, password})
     }
 }
