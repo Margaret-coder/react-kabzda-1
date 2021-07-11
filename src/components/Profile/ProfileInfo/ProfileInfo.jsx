@@ -6,7 +6,6 @@ const ProfileInfo = (props) => {
     if (!props.profile) {
         return <Preloader/>
     }
-    console.log("ProfileInfo props:", props)
     return (
         <div>
             <div className={s.item}>

@@ -3,6 +3,7 @@ const mongoose = require("mongoose")
 const postRoutes = require("./routes/postRoutes")
 const userRoutes = require("./routes/userRoutes")
 const profileRoutes = require("./routes/profileRoutes")
+const authRoutes = require("./routes/authRoutes")
 const { connection_string } = require('./config');
 var session = require('express-session')
 var MongoStore = require('connect-mongo');
@@ -38,6 +39,7 @@ mongoose
         app.use("/api", postRoutes)
         app.use("/api", userRoutes)
         app.use("/api", profileRoutes)
+        app.use("/api", authRoutes)
         app.listen(5500, () => {
             console.log("Server has started! Nodemon")
     })
