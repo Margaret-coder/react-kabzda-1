@@ -42,8 +42,16 @@ export const usersAPI = {
 }
 export const profileAPI = {
     getProfile(userId){
-        return instance.get(`profile/` + userId)
+        console.log('api.js user.id', userId)
+        return my_instance.get(`profile/` + userId)
     },
+    setProfile(avaPath, status, aboutMe, contacts, lookingForJob, LFJobDescription, fullname){
+        return my_instance.post(`profile/` + {avaPath, status, aboutMe, 
+            contacts, lookingForJob, LFJobDescription, fullname})
+    },
+    // getProfile(userId){
+    //     return instance.get(`profile/` + userId)
+    // },
     getStatus(userId){
         return instance.get(`profile/status/` + userId)
     },
@@ -75,13 +83,7 @@ export const profileAPI = {
     }
 }
 export const authAPI = {
-    me(email, password, rememberMe = false){
-    // //    return axios.get(`${URL_str}me/`)
-    // //     email = 'mouse@mouse.mouse'
-    // //     password = '111'
-    // //     return axios.post(`${URL_str}login/`, {email, password, rememberMe}) 
-    },
-    // me(){
+    // me(){ // samurai server requests
     //     return instance.get('auth/me')
     // },
     // login(email, password, rememberMe = false){
@@ -91,29 +93,18 @@ export const authAPI = {
     //  logout(){
     //      return instance.delete(`auth/login`)
     //  },
-
+    me(){
+        console.log("api.js /me")
+       return my_instance.get(`/me`) 
+    },
     login(email, password, rememberMe = false){
-      //  return my_instance.post(`/login`, {email, password, rememberMe}) 
-        return axios.post(`http://localhost:5500/api/login`, {email, password, rememberMe}, {withCredentials: true,
-        method: 'POST',
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        }}) 
+       return my_instance.post(`/login`, {email, password, rememberMe}) 
      },
     logout(){
-        return my_instance.delete(`auth/login`)
+        return my_instance.delete(`/login`)
     },
     register(username, email, password){
         console.log("API REGISTER:", username, email, password)
         return my_instance.post(`users/`, {username, email, password})
     }
-}
-
-export const getUserProfile = (userId) => {
-    return instance.get(
-    `profile/${userId}`)
-    .then(response => {
-        return response.data
-    })
 }
