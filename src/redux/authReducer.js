@@ -5,7 +5,7 @@ const SET_USER_DATA = 'social-network/auth/SET_USER_DATA'
 
 let initialState = {
     userId: null,
-    email: null,
+ //   email: null,
     login: null,
     isAuth: false
 }
@@ -13,10 +13,11 @@ let initialState = {
 const authReducer = (state = initialState, action) => {
     switch(action.type){
         case SET_USER_DATA:{
-            return {
+            let newState = { 
                 ...state, 
                 ...action.data
             }
+             return newState
         }
         default: 
         return state
@@ -58,7 +59,7 @@ async (dispatch) => {
 export const logoutUser = () => async (dispatch) => {
     let response = await authAPI.logout()
         if(response.data.resultCode === 0){
-            dispatch(setAuthUserData(null, null, null, false))
+            dispatch(setAuthUserData(null, null, false))
         }
 }
 
@@ -70,10 +71,13 @@ export const setAuthUserData = (userId, login, isAuth) =>
 
 export const getAuthUserData = () => async (dispatch) => {
     let response = await authAPI.me()
-    if(response&&response.status === 200){
+    if(response.data&&response.status === 200){
             let{id, username} = response.data
-            dispatch(setAuthUserData(id, username))
-        }
+            dispatch(setAuthUserData(id, username, true))
+    }
+    else {
+        dispatch(setAuthUserData(null, null, false))
+    }
 }
 
 // export const getAuthUserData = () => async (dispatch) => {

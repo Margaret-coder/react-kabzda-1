@@ -8,7 +8,6 @@ router.patch('/profile/status', async(req, res) => {
         Profile.findOne({userId: req.session.user.id}, function(err, profile){
             if(profile) {
                 profile.status = req.body.status
-                console.log("profile", profile)
                 profile.save(function(err){
                     if(err){
                         return res.send('/status', {
@@ -46,10 +45,14 @@ router.get('/profile/:id', async(req, res) => {
     }
 })
 
+router.get('/profile', async(req, res) => {
+    console.log("GET PROFILE PAGE")
+    res.send("GET")
+})
+
 router.post('/profile', async(req, res) => {
     console.log("POST PROFILE")
     console.log("req.body", req.body)
-    res.send("POST")
     const profile = new Profile ({
         userId: req.body.userId,
         avaPath: req.body.avaPath,
@@ -67,6 +70,7 @@ router.post('/profile', async(req, res) => {
         console.log(err)
         res.send(profile)
     }
+    res.send("POST")
 })
 
 module.exports = router

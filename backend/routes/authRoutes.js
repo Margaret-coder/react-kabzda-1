@@ -9,12 +9,19 @@ router.get("/me", async(req, res) => {
         res.send(req.session.user)
     } 
     else {
-        console.log("no data, redirect to login")
-        res.send('no data')
+        console.log("no auth data")
+        res.send(false)
+        //res.redirect('/api/login')
     }
 }) 
 
+router.get('/login', async(req,res) => {
+    console.log('Login form get request')
+    res.send('get login')
+})
+
 router.post("/login", async(req, res) => {
+    console.log("/login")
 	try{
         User.findOne({email: req.body.email}, function(err, user){
             if(err) throw err
@@ -52,8 +59,9 @@ router.post("/login", async(req, res) => {
 
 router.delete('/login', async(req, res) => {
     res.clearCookie('connect.sid');
-    req.logout();
-    res.redirect('/');
+    req.session.destroy((err) => {
+      res.redirect('/api/login')
+    })
 })
 
 module.exports = router
