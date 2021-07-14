@@ -99,12 +99,13 @@ export const authAPI = {
     //      return instance.delete(`auth/login`)
     //  },
     me(){
-       return my_instance.get(`/me`) 
+        return my_instance.get(`/me`) 
     },
     login(email, password, rememberMe = false){
        return my_instance.post(`/login`, {email, password, rememberMe}) 
      },
     logout(){
+        console.log('api.js logout')
         return my_instance.delete(`/login`)
     },
     register(username, email, password){
