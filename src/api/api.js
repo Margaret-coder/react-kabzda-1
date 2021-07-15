@@ -48,12 +48,6 @@ export const profileAPI = {
         return my_instance.post(`profile/` + {avaPath, status, aboutMe, 
             contacts, lookingForJob, LFJobDescription, fullname})
     },
-    // getProfile(userId){
-    //     return instance.get(`profile/` + userId)
-    // },
-    // getStatus(userId){
-    //     return instance.get(`profile/status/` + userId)
-    // },
     getStatus(userId){
         return my_instance.get(`profile/status/` + userId)
     }, 
@@ -61,9 +55,6 @@ export const profileAPI = {
         console.log('API.js Update status')
         return my_instance.patch(`profile/status/`, {status: status})
     },
-    // updateStatus(status){
-    //     return instance.put(`profile/status`, {status: status})
-    // },
     deletePost(post_id){
         const url = URL_str + '/' + post_id
         return axios.delete(url)
@@ -88,6 +79,27 @@ export const profileAPI = {
     }
 }
 export const authAPI = {
+    me(){
+        return my_instance.get(`/me`) 
+    },
+    login(email, password, rememberMe = false){
+        console.log("api.js post login")
+       return my_instance.post(`/login`, {email, password, rememberMe}) 
+     },
+    logout(){
+        console.log('api.js logout')
+        return my_instance.delete(`/login`)
+    },
+    // logout(){
+    //     console.log('api.js logout')
+    //     return my_instance.get(`/logout`)
+    // },
+    register(username, email, password){
+        return my_instance.post(`users/`, {username, email, password})
+    }
+}
+
+//export const authAPI = {
     // me(){ // samurai server requests
     //     return instance.get('auth/me')
     // },
@@ -98,17 +110,14 @@ export const authAPI = {
     //  logout(){
     //      return instance.delete(`auth/login`)
     //  },
-    me(){
-        return my_instance.get(`/me`) 
-    },
-    login(email, password, rememberMe = false){
-       return my_instance.post(`/login`, {email, password, rememberMe}) 
-     },
-    logout(){
-        console.log('api.js logout')
-        return my_instance.delete(`/login`)
-    },
-    register(username, email, password){
-        return my_instance.post(`users/`, {username, email, password})
-    }
-}
+
+    //export const profileAPI = {
+    // getProfile(userId){
+    //     return instance.get(`profile/` + userId)
+    // },
+    // getStatus(userId){
+    //     return instance.get(`profile/status/` + userId)
+    // },
+    // updateStatus(status){
+    //     return instance.put(`profile/status`, {status: status})
+    // },
