@@ -1,7 +1,7 @@
 const express = require("express")
 const User = require("../models/User")
 const router = express.Router()
-
+//TO DO the same redirect to login page if cookies deleted
 router.get("/me", async(req, res) => {
     console.log('router /me')
     if (req.session&&req.session.user) {
@@ -57,10 +57,20 @@ router.post("/login", async(req, res) => {
 	}
 })
 
+// router.get('/logout', async(req, res) => {
+//     console.log("/logout get request")
+//     res.clearCookie('connect.sid');
+//     req.session.destroy((err) => {
+//         res.send("LOGOUT")
+//    //   res.redirect('/api/me')
+//     })
+// })
+
 router.delete('/login', async(req, res) => {
+    console.log("/login delete request")
     res.clearCookie('connect.sid');
     req.session.destroy((err) => {
-      res.redirect('/api/login')
+      res.send('delete session')
     })
 })
 

@@ -11,29 +11,21 @@ let initialState = {
 }
 
 const authReducer = (state = initialState, action) => {
+    console.log("authReducer switch")
     switch(action.type){
         case SET_USER_DATA:{
+            console.log("oldState", state)
             let newState = { 
                 ...state, 
                 ...action.data
             }
+            console.log("newState", newState)
              return newState
         }
         default: 
         return state
     }
 }
-
-// export const loginUser = (email, password, rememberMe) => 
-// async (dispatch) => {
-//     let response = await authAPI.login(email, password, rememberMe)
-    // if(response.data.resultCode === 0){
-    //     dispatch(getAuthUserData())
-    // } else {
-    //     let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Zaglushko error strashne'
-    //     dispatch(stopSubmit('login', {_error: message}))
-    // }
-// }
 
 export const loginUser = (email, password, rememberMe = false) => 
 async (dispatch) => {
@@ -46,6 +38,14 @@ async (dispatch) => {
     }
 }
 
+export const logoutUser = () => async (dispatch) => {
+    let response = await authAPI.logout()
+    console.log('auth reducer logoutUser')
+        if(response.status === 200){
+            dispatch(setAuthUserData(null, null, false))
+        }
+}
+
 export const registrationUser = (login, email, password) =>
 async (dispatch) => {
     let response = await authAPI.register(login, email, password)
@@ -56,18 +56,8 @@ async (dispatch) => {
     }
 }
 
-export const logoutUser = () => async (dispatch) => {
-    let response = await authAPI.logout()
-        if(response.data.resultCode === 0){
-            dispatch(setAuthUserData(null, null, false))
-        }
-}
-
 export const setAuthUserData = (userId, login, isAuth) => 
 ({type: SET_USER_DATA, data:{userId, login, isAuth}})
-
-// export const setAuthUserData = (userId, login, email, isAuth) => 
-// ({type: SET_USER_DATA, data:{userId, login, email, isAuth}})
 
 export const getAuthUserData = () => async (dispatch) => {
     let response = await authAPI.me()
@@ -80,6 +70,23 @@ export const getAuthUserData = () => async (dispatch) => {
     }
 }
 
+export default authReducer
+
+
+// export const loginUser = (email, password, rememberMe) => 
+// async (dispatch) => {
+//     let response = await authAPI.login(email, password, rememberMe)
+    // if(response.data.resultCode === 0){
+    //     dispatch(getAuthUserData())
+    // } else {
+    //     let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Zaglushko error strashne'
+    //     dispatch(stopSubmit('login', {_error: message}))
+    // }
+// }
+
+// export const setAuthUserData = (userId, login, email, isAuth) => 
+// ({type: SET_USER_DATA, data:{userId, login, email, isAuth}})
+
 // export const getAuthUserData = () => async (dispatch) => {
 //     console.log("GET AUTH USER DATA")
 //     let response = await authAPI.me()
@@ -89,5 +96,3 @@ export const getAuthUserData = () => async (dispatch) => {
 //             dispatch(setAuthUserData(id, email, login, true))
 //         }
 // }
-
-export default authReducer
