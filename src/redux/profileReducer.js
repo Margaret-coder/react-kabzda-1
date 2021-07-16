@@ -11,7 +11,7 @@ const LIKE_POST = 'social-network/profile/LIKE_POST'
 let initialState = {
   postsData : [],
   //newPostText: '',
-  profile: null
+  profile: null,
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -31,7 +31,10 @@ const profileReducer = (state = initialState, action) => {
         return stateCopy
       }
       case SET_USER_PROFILE: {
-        return {...state, profile: action.profile}
+        let newState = {...state, profile: action.profile}
+//        console.log("old profile state", state.profile) 
+//        console.log("new profile state", newState.profile) 
+        return newState
       }
       case DELETE_POST: {
         return {...state, 
@@ -118,6 +121,7 @@ export const getUserProfile = (userId) => async (dispatch) => {
     dispatch(setUserProfile(response.data))
 }
 export const getStatus = (userId) => async (dispatch) => {
+  //TO DO userId null
   const response = await profileAPI.getStatus(userId)
     dispatch(setStatus(response.data) )
 }

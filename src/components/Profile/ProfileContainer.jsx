@@ -4,13 +4,18 @@ import Profile from './Profile'
 import { getUserProfile, getStatus, updateStatus, 
     getProfilePosts} 
     from '../../redux/profileReducer'
-import { withRouter } from 'react-router'
+import { Redirect, withRouter } from 'react-router'
 import { withAuthRedirect } from '../../hoc/withAuthRedirect'
 import { compose } from 'redux'
 
 class ProfileContainer extends React.Component{
+    componentDidUpdate(){
+        if(!this.props.authorizedUserId) { // redirect to Login page if logout
+            this.props.history.push("/login")
+        }
+    }
     componentDidMount(){
-        let userId = this.props.match.params.userId
+        let userId = this.props.match.params.userId //что это за магия?
         if(!userId) {
             userId=this.props.authorizedUserId
             if(!userId){
@@ -34,7 +39,7 @@ let mapStateToProps = (state) => ({
     profile: state.profilePage.profile,
     postsData: state.profilePage.postsData,
     status: state.profilePage.status,
-    authorizedUserId: state.auth.userId
+    authorizedUserId: state.auth.userId 
 })
 
 export default compose (

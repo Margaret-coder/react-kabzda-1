@@ -11,7 +11,7 @@ let initialState = {
 }
 
 const authReducer = (state = initialState, action) => {
-    console.log("authReducer switch")
+//    console.log("authReducer switch")
     switch(action.type){
         case SET_USER_DATA:{
             console.log("oldState", state)
@@ -40,7 +40,6 @@ async (dispatch) => {
 
 export const logoutUser = () => async (dispatch) => {
     let response = await authAPI.logout()
-    console.log('auth reducer logoutUser')
         if(response.status === 200){
             dispatch(setAuthUserData(null, null, false))
         }
