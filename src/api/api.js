@@ -83,11 +83,9 @@ export const authAPI = {
         return my_instance.get(`/me`) 
     },
     login(email, password, rememberMe = false){
-        console.log("api.js post login")
        return my_instance.post(`/login`, {email, password, rememberMe}) 
      },
     logout(){
-        console.log('api.js logout')
         return my_instance.delete(`/login`)
     },
     // logout(){

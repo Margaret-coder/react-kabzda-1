@@ -1,7 +1,7 @@
 const express = require("express")
 const User = require("../models/User")
 const router = express.Router()
-//TO DO the same redirect to login page if cookies deleted
+//TO DO the same redirect to login page if cookies deleted/ After logout posts and status are still available
 router.get("/me", async(req, res) => {
     console.log('router /me')
     if (req.session&&req.session.user) {
