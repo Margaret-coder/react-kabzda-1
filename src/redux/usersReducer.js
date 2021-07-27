@@ -1,4 +1,4 @@
-import { usersAPI } from "../api/api"
+import { usersAPI } from "../api/usersAPI"
 import { updateObjectInArray } from "../utils/object-helpers"
 
 let FOLLOW = 'social-network/users/FOLLOW'

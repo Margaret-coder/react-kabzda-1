@@ -20,6 +20,7 @@ router.post("/users", async(req, res) => {
         console.log("ERROR:",err)
         console.log("END_ERR")
     }
+    res.send(user)
 })
 
 router.delete("/users/:id", async(req, res) => {

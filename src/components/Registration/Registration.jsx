@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
 import {reduxForm} from 'redux-form'
 import {registrationUser} from '../../redux/authReducer'
 import { maxLengthCreator, required } from '../../utils/validators/validators'
@@ -26,8 +27,12 @@ const RegistrationReduxForm = reduxForm({form: 'registration'})(RegistrationForm
 const Registration = (props) => {
     const onSubmit = (formData) => {
         let {login, email, password} = formData
-        console.log("login, email, password",login, email, password)
+        console.log("login, email, password", login, email, password)
+        console.log("props.isAuth", props.isAuth)
         props.registrationUser(login, email, password)
+    }
+    if(props.isAuth){
+        return<Redirect to="/profile"/>
     }
     return <div>
         <h1>Registration</h1>

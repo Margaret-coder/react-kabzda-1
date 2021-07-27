@@ -1,5 +1,4 @@
 import * as axios from 'axios'
-import { follow } from '../redux/usersReducer'
 
 const URL_str = 'http://localhost:5500/api/'
 
@@ -16,30 +15,6 @@ const my_instance = axios.create({
     baseURL: 'http://localhost:5500/api/'
   })
 
-export const usersAPI = {
-    requestUsers(currentPage = 1, pageSize = 10){
-        return instance.get(
-            `users?page=${currentPage}&count=${pageSize}`)
-            .then(response => {
-            return response.data 
-        })
-},
-    getUserProfile(userId){
-        // return instance.get(
-        // `profile/${userId}`)
-        // .then(response => {
-        //     return response.data
-        // })
-        console.error('Obsolete method. Please, use profileAPI.getProfile method')
-        return profileAPI.getProfile(userId)
-    },
-    follow(userId){
-        return instance.post(`follow/${userId}`)
-    },
-    unfollow(userId){
-        return instance.delete(`follow/${userId}`)
-    }
-}
 export const profileAPI = {
     getProfile(userId){
         return my_instance.get(`profile/` + userId)
@@ -78,38 +53,8 @@ export const profileAPI = {
         return axios.post(`${URL_str}posts/`, {message})
     }
 }
-export const authAPI = {
-    me(){
-        return my_instance.get(`/me`) 
-    },
-    login(email, password, rememberMe = false){
-       return my_instance.post(`/login`, {email, password, rememberMe}) 
-     },
-    logout(){
-        return my_instance.delete(`/login`)
-    },
-    // logout(){
-    //     console.log('api.js logout')
-    //     return my_instance.get(`/logout`)
-    // },
-    register(username, email, password){
-        return my_instance.post(`users/`, {username, email, password})
-    }
-}
 
-//export const authAPI = {
-    // me(){ // samurai server requests
-    //     return instance.get('auth/me')
-    // },
-    // login(email, password, rememberMe = false){
-    //     return instance.post(`auth/login`, 
-    //     {email, password, rememberMe})
-    //  },
-    //  logout(){
-    //      return instance.delete(`auth/login`)
-    //  },
-
-    //export const profileAPI = {
+//export const profileAPI = {
     // getProfile(userId){
     //     return instance.get(`profile/` + userId)
     // },

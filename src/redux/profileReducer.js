@@ -1,4 +1,4 @@
-import { profileAPI} from "../api/api"
+import { profileAPI} from "../api/profileAPI"
 
 const ADD_POST = 'social-network/profile/ADD-POST'
 const SET_USER_PROFILE = 'social-network/profile/SET_USER_PROFILE'
@@ -118,7 +118,10 @@ export const sendNewPost = (message = "message") => async (dispatch) => {
 
 export const getUserProfile = (userId) => async (dispatch) => {
   const response = await profileAPI.getProfile(userId)
+  console.log('getUserProfile', response)
+  if(response.status === 200){
     dispatch(setUserProfile(response.data))
+  }
 }
 export const getStatus = (userId) => async (dispatch) => {
   //TO DO userId null

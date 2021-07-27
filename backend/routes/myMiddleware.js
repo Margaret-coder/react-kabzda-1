@@ -2,7 +2,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')
 const { connection_string } = require('../config');
 
-module.exports = function(app) {
+module.exports = (app) => {
     app.use(
         session({
             secret: 'story book',
