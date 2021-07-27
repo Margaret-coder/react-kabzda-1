@@ -1,13 +1,28 @@
 const express = require('express');
 const mongoose = require("mongoose")
+const multer = require("multer")
 const postRoutes = require("./routes/postRoutes")
 const userRoutes = require("./routes/userRoutes")
 const profileRoutes = require("./routes/profileRoutes")
 const authRoutes = require("./routes/authRoutes")
 const { connection_string } = require('./config');
+const path = require('path');
 var session = require('express-session')
 var MongoStore = require('connect-mongo');
 var cookieParser = require('cookie-parser');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./")
+    },
+    filename: function(req, file, cb){
+        const ext = file.mimetype.split("/")[1]
+        cb(null, `uploads/${file.originalname}-${Date.now()}.${ext}`)
+    }
+})
+const upload = multer({
+    storage: storage
+})
 
 mongoose
     .connect(connection_string, 
@@ -25,6 +40,7 @@ mongoose
                 autoRemove: 'disabled'
             })
         }))
+        app.use('/', express.static(path.join(__dirname, '/')));
         app.use(express.json());
         app.use(express.urlencoded({ extended: false }));
         app.use(express.json());

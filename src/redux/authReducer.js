@@ -1,4 +1,4 @@
-import { authAPI } from "../api/api"
+import { authAPI } from "../api/authAPI"
 import {stopSubmit} from "redux-form" 
 
 const SET_USER_DATA = 'social-network/auth/SET_USER_DATA'
@@ -11,15 +11,12 @@ let initialState = {
 }
 
 const authReducer = (state = initialState, action) => {
-//    console.log("authReducer switch")
     switch(action.type){
         case SET_USER_DATA:{
-            console.log("oldState", state)
             let newState = { 
                 ...state, 
                 ...action.data
             }
-            console.log("newState", newState)
              return newState
         }
         default: 
@@ -47,8 +44,11 @@ export const logoutUser = () => async (dispatch) => {
 
 export const registrationUser = (login, email, password) =>
 async (dispatch) => {
+    console.log("REGISTRATION USER")
     let response = await authAPI.register(login, email, password)
+    console.log(response)
     if(response.status === 200){
+        console.log("setAuthUserData(response.data._id, response.data.username, response.data.email, true)",response.data._id, response.data.username, response.data.email, true)
         dispatch(setAuthUserData(response.data._id, response.data.username, response.data.email, true))
     } else {
         dispatch(stopSubmit('registration', {_error: 'Error'}))

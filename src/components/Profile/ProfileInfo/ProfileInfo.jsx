@@ -1,10 +1,42 @@
 import s from "./ProfileInfo.module.css"
 import Preloader from "../../Common/Preloader/Preloader"
 import ProfileStatusWithHooks from "../ProfileStatusWithHooks"
+import { useEffect, useState } from "react"
+import * as axios from 'axios'
+
+const my_instance = axios.create({
+    withCredentials: true,
+    baseURL: 'http://localhost:5500/api/'
+  })
+
+  const URL_str = 'http://localhost:5500/api/'
 
 const ProfileInfo = (props) => {
-    if (!props.profile) {
+    const [uploadStatus, setUploadStatus] = useState('');
+    const imageHandler = (event) => {
+        const file = event.target.files[0]
+        const formData = new FormData()
+        console.log('file', file)
+        formData.append('image', file)
+        formData.append('userId', props.authorizedUserId)
+        axios.post(`${URL_str}profile/image`, formData)
+        .then(res => res.json())
+        .then(res => setUploadStatus(res.msg))
+        .catch(error => {console.error(error)})
+    }
+    if (!props.profile && !props.authorizedUserId) {
         return <Preloader/>
+    }
+    else if(!props.profile){
+        console.log("HERE")
+        return (
+        <div>
+            <div className={s.item}>
+            <input type="file" name="image" accept="image/*" multiple={false} onChange={imageHandler} />
+            <h2> {uploadStatus} </h2>
+            </div>
+        </div>
+        )
     }
     return (
         <div>
