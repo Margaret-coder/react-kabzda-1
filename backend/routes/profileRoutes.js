@@ -64,11 +64,12 @@ router.get('/profile', async(req, res) => {
     res.send("GET")
 })
 
-router.post('/profile', async(req, res) => {
-    console.log("POST PROFILE")
+router.post('/profile/create_profile', async(req, res) => {
+    console.log("POST CREATE PROFILE")
     console.log("req.body", req.body)
+    const userId = req.body.userId ? req.body.userId : req.session.user.id
     const profile = new Profile ({
-        userId: req.body.userId,
+        userId: userId,
         avaPath: req.body.avaPath,
         status: req.body.status,
         aboutMe: req.body.aboutMe,
@@ -84,7 +85,43 @@ router.post('/profile', async(req, res) => {
         console.log(err)
         res.send(profile)
     }
-    res.send("POST")
+    res.send(profile)
+})
+
+// router.get('/profile/create_profile ', async(req, res) => {
+//     console.log("GET CREATE PROFILE")
+//     res.send("GET")
+// })
+
+router.post('/profile/edit_info', async(req, res) => {
+    console.log('/profile/edit_info')
+    if(req.session&&req.session.user){
+        console.log(req.session)
+        Profile.findOne({userId: req.session.user.id}, function(err, profile){
+            if (profile){
+                console.log('profile:', profile)
+                profile.aboutMe = req.body.aboutMe
+                profile.contacts = req.body.contacts
+                profile.lookingForJob = req.body.lookingForJob
+                profile.jobDescription = req.body.jobDescription
+                profile.save(function(err){
+                    if(err){
+                        return res.send('/edit_profile', {
+                            errors: err.errors,
+                            profile: profile
+                        })
+                    }
+                    else{
+                        res.jsonp(profile)
+                    }    
+                })
+            }
+            else {
+                console.log('profile not found in db')
+                res.redirect(307, '/api/profile/create_profile')
+            }
+        })
+    }
 })
 
 router.get('/profile/image/:id', (req, res) => {

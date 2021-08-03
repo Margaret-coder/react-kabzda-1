@@ -24,7 +24,7 @@ const ProfileInfo = (props) => {
         .then(res => setUploadStatus(res.msg))
         .catch(error => {console.error(error)})
     }
-    if (!props.profile && !props.authorizedUserId) {
+    if (!props.profile || !props.authorizedUserId) {
         return <Preloader/>
     }
     else if(!props.profile){
@@ -38,7 +38,9 @@ const ProfileInfo = (props) => {
         </div>
         )
     }
-    return (
+    else {
+        console.log("props render:", props)
+        return (
         <div>
             <div className={s.item}>
                 {/* <img
@@ -69,6 +71,7 @@ const ProfileInfo = (props) => {
                 <div>Fullname: {props.profile.fullName}</div>
             </div>
         </div>
-    )
+        )
+    }
 }
 export default ProfileInfo

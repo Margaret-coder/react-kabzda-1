@@ -123,6 +123,13 @@ export const getUserProfile = (userId) => async (dispatch) => {
     dispatch(setUserProfile(response.data))
   }
 }
+
+export const editProfileInfo = (aboutMe, contacts, lookingForJob, jobDescription) => async(dispatch) => {
+  const response = await profileAPI.editInfo(aboutMe, contacts, lookingForJob, jobDescription)
+  dispatch(setUserProfile(response.data))
+  console.log("editProfileInfo")
+}
+
 export const getStatus = (userId) => async (dispatch) => {
   //TO DO userId null
   const response = await profileAPI.getStatus(userId)
