@@ -35,7 +35,7 @@ const ProfileInfoEditModeReduxForm = reduxForm({form: 'profile_info_edit'})(Prof
 
 
 const ProfileInfoEditMode = (props) => {
-    console.log("ProfileInfoEditMode")
+    console.log("ProfileInfoEditMode", props)
 
     const onSubmit = (formData) => {
         let {aboutMe, contacts, lookingForJob, jobDescription} = formData
