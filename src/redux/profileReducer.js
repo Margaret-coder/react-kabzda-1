@@ -124,10 +124,9 @@ export const getUserProfile = (userId) => async (dispatch) => {
   }
 }
 
-export const editProfileInfo = (aboutMe, contacts, lookingForJob, jobDescription) => async(dispatch) => {
-  const response = await profileAPI.editInfo(aboutMe, contacts, lookingForJob, jobDescription)
+export const editProfileInfo = (aboutMe, contacts, lookingForJob, jobDescription, fullname) => async(dispatch) => {
+  const response = await profileAPI.editInfo(aboutMe, contacts, lookingForJob, jobDescription, fullname)
   dispatch(setUserProfile(response.data))
-  console.log("editProfileInfo")
 }
 
 export const getStatus = (userId) => async (dispatch) => {

@@ -3,7 +3,6 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import ProfileInfoEditMode from "./ProfileInfo/ProfileInfoEditMode"
 const Profile = (props) => {
     if (props.authorizedUserId && !props.profile) {
-        console.log("Profile props",props)
         return (
             <div>
                 <ProfileInfoEditMode profile={props.profile}

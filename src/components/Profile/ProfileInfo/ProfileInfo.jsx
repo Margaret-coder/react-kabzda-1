@@ -1,4 +1,5 @@
 import s from "./ProfileInfo.module.css"
+import blankImage from "../../../assets/images/samurai.png"
 import Preloader from "../../Common/Preloader/Preloader"
 import ProfileStatusWithHooks from "../ProfileStatusWithHooks"
 import { useEffect, useState } from "react"
@@ -39,7 +40,6 @@ const ProfileInfo = (props) => {
         )
     }
     else {
-        console.log("props render:", props)
         return (
         <div>
             <div className={s.item}>
@@ -49,7 +49,7 @@ const ProfileInfo = (props) => {
                 /> */}
                 <div className={s.descriptionBlock}>
                     {/* <img src={props.profile.photos.large} alt="large_pic"/> */}
-                    <img src={props.profile.avaPath} alt="large_pic"/>
+                    <img src={props.profile.avaPath ? props.profile.avaPath : blankImage} alt="large_pic"/>
                 </div>
                 <div>
                     <ProfileStatusWithHooks status={props.status}
@@ -65,10 +65,10 @@ const ProfileInfo = (props) => {
                         )
                     })}</ul>
                 {/* <div>Looking for a job: {props.profile.lookingForAJob.toString()}</div> */}
-                <div>Looking for a job: {props.profile.lookingForJob.toString()}</div>
+                <div>Looking for a job: <input type="checkbox" defaultChecked={props.profile.lookingForJob.toString()}/></div>
                 {/* <div>Looking for a job description: {props.profile.lookingForAJobDescription}</div> */}
                 <div>Looking for a job description: {props.profile.LFJobDescription}</div>
-                <div>Fullname: {props.profile.fullName}</div>
+                <div>Fullname: {props.profile.fullname}</div>
             </div>
         </div>
         )

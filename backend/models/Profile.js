@@ -5,7 +5,7 @@ const profileSchema = mongoose.Schema({
     avaPath: String,
     status: String,
     aboutMe:String,
-    contacts: String,
+    contacts: [String],
     lookingForJob: Boolean,
     LFJobDescription: String,
     fullname: String  

@@ -30,8 +30,8 @@ export const profileAPI = {
         console.log('API.js Update status')
         return my_instance.patch(`profile/status/`, {status: status})
     },
-    editInfo(aboutMe, contacts, lookingForJob, jobDescription){
-        return my_instance.post(`/profile/edit_info`, {aboutMe, contacts, lookingForJob, jobDescription})
+    editInfo(aboutMe, contacts, lookingForJob, jobDescription, fullname){
+        return my_instance.post(`/profile/edit_info`, {aboutMe, contacts, lookingForJob, jobDescription, fullname})
     },
     deletePost(post_id){
         const url = URL_str + '/' + post_id
