@@ -75,10 +75,11 @@ router.post('/profile/create_profile', async(req, res) => {
         aboutMe: req.body.aboutMe,
         contacts: req.body.contacts,
         lookingForJob: req.body.lookingForJob,
-        LFJobDescription: req.body.LFJobDescription,
+        LFJobDescription: req.body.jobDescription,
         fullname: req.body.fullname
     })
     try{
+        console.log("profile:", profile)
         profile.save()
     }
     catch(err){
