@@ -31,8 +31,6 @@ const profileReducer = (state = initialState, action) => {
       }
       case SET_USER_PROFILE: {
         let newState = {...state, profile: action.profile}
-//        console.log("old profile state", state.profile) 
-//        console.log("new profile state", newState.profile) 
         return newState
       }
       case DELETE_POST: {
@@ -135,7 +133,8 @@ export const getStatus = (userId) => async (dispatch) => {
 }
 export const updateStatus = (status) => async (dispatch) => {
   const response = await profileAPI.updateStatus(status)
-    if(response.data.resultCode === 0){
+    //if(response.data.resultCode === 0){ // samurai server response
+    if(response.status === 200){
       dispatch(setStatus(status))
     }
 }

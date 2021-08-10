@@ -29,7 +29,6 @@ export const profileAPI = {
         return my_instance.get(`profile/status/` + userId)
     }, 
     updateStatus(status){
-        console.log('API.js Update status')
         return my_instance.patch(`profile/status/`, {status: status})
     },
     /* INFO */
