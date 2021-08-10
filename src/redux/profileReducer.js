@@ -27,7 +27,6 @@ const profileReducer = (state = initialState, action) => {
         if(index !== -1){
           stateCopy.postsData.splice(index, 1, action.element)
         }
-        debugger
         return stateCopy
       }
       case SET_USER_PROFILE: {
