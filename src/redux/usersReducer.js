@@ -67,15 +67,33 @@ export const setTotalUsersCount = (totalUsersCount) => ({type: SET_TOTAL_USERS_C
 export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
 export const toggleFollowingProgress = (isFetching, userId) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId})
 
+/* Samurai method */
+// export const requestUsers = (currentPage, pageSize) => {
+//     return async (dispatch) => {
+//         dispatch(toggleIsFetching(true))
+//         const response = await usersAPI.requestUsers(currentPage, pageSize)
+//             dispatch(toggleIsFetching(false))
+//             dispatch(setUsers(response.items))
+//             dispatch(setTotalUsersCount(response.totalCount))
+//             dispatch(setCurrentPage(currentPage))
+//         }
+// }
+
 export const requestUsers = (currentPage, pageSize) => {
+    console.log("requestUsers")
     return async (dispatch) => {
         dispatch(toggleIsFetching(true))
         const response = await usersAPI.requestUsers(currentPage, pageSize)
+        console.log("response Users", response)
+        if(response.status === 200){
             dispatch(toggleIsFetching(false))
-            dispatch(setUsers(response.items))
-            dispatch(setTotalUsersCount(response.totalCount))
-            dispatch(setCurrentPage(currentPage))
+            console.log("OK dispatch")
+            dispatch(setUsers(response.data))
+
+            // dispatch(setTotalUsersCount(response.totalCount))
+            // dispatch(setCurrentPage(currentPage))
         }
+    }
 }
 
 export const followUnfollowFlow = async (dispatch, userId, apiRequest, actionCreator) => {

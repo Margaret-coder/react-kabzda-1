@@ -20,8 +20,8 @@ const Paginator = (props) => {
         {pages.filter
         (p => p >= leftPortionPageNumber 
             && p <= rightPortionPageNumber)
-        .map(p => { 
-            return <span key={p.id} className=
+        .map(p => {
+            return <span key={p} className=
             {cn(
                 {[styles.selectedPage] : props.currentPage === p}
                 , styles.pageNumber)}

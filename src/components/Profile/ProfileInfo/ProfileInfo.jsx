@@ -18,6 +18,7 @@ const ProfileInfo = (props) => {
         const file = event.target.files[0]
         const formData = new FormData()
         console.log('file', file)
+        console.log('file', file)
         formData.append('image', file)
         formData.append('userId', props.authorizedUserId)
         axios.post(`${URL_str}profile/image`, formData)
@@ -51,6 +52,12 @@ const ProfileInfo = (props) => {
                     {/* <img src={props.profile.photos.large} alt="large_pic"/> */}
                     <img src={props.profile.avaPath ? props.profile.avaPath : blankImage} alt="large_pic"/>
                 </div>
+                <div>
+            <div className={s.item}>
+            <input type="file" name="image" accept="image/*" multiple={false} onChange={imageHandler} />
+            <h2> {uploadStatus} </h2>
+            </div>
+        </div>
                 <div>
                     <ProfileStatusWithHooks status={props.status}
                     updateStatus={props.updateStatus}/>

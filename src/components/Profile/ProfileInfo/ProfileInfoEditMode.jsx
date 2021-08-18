@@ -5,11 +5,9 @@ import { maxLengthCreator, required } from "../../../utils/validators/validators
 import { useEffect, useState } from "react"
 
 const maxLength10 = maxLengthCreator(10)
+let editInfoFormData = new FormData()
 
 const ProfileInfoContacts_Form = (props) => {
-    // const one = ["Phone", "Address"];
-    // const two = ["phone", "address"];
-    // const three = [Input, Input];
     return (
             <form onSubmit={props.handleSubmit} className={s.profileInfoBlock}>
             <div>
@@ -27,8 +25,19 @@ const ProfileInfoContacts_Form = (props) => {
 
 const ProfileInfoEditMode_Form = (props) => {
     let [isChecked, setChecked] = useState(false);
+    const imageHandler = (event) => {
+        const file = event.target.files[0]
+        editInfoFormData.set('image', file)
+        console.log('editInfoFormData image', editInfoFormData.get('image'))
+    }
     return (
             <form onSubmit={props.handleSubmit} className={s.profileInfoBlock}>
+                <div>
+                    <div className={s.item}>
+                        <input type="file" name="image" accept="image/*" 
+                        multiple={false} onChange={imageHandler} />
+                    </div>
+                </div>
                 <div>
                     {createField("About me:", "aboutMe", [required], Input)}
                     {/* {createField("Contacts", "contacts", [required], Input)} */}
@@ -53,9 +62,19 @@ let contacts = []
 const ProfileInfoEditMode = (props) => {
     const onSubmitForm = (formData) => {
         let {aboutMe, lookingForJob, jobDescription, fullname} = formData
-        console.log("formData:", formData)
         console.log("Contacts:", contacts)
-        props.editProfileInfo(aboutMe, contacts, lookingForJob, jobDescription, fullname)
+        console.log("image_FormData:", editInfoFormData)
+        console.log("formData:", formData)
+        const status = ""
+        editInfoFormData.set('userId', props.authorizedUserId)
+        editInfoFormData.set("status", status)
+        editInfoFormData.set("aboutMe", aboutMe)
+        editInfoFormData.append("contacts[]", contacts[0])
+        editInfoFormData.append("contacts[]", contacts[1])
+        editInfoFormData.set("lookingForJob", lookingForJob)
+        editInfoFormData.set("jobDescription", jobDescription)
+        editInfoFormData.set("fullname", fullname)
+        props.editProfileInfo(editInfoFormData)
     }
     
     const onSubmit = (formData) => {
