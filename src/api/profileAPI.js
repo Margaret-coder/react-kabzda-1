@@ -45,7 +45,6 @@ export const profileAPI = {
     },
     /* INFO */
     editInfo(formData){
-        console.log('formData', formData)
         return my_instance.post(`/profile/edit_profile`, formData)
     },
     /* POSTS */

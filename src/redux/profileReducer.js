@@ -121,7 +121,6 @@ export const getUserProfile = (userId) => async (dispatch) => {
 }
 
 export const editProfileInfo = (formData) => async(dispatch) => {
-  console.log('edit formData', formData)
   const response = await profileAPI.editInfo(formData)
   console.log("EDIT PROFILE INFO RESPONSE", response)
   dispatch(setUserProfile(response.data))
