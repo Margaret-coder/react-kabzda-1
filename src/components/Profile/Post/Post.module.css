@@ -2,6 +2,7 @@
     color:red;
 }
 .item img{
-    width: 50px;
+    width: 8%;
+    height: 8%;
     border-radius:20px;
 }

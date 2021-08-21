@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
     filename: function(req, file, cb){
         const ext = file.mimetype.split("/")[1]
         cb(null, `uploads/${file.originalname}-${Date.now()}.${ext}`)
-    }
+    } 
 })
 const upload = multer({
     storage: storage
@@ -60,39 +60,75 @@ router.get('/profile/:id', async(req, res) => {
 })
 
 router.get('/profile', async(req, res) => {
-    console.log("GET PROFILE PAGE")
-    res.send("GET")
-})
-
-router.post('/profile/create_profile', async(req, res) => {
-    console.log("POST CREATE PROFILE")
-    console.log("req.body", req.body)
-    const userId = req.body.userId ? req.body.userId : req.session.user.id
-    const profile = new Profile ({
-        userId: userId,
-        avaPath: req.body.avaPath,
-        status: req.body.status,
-        aboutMe: req.body.aboutMe,
-        contacts: req.body.contacts,
-        lookingForJob: req.body.lookingForJob,
-        LFJobDescription: req.body.jobDescription,
-        fullname: req.body.fullname
+    console.log("GET AUTHORIZED PROFILE")
+    Profile.findOne({userId: req.session.user.id}, function(err, profile) {
+        console.log("req.session.user.id", req.session.user.id)
+        if(profile) {
+            console.log(profile)
+            res.send(profile)
+        }
+        else if(err) res.send(err)
+        else res.send(null)
     })
-    try{
-        console.log("profile:", profile)
-        profile.save()
-    }
-    catch(err){
-        console.log(err)
-        res.send(profile)
-    }
-    res.send(profile)
 })
 
-// router.get('/profile/create_profile ', async(req, res) => {
-//     console.log("GET CREATE PROFILE")
-//     res.send("GET")
-// })
+router.get('/profiles', async(req, res) => {
+    console.log("GET ALL PROFILES")
+    const profiles = await Profile.find()
+    res.send(profiles)
+})
+
+router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => {
+    console.log("POST EDIT/CREATE PROFILE")
+//    console.log("req.session.user.id create profile", req.session.user.id) // session in not available in formData req
+    console.log("req.body", req.body)
+    const image = req.file.filename
+    const id = req.body.userId
+    console.log('User id', id)
+    if(!req.file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)){
+        res.send({msg: 'Only image files (jpg, jpeg, png) are allowed!'})
+    }
+    else{
+        Profile.findOne({userId: id}, function(err, profile){
+            if(profile) {
+                profile.avaPath = image
+                profile.save(function(err){
+                    if(err){
+                        return res.send('/image', {
+                            errors:err.errors,
+                            profile: profile
+                        })
+                   }
+                    else {
+                        res.jsonp(profile)
+                    }
+                })
+            }
+            else {
+                console.log("upload image error: profile not found")
+                const profile = new Profile ({
+                    userId: id,
+                    avaPath: image,
+                    status: req.body.status,
+                    aboutMe: req.body.aboutMe,
+                    contacts: req.body.contacts,
+                    lookingForJob: req.body.lookingForJob,
+                    LFJobDescription: req.body.jobDescription,
+                    fullname: req.body.fullname
+                })
+                console.log(profile)
+                //res.send(null)
+                try{
+                    profile.save()
+                }
+                catch(err){
+                    console.log(err)
+                }
+                res.send(profile)
+            }
+        })
+    }
+})
 
 router.post('/profile/edit_info', async(req, res) => {
     console.log('/profile/edit_info')
@@ -125,25 +161,12 @@ router.post('/profile/edit_info', async(req, res) => {
     }
 })
 
-router.get('/profile/image/:id', (req, res) => {
-    const id = req.params.id
-    const sqlInsert = "SELECT * FROM images WHERE id = ?"
-    connection.query(sqlInsert, [id], (err, result) => {
-        if (err) {
-            console.log(err)
-            res.send({msg: err})
-        }
-        if(result){
-            res.send({image: result[0].image})
-        }
-    })
-})
-
 router.post('/profile/image', upload.single('image'), (req, res, err) => {
-    //console.log("router post profile image", req.session, req.sessionID)
-    console.log("req.body.userId", req.body.userId)
+    console.log('POST IMAGE')
+  //  console.log("req.session.user.id image", req.session.user.id)
     const image = req.file.filename
-    const id = req.body.userId
+    console.log('image', image)
+    const id = req.userId
     if(!req.file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)){
         res.send({msg: 'Only image files (jpg, jpeg, png) are allowed!'})
     }
@@ -164,7 +187,7 @@ router.post('/profile/image', upload.single('image'), (req, res, err) => {
                 })
             }
             else {
-                console.log("Profile not found")
+                console.log("upload image error: profile not found")
                 const profile = new Profile ({
                     userId: id,
                     avaPath: image,
@@ -175,6 +198,7 @@ router.post('/profile/image', upload.single('image'), (req, res, err) => {
                     LFJobDescription: "",
                     fullname: ""
                 })
+                console.log(profile)
                 //res.send(null)
                 try{
                     profile.save()
@@ -185,25 +209,6 @@ router.post('/profile/image', upload.single('image'), (req, res, err) => {
                 }
             }
         })
-        // const image = req.file.filename
-        // const id = req.body.userId
-        // const sqlInsert = "UPDATE images SET `image` = ? WHERE id = ?"
-
-        // connection.query(sqlInsert, [image, id], (err, result) => {
-        //     if (err) {
-        //         console.log(err)
-        //         res.send({
-        //             msg: err
-        //         })
-        //     }
-
-        //     if(result) {
-        //         res.send({
-        //             data: result,
-        //             msg: 'Your image has been updated'
-        //         })
-        //     }
-        // })
     }
 })
 module.exports = router

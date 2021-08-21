@@ -20,9 +20,21 @@ export const profileAPI = {
     getProfile(userId){
         return my_instance.get(`profile/` + userId)
     },
-    setProfile(avaPath, status, aboutMe, contacts, lookingForJob, LFJobDescription, fullname){
+    setProfile(avaPath, status, aboutMe, contacts, 
+        lookingForJob, LFJobDescription, fullname, imageFormData){
         return my_instance.post(`profile/` + {avaPath, status, aboutMe, 
-            contacts, lookingForJob, LFJobDescription, fullname})
+            contacts, lookingForJob, LFJobDescription, fullname, imageFormData})
+    },
+    createProfile(status, aboutMe, contacts, lookingForJob, jobDescription, fullname, 
+        imageFormData){
+        console.log('imageFormData', imageFormData)
+       return my_instance.post(`/profile/create_profile`, 
+        // return my_instance.post(`/profile/image`, 
+        imageFormData)
+    },
+    /* IMAGE */
+    setImage(formData){
+       my_instance.post(`${URL_str}profile/image`, formData)
     },
     /* STATUS */
     getStatus(userId){
@@ -32,8 +44,8 @@ export const profileAPI = {
         return my_instance.patch(`profile/status/`, {status: status})
     },
     /* INFO */
-    editInfo(aboutMe, contacts, lookingForJob, jobDescription, fullname){
-        return my_instance.post(`/profile/edit_info`, {aboutMe, contacts, lookingForJob, jobDescription, fullname})
+    editInfo(formData){
+        return my_instance.post(`/profile/edit_profile`, formData)
     },
     /* POSTS */
     deletePost(post_id){

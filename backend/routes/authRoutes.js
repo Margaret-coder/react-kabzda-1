@@ -5,7 +5,7 @@ const router = express.Router()
 router.get("/me", async(req, res) => {
     console.log('router /me')
     if (req.session&&req.session.user) {
-        console.log('req.sessionID', req.sessionID)
+        console.log('req.session.user.id', req.session.user.id)
         res.send(req.session.user)
     } 
     else {

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Field } from "redux-form";
 import styles from "./FormControls.module.css";
 
@@ -27,20 +28,49 @@ export const Textarea = ({ input, meta, ...props }) => {
 
 export const Input = ({ input, meta, ...props }) => {
     let hasError = meta.touched && meta.error;
+    if(props.type === "file"){
+      return( 
+        <div>
+          {/* <input {...props}/> */}
+          <input onChange={props.function.fileHandler} {...props}/>
+
+        </div>
+    )
+}
+else{
     return (
       <div className={hasError ? styles.error : ""}>
         <div>
           <input {...input} {...props} />
         </div>
         {hasError && <span>{meta.error}</span>}
+        {props.type === "file" && console.log('props', props)}
+        {props.type === "file" && console.log('input', input)}
+        {/* {props.type === "file" && console.log('meta', meta)} */}
       </div>
     );
+    }  
 };
+
+export const FileInput = ({value, ...rest}) => {
+  const inputRef = useRef()
+
+  useEffect(() => {
+    if(value === ""){
+      inputRef.current.value=""
+    }
+    else {
+      inputRef.current.files = value
+    }
+  }, [value])
+  
+  return <input {...rest} type= "file" ref={inputRef}/>
+} 
 
 export const createField = (placeholder, name, validators, component, props = {}, text = "") => {
   return(
   <div>
-    <Field placeholder={placeholder} name={name}
+    <Field placeholder={placeholder} name={name} 
         validate={validators} 
         component={component}
         {...props}
@@ -48,18 +78,33 @@ export const createField = (placeholder, name, validators, component, props = {}
   </div> 
 )}
 
-export const createFieldsArray = (header, name, formName, placeholders, names, components) => {
-  console.log(placeholders)
-  console.log(names)
-  console.log(components)
+export const createFieldsArray = (header, arrayName,  placeholders, fieldNames, component) => {
   var rows = [];
-  for (var i = 0; i < 2; i++) {
-    // rows.push(<div key={i} >{createField(placeholders[i], names[i], components[i])}</div>);
-    rows.push(<div key={i} >{createField(placeholders[i], names[i], [], components[i], formName)}</div>);
-  }
-  console.log('ROWS', rows)
-  return <div>
-    <h3>{header}:</h3>
-      <div name={name}>{rows}</div>
-    </div>;
+    for (var i = 0; i < fieldNames.length; i++) {
+      rows.push(<li key={i} >{createField(placeholders[i], `${arrayName}.${fieldNames[i]}`, [], component)}</li>);
+    }
+    // console.log('ROWS', rows)
+    return (
+    <div>
+      <h3>{header}:</h3>
+      <ul>
+        {rows}
+      </ul>
+    </div>)
 }
+
+// export const createFieldsArray = (header, name, formName, placeholders, names, components) => {
+//   // console.log(placeholders)
+//   // console.log(names)
+//   // console.log(components)
+//   var rows = [];
+//   for (var i = 0; i < 2; i++) {
+//     // rows.push(<div key={i} >{createField(placeholders[i], names[i], components[i])}</div>);
+//     rows.push(<div key={i} >{createField(placeholders[i], names[i], [], components[i], formName)}</div>);
+//   }
+//   console.log('ROWS', rows)
+//   return <div>
+//     <h3>{header}:</h3>
+//       <div name={name}>{rows}</div>
+//     </div>;
+//}

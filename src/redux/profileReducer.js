@@ -115,14 +115,14 @@ export const sendNewPost = (message = "message") => async (dispatch) => {
 
 export const getUserProfile = (userId) => async (dispatch) => {
   const response = await profileAPI.getProfile(userId)
-  console.log('getUserProfile', response)
   if(response.status === 200){
     dispatch(setUserProfile(response.data))
   }
 }
 
-export const editProfileInfo = (aboutMe, contacts, lookingForJob, jobDescription, fullname) => async(dispatch) => {
-  const response = await profileAPI.editInfo(aboutMe, contacts, lookingForJob, jobDescription, fullname)
+export const editProfileInfo = (formData) => async(dispatch) => {
+  const response = await profileAPI.editInfo(formData)
+  console.log("EDIT PROFILE INFO RESPONSE", response)
   dispatch(setUserProfile(response.data))
 }
 

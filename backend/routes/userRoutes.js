@@ -35,10 +35,12 @@ router.delete("/users/:id", async(req, res) => {
 		res.send({error: "Not possible to delete user due to wrong id number"})
 	}
 })
-// router.get("/users", async(req, res) => {
-// 	console.log("get all users")
-//     const users = await User.find()
-//     res.send(users)
-// })
+
+router.get("/users", async(req, res) => {
+	console.log("get all users")
+    const users = await User.find()
+    console.log('users', users)
+    res.send(users)
+})
 
 module.exports = router

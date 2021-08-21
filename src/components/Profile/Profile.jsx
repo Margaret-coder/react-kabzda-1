@@ -6,9 +6,8 @@ const Profile = (props) => {
         return (
             <div>
                 <ProfileInfoEditMode profile={props.profile}
-                authorizedUserId={props.authorizedUserId}
-                editProfileInfo={props.editProfileInfo}/>
-                <MyPostsContainer/>
+                editProfileInfo={props.editProfileInfo}
+                authorizedUserId={props.authorizedUserId}/>
             </div>
         )
     }
@@ -16,7 +15,8 @@ const Profile = (props) => {
         return (
             <div>
                 <ProfileInfo profile={props.profile}
-                status={props.status} updateStatus={props.updateStatus} authorizedUserId={props.authorizedUserId}/>
+                status={props.status} updateStatus={props.updateStatus} 
+                authorizedUserId={props.authorizedUserId}/>
                 <MyPostsContainer/>
             </div>
         )
