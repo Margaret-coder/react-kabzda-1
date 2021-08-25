@@ -1,5 +1,6 @@
  import {applyMiddleware, combineReducers, compose, createStore} from 'redux'
 import profileReducer from './profileReducer'
+import postsReducer from './postsReducer'
 import dialogsReducer from './dialogsReducer'
 import sidebarReducer from './sidebarReducer'
 import usersReducer from './usersReducer'
@@ -11,6 +12,7 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 
 let reducers = combineReducers({
     profilePage: profileReducer,
+    posts: postsReducer,
     dialogsPage: dialogsReducer,
     sidebar: sidebarReducer,
     usersPage: usersReducer,

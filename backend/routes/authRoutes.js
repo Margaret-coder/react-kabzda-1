@@ -41,7 +41,7 @@ router.post("/login", async(req, res) => {
                     sessionUser.username = user.username
                     req.session.user = sessionUser
                     res.session = req.session
-                    res.redirect('/api/profile')
+                    res.send(user)
                 })
             }  
             else {

@@ -116,46 +116,14 @@ router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => 
                     LFJobDescription: req.body.jobDescription,
                     fullname: req.body.fullname
                 })
-                console.log(profile)
-                //res.send(null)
                 try{
                     profile.save()
                 }
                 catch(err){
                     console.log(err)
                 }
+                console.log("profile to send", profile)
                 res.send(profile)
-            }
-        })
-    }
-})
-
-router.post('/profile/edit_info', async(req, res) => {
-    console.log('/profile/edit_info')
-    if(req.session&&req.session.user){
-        console.log(req.session)
-        Profile.findOne({userId: req.session.user.id}, function(err, profile){
-            if (profile){
-                console.log('profile:', profile)
-                profile.aboutMe = req.body.aboutMe
-                profile.contacts = req.body.contacts
-                profile.lookingForJob = req.body.lookingForJob
-                profile.jobDescription = req.body.jobDescription
-                profile.save(function(err){
-                    if(err){
-                        return res.send('/edit_profile', {
-                            errors: err.errors,
-                            profile: profile
-                        })
-                    }
-                    else{
-                        res.jsonp(profile)
-                    }    
-                })
-            }
-            else {
-                console.log('profile not found in db')
-                res.redirect(307, '/api/profile/create_profile')
             }
         })
     }
@@ -166,7 +134,7 @@ router.post('/profile/image', upload.single('image'), (req, res, err) => {
   //  console.log("req.session.user.id image", req.session.user.id)
     const image = req.file.filename
     console.log('image', image)
-    const id = req.userId
+    const id = req.body.userId
     if(!req.file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)){
         res.send({msg: 'Only image files (jpg, jpeg, png) are allowed!'})
     }
@@ -175,39 +143,23 @@ router.post('/profile/image', upload.single('image'), (req, res, err) => {
             if(profile) {
                 profile.avaPath = image
                 profile.save(function(err){
-                    if(err){
+                    try{
+                        profile.save()
+                    }
+                    catch(err){
+                        console.log(err)
                         return res.send('/image', {
                             errors:err.errors,
                             profile: profile
                         })
-                   }
-                    else {
-                        res.jsonp(profile)
                     }
                 })
             }
             else {
                 console.log("upload image error: profile not found")
-                const profile = new Profile ({
-                    userId: id,
-                    avaPath: image,
-                    status: "",
-                    aboutMe: "",
-                    contacts: "",
-                    lookingForJob: false,
-                    LFJobDescription: "",
-                    fullname: ""
-                })
-                console.log(profile)
-                //res.send(null)
-                try{
-                    profile.save()
-                }
-                catch(err){
-                    console.log(err)
-                    res.send(profile)
-                }
             }
+            console.log("profile to send", profile)
+            res.send(profile)
         })
     }
 })

@@ -5,13 +5,6 @@ import ProfileStatusWithHooks from "../ProfileStatusWithHooks"
 import { useEffect, useState } from "react"
 import * as axios from 'axios'
 
-const my_instance = axios.create({
-    withCredentials: true,
-    baseURL: 'http://localhost:5500/api/'
-  })
-
-  const URL_str = 'http://localhost:5500/api/'
-
 const ProfileInfo = (props) => {
     const [uploadStatus, setUploadStatus] = useState('');
     const imageHandler = (event) => {
@@ -21,10 +14,7 @@ const ProfileInfo = (props) => {
         console.log('file', file)
         formData.append('image', file)
         formData.append('userId', props.authorizedUserId)
-        axios.post(`${URL_str}profile/image`, formData)
-        .then(res => res.json())
-        .then(res => setUploadStatus(res.msg))
-        .catch(error => {console.error(error)})
+        props.uploadImage(formData)
     }
     if (!props.profile || !props.authorizedUserId) {
         return <Preloader/>
