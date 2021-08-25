@@ -17,6 +17,9 @@ const my_instance = axios.create({
 
 export const profileAPI = {
     /* PROFILE */
+    getAuthProfile(){
+        return my_instance.get(`profile/`)
+    },
     getProfile(userId){
         return my_instance.get(`profile/` + userId)
     },
@@ -25,16 +28,10 @@ export const profileAPI = {
         return my_instance.post(`profile/` + {avaPath, status, aboutMe, 
             contacts, lookingForJob, LFJobDescription, fullname, imageFormData})
     },
-    createProfile(status, aboutMe, contacts, lookingForJob, jobDescription, fullname, 
-        imageFormData){
-        console.log('imageFormData', imageFormData)
-       return my_instance.post(`/profile/create_profile`, 
-        // return my_instance.post(`/profile/image`, 
-        imageFormData)
-    },
     /* IMAGE */
-    setImage(formData){
-       my_instance.post(`${URL_str}profile/image`, formData)
+    uploadImage(formData){
+        console.log("Profile API uploadImage(formData)")
+        return my_instance.post(`profile/image`, formData)
     },
     /* STATUS */
     getStatus(userId){

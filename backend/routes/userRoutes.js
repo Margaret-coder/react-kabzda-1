@@ -16,9 +16,9 @@ router.post("/users", async(req, res) => {
         await user.save()
     }
     catch (err){
-        res.send("User already exists", user)
         console.log("ERROR:",err)
         console.log("END_ERR")
+        return res.status(500).send(err)
     }
     res.send(user)
 })

@@ -28,7 +28,7 @@ const MyPostsReduxForm = reduxForm({form: 'message form'})
 (MyPostsForm)
 
 const MyPosts = (props) => {
-    let postsElements = props.profilePage.postsData.map(
+    let postsElements = props.posts.postsData.map(
         p=><Post key={p._id} post={p} deletePost={props.deletePost}
         editPost={props.editPost} likePost={props.likePost}/>)
     const addNewPost = (values) => {

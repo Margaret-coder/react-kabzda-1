@@ -1,77 +1,27 @@
 import { profileAPI} from "../api/profileAPI"
 
-const ADD_POST = 'social-network/profile/ADD-POST'
 const SET_USER_PROFILE = 'social-network/profile/SET_USER_PROFILE'
 const SET_STATUS = 'social-network/profile/SET_STATUS'
-const DELETE_POST = 'social-network/profile/DELETE_POST'
-const UPDATE_POST = 'social-network/profile/UPDATE_POST'
-const SET_POSTS = 'social-network/profile/SET_POSTS'
-const LIKE_POST = 'social-network/profile/LIKE_POST'
 
 let initialState = {
-  postsData : [],
-  //newPostText: '',
   profile: null,
 }
 
 const profileReducer = (state = initialState, action) => {
-    switch (action.type){
-      case ADD_POST: {
-        let stateCopy = {...state}
-        stateCopy.postsData.push(action.content)
-        return stateCopy
-      }
-      case LIKE_POST: {
-        let stateCopy = {...state}
-        var index = stateCopy.postsData.findIndex(item => item._id === action.element._id)
-        if(index !== -1){
-          stateCopy.postsData.splice(index, 1, action.element)
-        }
-        return stateCopy
-      }
-      case SET_USER_PROFILE: {
+  switch (action.type){
+    case SET_USER_PROFILE: {
+      console.log('SET_USER_PROFILE')
         let newState = {...state, profile: action.profile}
         return newState
-      }
-      case DELETE_POST: {
-        return {...state, 
-          postsData: state.postsData.filter
-          (item => item._id !== action.element._id)}
-      }
-      case UPDATE_POST: {
-        return state // post value is already in state inside class jsx
       }
       case SET_STATUS: {
         return {...state, status: action.status}
       }
-      case SET_POSTS: {
-        return {...state, postsData: action.posts}
-      }
       default: {
         return state
-      }
     }
   }
-
-export const addPostActionCreator = (newPost) => ({
-    type: ADD_POST,
-    content: newPost
-})
-
-export const deletePostActionCreator = (element) => ({
-    type: DELETE_POST,
-    element
-})
-
-export const updatePostActionCreator = (element) => ({
-  type: UPDATE_POST,
-  element
-})
-
-export const likePostActionCreator = (post_data) => ({
-  type: LIKE_POST,
-  element: post_data
-})
+}
 
 export const setUserProfile = (profile) => ({
     type: SET_USER_PROFILE, 
@@ -83,37 +33,16 @@ export const setStatus = (text) => ({
     status: text
 })
 
-export const setPostsData = (posts) => ({
-    type: SET_POSTS,
-    posts: posts
-})
-
-export const getProfilePosts = () => async (dispatch) => {
-  const response = await profileAPI.requestPosts()
-  dispatch(setPostsData(response))
-}
-
-export const deletePost = (id) => async (dispatch) => {
-  const response = await profileAPI.deletePost(id)
-  dispatch(deletePostActionCreator(response.data))
-}
-
-export const editPost = (post) => async (dispatch) => {
-  const response = await profileAPI.editPost(post)
-  dispatch(updatePostActionCreator(response.data)) // updatePostActionCreator is not needed 
-}
-
-export const likePost = (post_id, user_id) => async (dispatch) => {
-  const response = await profileAPI.likePost(post_id, user_id)
-  dispatch(likePostActionCreator(response.data))
-}
-
-export const sendNewPost = (message = "message") => async (dispatch) => {
-  const response = await profileAPI.sendNewPost(message)
-  dispatch(addPostActionCreator(response.data))
+export const getAuthProfile = () => async (dispatch) => {
+  console.log('getAuthProfile')
+  const response = await profileAPI.getAuthProfile()
+  if(response.status === 200){
+    dispatch(setUserProfile(response.data))
+  }
 }
 
 export const getUserProfile = (userId) => async (dispatch) => {
+  console.log('getUserProfile')
   const response = await profileAPI.getProfile(userId)
   if(response.status === 200){
     dispatch(setUserProfile(response.data))
@@ -122,7 +51,11 @@ export const getUserProfile = (userId) => async (dispatch) => {
 
 export const editProfileInfo = (formData) => async(dispatch) => {
   const response = await profileAPI.editInfo(formData)
-  console.log("EDIT PROFILE INFO RESPONSE", response)
+  dispatch(setUserProfile(response.data))
+}
+
+export const uploadImage = (formData) => async(dispatch) => {
+  const response = await profileAPI.uploadImage(formData)
   dispatch(setUserProfile(response.data))
 }
 

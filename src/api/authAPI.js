@@ -18,6 +18,7 @@ const my_instance = axios.create({
 
 export const authAPI = {
     me(){
+        console.log('Auth me')
         return my_instance.get(`/me`) 
     },
     login(email, password, rememberMe = false){

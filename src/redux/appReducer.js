@@ -1,5 +1,5 @@
 import { getAuthUserData } from "./authReducer"
-
+import { getAuthProfile } from "./profileReducer"
 
 const INITIALIZATION_SUCCESS = 'social-network/app/INITIALIZATION_SUCCESS'
 
@@ -22,7 +22,9 @@ const appReducer = (state = initialState, action) => {
 export const initializedSuccess = () => ({type: INITIALIZATION_SUCCESS})
 
 export const initializeApp = () => async (dispatch) => {
+    console.log('initializeApp getAuthUserData')
         await dispatch(getAuthUserData())
+        await dispatch(getAuthProfile())
         dispatch(initializedSuccess())
 }
 
