@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Profile from './Profile'
-import { getStatus, updateStatus, 
+import { getAuthProfile, getStatus, updateStatus, 
     editProfileInfo, uploadImage} from '../../redux/profileReducer'
 import { getProfilePosts} from '../../redux/postsReducer'    
 import { Redirect, withRouter } from 'react-router'
@@ -18,16 +18,22 @@ class ProfileContainer extends React.Component{
         let userId = this.props.match.params.userId //что это за магия?
         if(!userId) {
             userId=this.props.authorizedUserId
+            this.props.getAuthProfile()
             if(!userId){
                 this.props.history.push("/login")
             }
         }
-        this.props.getStatus(userId)
-        this.props.getProfilePosts() 
+        console.log("authorizedUserId", this.props.authorizedUserId)
+        if(!this.props.profile){
+            this.props.getAuthProfile()
+            this.props.getStatus(userId)
+            this.props.getProfilePosts() 
+        }
     }
     render(){
         return (
             <Profile {...this.props} profile={this.props.profile}
+            getAuthProfile={this.props.getAuthProfile}
             status={this.props.status} 
             updateStatus={this.props.updateStatus}
             editProfileInfo={this.props.editProfileInfo}
@@ -45,7 +51,7 @@ let mapStateToProps = (state) => ({
 
 export default compose (
     connect (mapStateToProps, 
-    {getStatus, getProfilePosts, updateStatus, editProfileInfo, uploadImage}),
+    {getAuthProfile, getStatus, getProfilePosts, updateStatus, editProfileInfo, uploadImage}),
     withRouter,
 //    withAuthRedirect
 )

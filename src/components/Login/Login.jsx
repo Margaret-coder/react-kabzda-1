@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import {reduxForm} from 'redux-form'
 import {loginUser} from '../../redux/authReducer'
+import {getAuthProfile} from '../../redux/profileReducer'
 import { maxLengthCreator, required } from '../../utils/validators/validators'
 import { createField, Input } from '../Common/FormControls/FormControls'
 import style from '../Common/FormControls/FormControls.module.css'
@@ -28,6 +29,7 @@ const Login = (props) => {
     const onSubmit = (formData) => {
         let {email, password, rememberMe} = formData
         props.loginUser(email, password, rememberMe)
+        props.getAuthProfile()
     }
     if(props.isAuth){
         return<Redirect to="/profile"/>
@@ -42,4 +44,4 @@ const mapStateToProps = (state) => ({
     isAuth: state.auth.isAuth
 })
 
-export default connect (mapStateToProps, {loginUser})(Login)
+export default connect (mapStateToProps, {loginUser, getAuthProfile})(Login)

@@ -61,15 +61,18 @@ router.get('/profile/:id', async(req, res) => {
 
 router.get('/profile', async(req, res) => {
     console.log("GET AUTHORIZED PROFILE")
-    Profile.findOne({userId: req.session.user.id}, function(err, profile) {
-        console.log("req.session.user.id", req.session.user.id)
-        if(profile) {
-            console.log(profile)
-            res.send(profile)
-        }
-        else if(err) res.send(err)
-        else res.send(null)
-    })
+    if(req.session.user){
+        Profile.findOne({userId: req.session.user.id}, function(err, profile) {
+            console.log("req.session.user.id", req.session.user.id)
+            if(profile) {
+                console.log(profile)
+                res.send(profile)
+            }
+            else if(err) res.send(err)
+            else res.send(null)
+        })
+    }
+    else res.send(null)
 })
 
 router.get('/profiles', async(req, res) => {
