@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import {reduxForm} from 'redux-form'
 import {registrationUser} from '../../redux/authReducer'
+import {createNewProfile} from '../../redux/profileReducer'
 import { maxLengthCreator, required } from '../../utils/validators/validators'
 import { createField, Input } from '../Common/FormControls/FormControls'
 import style from '../Common/FormControls/FormControls.module.css'
@@ -25,14 +26,19 @@ const RegistrationForm = (props) => {
 const RegistrationReduxForm = reduxForm({form: 'registration'})(RegistrationForm)
 
 const Registration = (props) => {
+    console.log('REGISTRATION')
     const onSubmit = (formData) => {
         let {login, email, password} = formData
         console.log("login, email, password", login, email, password)
         console.log("props.isAuth", props.isAuth)
         props.registrationUser(login, email, password)
     }
+    console.log('reg props.isAuth', props.isAuth)
     if(props.isAuth){
-        return<Redirect to="/profile"/>
+        return<Redirect  to={{
+            pathname: "/profile",
+            state: { editMode: true }
+        }}/>
     }
     return <div>
         <h1>Registration</h1>
@@ -44,4 +50,4 @@ const mapStateToProps = (state) => ({
     isAuth: state.auth.isAuth
 })
 
-export default connect (mapStateToProps, {registrationUser})(Registration)
+export default connect (mapStateToProps, {registrationUser, createNewProfile})(Registration)

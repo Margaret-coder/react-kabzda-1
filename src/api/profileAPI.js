@@ -17,16 +17,12 @@ const my_instance = axios.create({
 
 export const profileAPI = {
     /* PROFILE */
-    getAuthProfile(){
-        return my_instance.get(`profile/`)
-    },
     getProfile(userId){
+        console.log('GET PROFILE API userId:', userId)
         return my_instance.get(`profile/` + userId)
     },
-    setProfile(avaPath, status, aboutMe, contacts, 
-        lookingForJob, LFJobDescription, fullname, imageFormData){
-        return my_instance.post(`profile/` + {avaPath, status, aboutMe, 
-            contacts, lookingForJob, LFJobDescription, fullname, imageFormData})
+    createNewProfile(){
+        return my_instance.post(`profile/`)
     },
     /* IMAGE */
     uploadImage(formData){
@@ -43,31 +39,8 @@ export const profileAPI = {
     /* INFO */
     editInfo(formData){
         return my_instance.post(`/profile/edit_profile`, formData)
-    },
-    /* POSTS */
-    deletePost(post_id){
-        const url = URL_str + '/posts/' + post_id
-        return axios.delete(url)
-    },
-    editPost(post){
-        const url = URL_str + '/posts/' + post._id
-        return axios.patch(url, 
-            {message: post.message})
-    },
-    likePost(post_id, user_id ){
-        const url = URL_str + '/posts/' + post_id
-        return axios.patch(url, {user_id: user_id})
-    },
-    requestPosts(){
-        return axios.get(`${URL_str}posts/`, 
-        {crossdomain: true}).then(response => {
-            return response.data
-        })
-    },
-    sendNewPost(message){
-        return axios.post(`${URL_str}posts/`, {message})
     }
-}
+}    
 
 /* samurai */
 //export const profileAPI = {

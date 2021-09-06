@@ -3,6 +3,7 @@ const Profile = require("../models/Profile")
 const router = express.Router()
 const multer = require("multer")
 const { connection } = require("mongoose")
+const saveEmptyProfile = require("./routeUtils")
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "./")
@@ -45,34 +46,61 @@ router.get('/profile/status/:id', async(req, res) => {
             if(profile) {
                 res.send(profile.status)
             }
-            else res.send(null)
-        })
-    }
-})
-
-router.get('/profile/:id', async(req, res) => {
-    if(req.session&&req.session.user) { 
-        Profile.findOne({userId: req.session.user.id}, function(err, profile) {
-            if(profile) res.send(profile)
-            else res.send(null)
+            else {
+                console.log("GET PROFILE res.send(null)")
+                res.send(null)
+            }
         })
     }
 })
 
 router.get('/profile', async(req, res) => {
-    console.log("GET AUTHORIZED PROFILE")
-    if(req.session.user){
+    console.log('---GET PROFILE')
+    if(req.session&&req.session.user) { 
         Profile.findOne({userId: req.session.user.id}, function(err, profile) {
-            console.log("req.session.user.id", req.session.user.id)
             if(profile) {
-                console.log(profile)
+                console.log('GOT PROFILE:', profile)
                 res.send(profile)
             }
-            else if(err) res.send(err)
-            else res.send(null)
+            else {
+                console.log('PROFILE NULL')
+                res.send(null)
+            }
         })
     }
-    else res.send(null)
+    else console.log('NO PROFILE. req.session:::', req.session)
+})
+
+router.get('/profile/:id', async(req, res) => {
+    console.log('GET PROFILE BY ID')
+    if(req.session&&req.session.user) { 
+        Profile.findOne({userId: req.session.user.id}, function(err, profile) {
+            if(profile) {
+                console.log("got PROFILE:", profile)
+                res.send(profile)
+            }
+            else {
+                res.send(null)
+            }
+        })
+    }
+    else console.log('NO PROFILE. req.session:::', req.session)
+})
+
+router.post('/profile', async(req, res) => {
+    console.log("CREATE NEW PROFILE")
+    console.log("req.body.id", req.body.id)
+    console.log('req.session.user', req.session.user)
+    const id = req.session.user ? req.session.user.id : req.body.id
+    console.log('id', id)
+    if(id){
+        const profile = saveEmptyProfile(id)
+        res.send(profile)
+    }
+    else {
+        console.log("no user created")
+        res.send("no user created")
+    }
 })
 
 router.get('/profiles', async(req, res) => {
@@ -95,6 +123,12 @@ router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => 
         Profile.findOne({userId: id}, function(err, profile){
             if(profile) {
                 profile.avaPath = image
+                profile.status = req.body.status,
+                profile.aboutMe = req.body.aboutMe,
+                profile.contacts = req.body.contacts,
+                profile.lookingForJob = req.body.lookingForJob,
+                profile.LFJobDescription = req.body.jobDescription,
+                profile.fullname = req.body.fullname
                 profile.save(function(err){
                     if(err){
                         return res.send('/image', {

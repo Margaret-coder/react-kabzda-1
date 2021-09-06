@@ -1,8 +1,10 @@
 import s from "./ProfileInfo.module.css"
 import { Field, reduxForm } from "redux-form"
+import { Redirect, withRouter } from 'react-router';
 import { Textarea, Input, createField, createFieldsArray } from "../../Common/FormControls/FormControls"
 import { maxLengthCreator, required } from "../../../utils/validators/validators"
 import { useEffect, useState } from "react"
+import { useHistory } from "react-router-dom";
 
 const maxLength10 = maxLengthCreator(10)
 let editInfoFormData = new FormData()
@@ -60,6 +62,8 @@ const ProfileInfoEditModeReduxForm = reduxForm({form: 'profile_info_edit'})(Prof
 const ProfileInfoContactsReduxForm = reduxForm({form: 'profile_contacts'})(ProfileInfoContacts_Form)
 
 const ProfileInfoEditMode = (props) => {
+let history = useHistory();
+
     const onSubmitForm = (formData) => {
         let {aboutMe, lookingForJob, jobDescription, fullname} = formData
         console.log("Contacts:", contacts_arr)
@@ -77,6 +81,10 @@ const ProfileInfoEditMode = (props) => {
         editInfoFormData.set("jobDescription", jobDescription)
         editInfoFormData.set("fullname", fullname)
         props.editProfileInfo(editInfoFormData)
+        history.push({
+            pathname: "/profile",
+            state: { editMode: false }
+        })
     }
     
     const onSubmit = (formData) => {

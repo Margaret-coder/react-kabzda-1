@@ -5,7 +5,7 @@ const SET_USER_DATA = 'social-network/auth/SET_USER_DATA'
 
 let initialState = {
     userId: null,
- //   email: null,
+    email: null,
     login: null,
     isAuth: false
 }
@@ -28,7 +28,9 @@ const authReducer = (state = initialState, action) => {
 export const loginUser = (email, password, rememberMe = false) => 
 async (dispatch) => {
     let response = await authAPI.login(email, password, rememberMe)
+    console.log('response', response)
     if(response.status === 200){
+        console.log('response', response)
         dispatch(getAuthUserData())
     } else {
         let message = 'Zaglushko error strashne'
@@ -56,17 +58,22 @@ async (dispatch) => {
     }
 }
 
-export const setAuthUserData = (userId, login, isAuth) => 
-({type: SET_USER_DATA, data:{userId, login, isAuth}})
+export const setAuthUserData = (userId, login, email, isAuth) => 
+({type: SET_USER_DATA, data:{userId, login, email, isAuth}})
 
 export const getAuthUserData = () => async (dispatch) => {
+    console.log('getAuthUserData')
     let response = await authAPI.me()
+    console.log('getAuthUserData response', response)
     if(response.data&&response.status === 200){
-            let{id, username} = response.data
-            dispatch(setAuthUserData(id, username, true))
+            let{id, email, username} = response.data
+            console.log('!!!!!!!getAuthUserData ID', id)
+            dispatch(setAuthUserData(id, username, email, true))
+            return(id)
     }
     else {
-        dispatch(setAuthUserData(null, null, false))
+        console.log('No userID response:', response)
+        //dispatch(setAuthUserData(null, null, null, false))
     }
 }
 

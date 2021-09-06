@@ -37,8 +37,10 @@ class App extends React.Component {
         render={withSuspense(DialogsContainer)}/>
         <Route path="/profile/:userId?" 
         render={withSuspense(ProfileContainer)} />
+        {/* <Route forceRefresh={true} path="/profile" 
+        render={withSuspense(ProfileContainer)} /> */}
           <Route path="/users" render={()=><UsersContainer/>}/>
-          <Route path="/login" render={()=><Login/>}/>
+          <Route forceRefresh={true} path="/login" render={()=><Login/>}/>
           <Route path="/registration" render={()=><Registration/>}/>
         </div>
       </div>

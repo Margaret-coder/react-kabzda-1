@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Profile from './Profile'
-import { getAuthProfile, getStatus, updateStatus, 
+import { getUserProfile, getStatus, updateStatus, 
     editProfileInfo, uploadImage} from '../../redux/profileReducer'
 import { getProfilePosts} from '../../redux/postsReducer'    
 import { Redirect, withRouter } from 'react-router'
@@ -10,35 +10,52 @@ import { compose } from 'redux'
 
 class ProfileContainer extends React.Component{
     componentDidUpdate(){
+        console.log('PROFILE componentDidUpdate:::this.props.authorizedUserId', this.props.authorizedUserId)
+        console.log('PROFILE componentDidUpdate:::this.props.profile', this.props.profile)
+
         if(!this.props.authorizedUserId) { // redirect to Login page if logout
             this.props.history.push("/login")
         }
+        // else if(this.props.authorizedUserId && !this.props.profile){
+        //     console.log('PROFILE componentDidUpdate:::this.props.authorizedUserId', this.props.authorizedUserId)
+        //     var profile = this.props.getUserProfile(this.props.authorizedUserId)
+        //     console.log('PROFILE componentDidUpdate:::got Profile', profile)
+        // }
     }
     componentDidMount(){
-        let userId = this.props.match.params.userId //что это за магия?
-        if(!userId) {
-            userId=this.props.authorizedUserId
-            this.props.getAuthProfile()
-            if(!userId){
-                this.props.history.push("/login")
+        console.log('---!!!!!!!!!this.props.location.state.editMode', this.props.location.state.editMode)
+        // console.log('GET USER PROFILE Profile Container')
+        // this.props.getUserProfile('612bd21a161f432be88fe666')
+        // let userId = this.props.match.params.userId //что это за магия?
+        console.log('PROFILE componentDidMount:::this.props.authorizedUserId', this.props.authorizedUserId)
+        if(this.props.authorizedUserId){
+            console.log('PROFILE componentDidMount:::getting Profile, userId', this.props.authorizedUserId)
+            var profile = this.props.getUserProfile(this.props.authorizedUserId)
+            console.log('PROFILE componentDidMount:::got Profile', profile)
+            if(profile){
+                this.props.getStatus(this.props.authorizedUserId)
+                this.props.getProfilePosts() 
             }
         }
-        console.log("authorizedUserId", this.props.authorizedUserId)
-        if(!this.props.profile){
-            this.props.getAuthProfile()
-            this.props.getStatus(userId)
-            this.props.getProfilePosts() 
-        }
+        else this.props.history.push("/login")
     }
     render(){
-        return (
-            <Profile {...this.props} profile={this.props.profile}
-            getAuthProfile={this.props.getAuthProfile}
-            status={this.props.status} 
-            updateStatus={this.props.updateStatus}
-            editProfileInfo={this.props.editProfileInfo}
-            uploadImage={this.props.uploadImage}/>
-        )
+        if (!this.props.authorizedUserId) {
+            console.log('REDIRECT TO LOGIN ::: !props.authorizedUserId && !props.profile')
+            return <Redirect to="/login"/>
+        }
+        else {
+            console.log('RENDER Profile Container this.props.profile', this.props.profile)
+            return (
+                <Profile {...this.props} 
+                editMode={this.props.location.state.editMode}
+                profile={this.props.profile}
+                status={this.props.status} 
+                updateStatus={this.props.updateStatus}
+                editProfileInfo={this.props.editProfileInfo}
+                uploadImage={this.props.uploadImage}/>
+            )
+        }
     }
 }
 
@@ -51,7 +68,7 @@ let mapStateToProps = (state) => ({
 
 export default compose (
     connect (mapStateToProps, 
-    {getAuthProfile, getStatus, getProfilePosts, updateStatus, editProfileInfo, uploadImage}),
+    {getUserProfile, getStatus, getProfilePosts, updateStatus, editProfileInfo, uploadImage}),
     withRouter,
 //    withAuthRedirect
 )

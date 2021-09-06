@@ -1,12 +1,14 @@
+import { Redirect } from "react-router"
+import Preloader from "../Common/Preloader/Preloader"
 import MyPostsContainer from "./MyPosts/MyPostsContainer"
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import ProfileInfoEditMode from "./ProfileInfo/ProfileInfoEditMode"
 const Profile = (props) => {
-    let profile = props.getAuthProfile
-    // if (props.authorizedUserId && !props.profile) {
-    if (props.authorizedUserId && !profile) {
-        // console.log('!props.profile')
-        console.log('No profile data')
+    if(!props.profile && !props.editMode){
+        return <Preloader/>        
+    }
+    else if (props.editMode) {
+        console.log('!props.profile && editMode')
         return (
             <div>
                 <ProfileInfoEditMode profile={props.profile}
@@ -15,8 +17,8 @@ const Profile = (props) => {
             </div>
         )
     }
-    else{
-        console.log('PROFILE')
+    else if(!props.editMode){
+        console.log('else if(props.profile)')
         return (
             <div>
                 <ProfileInfo profile={props.profile}
@@ -26,7 +28,11 @@ const Profile = (props) => {
                 <MyPostsContainer/>
             </div>
         )
-        }    
+    }
+    else {
+        console.log('else <Redirect to="/login"/>')
+        return <Redirect to="/login"/>
+    }      
 }
 
 export default Profile
