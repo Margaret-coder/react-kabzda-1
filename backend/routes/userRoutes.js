@@ -2,27 +2,6 @@ const express = require("express")
 const User = require('../models/User')
 const router = express.Router()
 
-/*Create new user*/
-router.post("/users", async(req, res) => {
-    console.log("post /users new user____")
-    console.log('post req.body', req.body)
-    const user = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
-    })
-    try{
-        console.log("try user save")
-        await user.save()
-    }
-    catch (err){
-        console.log("ERROR:",err)
-        console.log("END_ERR")
-        return res.status(500).send(err)
-    }
-    res.send(user)
-})
-
 router.delete("/users/:id", async(req, res) => {
 	console.log("delete user")
 	try{

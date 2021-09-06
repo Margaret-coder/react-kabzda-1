@@ -27,13 +27,10 @@ export const authAPI = {
     logout(){
         return my_instance.delete(`/login`)
     },
-    // logout(){
-    //     console.log('api.js logout')
-    //     return my_instance.get(`/logout`)
-    // },
     register(username, email, password){
-        console.log("authAPI register `users/`")
-        return my_instance.post(`users/`, {username, email, password})
+        console.log("authAPI register user and create Profile")
+      //  return my_instance.post(`register_user/`, {username, email, password}).then(user => my_instance.post(`profile/`, {id : user.data._id}))
+        return my_instance.post(`registration/`, {username, email, password})
     }
 }
 
