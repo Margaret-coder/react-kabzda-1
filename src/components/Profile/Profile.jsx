@@ -8,7 +8,6 @@ const Profile = (props) => {
         return <Preloader/>        
     }
     else if (props.editMode) {
-        console.log('!props.profile && editMode')
         return (
             <div>
                 <ProfileInfoEditMode profile={props.profile}
@@ -18,7 +17,6 @@ const Profile = (props) => {
         )
     }
     else if(!props.editMode){
-        console.log('else if(props.profile)')
         return (
             <div>
                 <ProfileInfo profile={props.profile}
@@ -30,7 +28,6 @@ const Profile = (props) => {
         )
     }
     else {
-        console.log('else <Redirect to="/login"/>')
         return <Redirect to="/login"/>
     }      
 }

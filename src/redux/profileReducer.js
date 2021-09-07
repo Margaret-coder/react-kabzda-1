@@ -12,7 +12,6 @@ const profileReducer = (state = initialState, action) => {
   switch (action.type){
     case SET_USER_PROFILE: {
       let newState = {...state, profile: action.profile}
-      console.log('SET_USER_PROFILE', newState)
         return newState
       }
       case SET_STATUS: {
@@ -34,19 +33,10 @@ export const setStatus = (text) => ({
     status: text
 })
 
-// export const getUserProfile = async(userId) => {
-//   console.log('GET USER PROFILE userId', userId)
-//     const response = await profileAPI.getProfile(userId)
-//     console.log('RESPONSE', response)
-// }
-
 export const getUserProfile = (userId) => async (dispatch) => {
-  console.log('!!!!!GET USER PROFILE userId<<<<<', userId)
   const response = await profileAPI.getProfile(userId)
   if(response.status === 200){
-    console.log('dispatch should be "dispatch":::', dispatch)
     dispatch(setUserProfile(response.data))
-    console.log('getUserProfile response.data', response.data)
     return response.data
   }
 }

@@ -10,28 +10,13 @@ import { compose } from 'redux'
 
 class ProfileContainer extends React.Component{
     componentDidUpdate(){
-        console.log('PROFILE componentDidUpdate:::this.props.authorizedUserId', this.props.authorizedUserId)
-        console.log('PROFILE componentDidUpdate:::this.props.profile', this.props.profile)
-
         if(!this.props.authorizedUserId) { // redirect to Login page if logout
             this.props.history.push("/login")
         }
-        // else if(this.props.authorizedUserId && !this.props.profile){
-        //     console.log('PROFILE componentDidUpdate:::this.props.authorizedUserId', this.props.authorizedUserId)
-        //     var profile = this.props.getUserProfile(this.props.authorizedUserId)
-        //     console.log('PROFILE componentDidUpdate:::got Profile', profile)
-        // }
     }
     componentDidMount(){
-        console.log('---!!!!!!!!!this.props.location.state.editMode', this.props.location.state.editMode)
-        // console.log('GET USER PROFILE Profile Container')
-        // this.props.getUserProfile('612bd21a161f432be88fe666')
-        // let userId = this.props.match.params.userId //что это за магия?
-        console.log('PROFILE componentDidMount:::this.props.authorizedUserId', this.props.authorizedUserId)
         if(this.props.authorizedUserId){
-            console.log('PROFILE componentDidMount:::getting Profile, userId', this.props.authorizedUserId)
             var profile = this.props.getUserProfile(this.props.authorizedUserId)
-            console.log('PROFILE componentDidMount:::got Profile', profile)
             if(profile){
                 this.props.getStatus(this.props.authorizedUserId)
                 this.props.getProfilePosts() 
@@ -41,11 +26,9 @@ class ProfileContainer extends React.Component{
     }
     render(){
         if (!this.props.authorizedUserId) {
-            console.log('REDIRECT TO LOGIN ::: !props.authorizedUserId && !props.profile')
             return <Redirect to="/login"/>
         }
         else {
-            console.log('RENDER Profile Container this.props.profile', this.props.profile)
             return (
                 <Profile {...this.props} 
                 editMode={this.props.location.state.editMode}
