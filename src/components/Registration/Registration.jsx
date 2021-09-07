@@ -26,14 +26,10 @@ const RegistrationForm = (props) => {
 const RegistrationReduxForm = reduxForm({form: 'registration'})(RegistrationForm)
 
 const Registration = (props) => {
-    console.log('REGISTRATION')
     const onSubmit = (formData) => {
         let {login, email, password} = formData
-        console.log("login, email, password", login, email, password)
-        console.log("props.isAuth", props.isAuth)
         props.registrationUser(login, email, password)
     }
-    console.log('reg props.isAuth', props.isAuth)
     if(props.isAuth){
         return<Redirect  to={{
             pathname: "/profile",

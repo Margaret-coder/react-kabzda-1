@@ -66,14 +66,10 @@ let history = useHistory();
 
     const onSubmitForm = (formData) => {
         let {aboutMe, lookingForJob, jobDescription, fullname} = formData
-        console.log("Contacts:", contacts_arr)
-        console.log("formData:", formData)
         const status = ""
         editInfoFormData.set('userId', props.authorizedUserId)
         editInfoFormData.set("status", status)
         editInfoFormData.set("aboutMe", aboutMe)
-        console.log("contacts_arr[0]:", contacts_arr[0])
-        console.log("contacts_arr[1]:", contacts_arr[1])
 
         editInfoFormData.append("contacts[]", contacts_arr[0])
         editInfoFormData.append("contacts[]", contacts_arr[1])
@@ -88,10 +84,6 @@ let history = useHistory();
     }
     
     const onSubmit = (formData) => {
-        // for (var key in formData) {
-        //     console.log(key, formData[key]);
-        //     contacts.push(formData[key])
-        // }
         const {contacts} = formData
         for (var key in contacts) {
                 contacts_arr.push(contacts[key])
