@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Profile from './Profile'
-import { getUserProfile, getStatus, updateStatus, 
+import { getAuthProfile, getStatus, updateStatus, 
     editProfileInfo, uploadImage} from '../../redux/profileReducer'
 import { getProfilePosts} from '../../redux/postsReducer'    
 import { Redirect, withRouter } from 'react-router'
@@ -16,7 +16,7 @@ class ProfileContainer extends React.Component{
     }
     componentDidMount(){
         if(this.props.authorizedUserId){
-            var profile = this.props.getUserProfile(this.props.authorizedUserId)
+            var profile = this.props.getAuthProfile()
             if(profile){
                 this.props.getStatus(this.props.authorizedUserId)
                 this.props.getProfilePosts() 
@@ -51,7 +51,7 @@ let mapStateToProps = (state) => ({
 
 export default compose (
     connect (mapStateToProps, 
-    {getUserProfile, getStatus, getProfilePosts, updateStatus, editProfileInfo, uploadImage}),
+    {getAuthProfile, getStatus, getProfilePosts, updateStatus, editProfileInfo, uploadImage}),
     withRouter,
 //    withAuthRedirect
 )

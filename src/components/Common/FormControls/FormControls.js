@@ -92,19 +92,3 @@ export const createFieldsArray = (header, arrayName,  placeholders, fieldNames, 
       </ul>
     </div>)
 }
-
-// export const createFieldsArray = (header, name, formName, placeholders, names, components) => {
-//   // console.log(placeholders)
-//   // console.log(names)
-//   // console.log(components)
-//   var rows = [];
-//   for (var i = 0; i < 2; i++) {
-//     // rows.push(<div key={i} >{createField(placeholders[i], names[i], components[i])}</div>);
-//     rows.push(<div key={i} >{createField(placeholders[i], names[i], [], components[i], formName)}</div>);
-//   }
-//   console.log('ROWS', rows)
-//   return <div>
-//     <h3>{header}:</h3>
-//       <div name={name}>{rows}</div>
-//     </div>;
-//}

@@ -29,12 +29,13 @@ const MyPostsReduxForm = reduxForm({form: 'message form'})
 
 const MyPosts = (props) => {
     let postsElements = props.posts.postsData.map(
-        p=><Post key={p._id} post={p} deletePost={props.deletePost}
-        editPost={props.editPost} likePost={props.likePost}/>)
+        post=><Post key={post._id} post={post} deletePost={props.deletePost}
+        editPost={props.editPost} likePost={props.likePost} fullname={post.fullname}
+        img={post.avaPath}/>)
     const addNewPost = (values) => {
      //   props.handleAddPost(values.newPostText)
-        props.sendNewPost(values.newPostText)
-        values.newPostText = ''
+        props.sendNewPost(values.newPostText, props.authorizedUserId)
+        values.newPostText = '' 
     }
     return (
     <div>

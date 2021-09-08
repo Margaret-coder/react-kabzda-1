@@ -3,6 +3,7 @@ const Post = require("../models/Post")
 const router = express.Router()
 
 router.get("/posts", async(req, res) => {
+	console.log("GET POSTS")
     const posts = await Post.find()
     res.send(posts)
 })
@@ -20,8 +21,18 @@ router.get("/posts/:id", async(req, res) => {
 })
 
 router.post("/posts", async (req, res) => {
+	var userId
+    if(req.session&&req.session.user){
+		console.log("Post new message req.session.user", req.session.user.id)
+		userId = req.session.user.id
+	}
+	else {
+		console.log("Post new message req.body.userId", req.body)
+		userId = req.body.userId
+	}
 	console.log("post new message")
 	const post = new Post({
+		userId: userId,
 		message: req.body.message,
 		likesCount: 0
 	})

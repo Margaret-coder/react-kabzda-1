@@ -38,23 +38,28 @@ class Post extends React.Component {
     }
     render(){
         return (
+            <>
             <div className={s.item}>
-                <img src="https://images.pexels.com/photos/905021/pexels-photo-905021.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="avatar"/>
-            {this.state.editPost ? 
-            <span><textarea value={this.state.message}
-            onBlur={this.deactivateEditMode}
-            autoFocus={true}
-            onChange={this.onTextChange}/></span> 
-            : <span>{this.props.post.message}</span>}
-            <div>
-            <span>like:{this.props.post.likesCount}</span>
-            <div>
-                <span><button onClick={() => this.onDeleteButtonClick(this.props.post._id)}>delete</button></span>
-                <span><button onClick={this.activateEditMode}>edit</button></span>
-                <span><button onClick={() => this.Like(this.props.post._id)}>like</button></span>
+                <div>
+                    <img src={this.props.img} alt="avatar"/>
+                    <span>{this.props.post.fullname}</span>
+                    {this.state.editPost ? 
+                    <div><textarea value={this.state.message}
+                    onBlur={this.deactivateEditMode}
+                    autoFocus={true}
+                    onChange={this.onTextChange}/></div> 
+                    : <div>{this.props.post.message}</div>}
+                    <div>
+                    <div>like:{this.props.post.likesCount}</div>
+                </div>
+                <div>
+                    <span><button onClick={() => this.onDeleteButtonClick(this.props.post._id)}>delete</button></span>
+                    <span><button onClick={this.activateEditMode}>edit</button></span>
+                    <span><button onClick={() => this.Like(this.props.post._id)}>like</button></span>
+                </div>
+                </div>
             </div>
-            </div>
-        </div>
+            </>
         )
     }
 }

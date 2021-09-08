@@ -2,7 +2,9 @@
     color:red;
 }
 .item img{
-    width: 8%;
-    height: 8%;
+    width: 6%;
+    height: 6%;
     border-radius:20px;
+    float: left; 
+    margin: 0 [x] [y] 0;
 }
