@@ -33,8 +33,8 @@ export const setStatus = (text) => ({
     status: text
 })
 
-export const getUserProfile = (userId) => async (dispatch) => {
-  const response = await profileAPI.getProfile(userId)
+export const getAuthProfile = () => async (dispatch) => {
+  const response = await profileAPI.getProfile()
   if(response.status === 200){
     dispatch(setUserProfile(response.data))
     return response.data

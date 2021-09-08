@@ -6,6 +6,7 @@ const mongoose = require("mongoose")
 
 
 const postSchema = mongoose.Schema({
+    userId: String,
     message: String,
     likesCount: Number,
     likeIds: [{type: String}]

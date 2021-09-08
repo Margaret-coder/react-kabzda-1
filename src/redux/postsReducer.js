@@ -1,4 +1,5 @@
 import { postsAPI} from "../api/postsAPI"
+import { profileAPI} from "../api/profileAPI"
 
 const ADD_POST = 'social-network/profile/ADD-POST'
 const DELETE_POST = 'social-network/profile/DELETE_POST'
@@ -34,6 +35,7 @@ const profileReducer = (state = initialState, action) => {
         return state // post value is already in state inside class jsx
       }
       case SET_POSTS: {
+        console.log('SET_POSTS')
         return {...state, postsData: action.posts}
       }
       default: {
@@ -68,8 +70,21 @@ export const setPostsData = (posts) => ({
 })
 
 export const getProfilePosts = () => async (dispatch) => {
-  const response = await postsAPI.requestPosts()
-  dispatch(setPostsData(response))
+  const posts = await postsAPI.requestPosts()
+  var profiles = await Promise.all(posts.map(async item => {
+    return await profileAPI.getProfilePostInfo(item.userId)
+  }))
+  const post_profile = posts.map(post => {
+    var found
+    found = profiles.find(profile => profile.userId === post.userId)
+    if(found) {
+      post.fullname = found.fullname
+      post.avaPath = found.avaPath
+      return post 
+    }
+    else {console.log('Not found', post)}
+  })
+  dispatch(setPostsData(post_profile))
 }
 
 export const deletePost = (id) => async (dispatch) => {
@@ -87,8 +102,8 @@ export const likePost = (post_id, user_id) => async (dispatch) => {
   dispatch(likePostActionCreator(response.data))
 }
 
-export const sendNewPost = (message = "message") => async (dispatch) => {
-  const response = await postsAPI.sendNewPost(message)
+export const sendNewPost = (message = "message", userId) => async (dispatch) => {
+  const response = await postsAPI.sendNewPost(message, userId)
   dispatch(addPostActionCreator(response.data))
 }
 

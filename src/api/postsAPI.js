@@ -33,7 +33,7 @@ export const postsAPI = {
             return response.data
         })
     },
-    sendNewPost(message){
-        return my_instance.post(`posts/`, {message})
+    sendNewPost(message, userId){
+        return my_instance.post(`posts/`, {message, userId})
     }
 }

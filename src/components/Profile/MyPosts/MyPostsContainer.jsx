@@ -5,9 +5,11 @@ import { sendNewPost, deletePost, editPost, likePost } from '../../../redux/post
 import MyPosts from './MyPosts'
 
 let mapStateToProps = (state) => {
+    console.log('Posts', state.posts)
     return {
         profilePage: state.profilePage,
-        posts: state.posts
+        posts: state.posts,
+        authorizedUserId: state.auth.userId 
     }
 }
 

@@ -55,11 +55,11 @@ router.get('/profile/status/:id', async(req, res) => {
 })
 
 router.get('/profile', async(req, res) => {
-    console.log('---GET PROFILE')
+    console.log('GET PROFILE BY AUTH DATA')
     if(req.session&&req.session.user) { 
         Profile.findOne({userId: req.session.user.id}, function(err, profile) {
             if(profile) {
-                console.log('GOT PROFILE:', profile)
+                // console.log('GOT PROFILE:', profile)
                 res.send(profile)
             }
             else {
@@ -73,8 +73,9 @@ router.get('/profile', async(req, res) => {
 
 router.get('/profile/:id', async(req, res) => {
     console.log('GET PROFILE BY ID')
-    if(req.session&&req.session.user) { 
-        Profile.findOne({userId: req.session.user.id}, function(err, profile) {
+    console.log('REQ.params:::', req.params.id)
+    if(req.params.id) { 
+        Profile.findOne({userId: req.params.id}, function(err, profile) {
             if(profile) {
                 console.log("got PROFILE:", profile)
                 res.send(profile)
@@ -84,7 +85,7 @@ router.get('/profile/:id', async(req, res) => {
             }
         })
     }
-    else console.log('NO PROFILE. req.session:::', req.session)
+    else console.log('NO PROFILE. req.params.id:::', req.params.id)
 })
 
 router.post('/profile', async(req, res) => {
@@ -112,7 +113,7 @@ router.get('/profiles', async(req, res) => {
 router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => {
     console.log("POST EDIT/CREATE PROFILE")
 //    console.log("req.session.user.id create profile", req.session.user.id) // session in not available in formData req
-    console.log("req.body", req.body)
+//ss    console.log("req.body", req.body)
     const image = req.file.filename
     const id = req.body.userId
     console.log('User id', id)
