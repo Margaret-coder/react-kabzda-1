@@ -73,11 +73,9 @@ router.get('/profile', async(req, res) => {
 
 router.get('/profile/:id', async(req, res) => {
     console.log('GET PROFILE BY ID')
-    console.log('REQ.params:::', req.params.id)
     if(req.params.id) { 
         Profile.findOne({userId: req.params.id}, function(err, profile) {
             if(profile) {
-                console.log("got PROFILE:", profile)
                 res.send(profile)
             }
             else {

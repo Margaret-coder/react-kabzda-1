@@ -25,6 +25,7 @@ const LoginForm = (props) => {
 const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)
 
 const Login = (props) => {
+    console.log('props.error_message:::', props)
     const onSubmit = (formData) => {
         let {email, password, rememberMe} = formData
         props.loginUser(email, password, rememberMe)
@@ -38,11 +39,13 @@ const Login = (props) => {
     return <div>
         <h1>Login</h1>
         <LoginReduxForm onSubmit={onSubmit}/>
+        <span className={style.error}>{props.error_message}</span>
     </div>
 }
 
 const mapStateToProps = (state) => ({
-    isAuth: state.auth.isAuth
+    isAuth: state.auth.isAuth,
+    error_message: state.auth.error_message
 })
 
 export default connect (mapStateToProps, {loginUser})(Login)
