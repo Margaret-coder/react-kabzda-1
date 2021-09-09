@@ -72,19 +72,22 @@ router.post("/login", async(req, res) => {
                         }
                         if(!isMatch){
                             console.log('No match')
+                            return res.status(403).json({message:"Wrong password"})
+                        }
+                        else{
+                            createSession(user, req, res)
+                            // res.send(user)
+                            res.redirect('/api/profile')
                         }
                     }
                     catch(e){
                         console.log("catch:", e.message)
                     }
-                    createSession(user, req, res)
-                    // res.send(user)
-                    res.redirect('/api/profile')
                 })
             }  
             else {
-                console.log("Wrong data! User not found")
-                res.send("Wrong input data, no match in db")
+                console.log("User not found")
+                return res.status(403).json({message:"User not found"})
             }
         }
         })

@@ -2,23 +2,30 @@ import { authAPI } from "../api/authAPI"
 import {stopSubmit} from "redux-form" 
 
 const SET_USER_DATA = 'social-network/auth/SET_USER_DATA'
+const SET_ERROR_MESSAGE = 'social-network/auth/SET_ERROR_MESSAGE'
 
 let initialState = {
     userId: null,
     email: null,
     login: null,
-    isAuth: false
+    isAuth: false,
+    error_message: ""
 }
 
 const authReducer = (state = initialState, action) => {
     switch(action.type){
         case SET_USER_DATA:{
-            console.log('SET_USER_DATA')
+            console.log('SET_USER_DATA', action.data)
+            return {...state, ...action.data}
+        }
+        case SET_ERROR_MESSAGE:{
+            console.log('SET_ERROR_MESSAGE', action.error_message)
             let newState = { 
                 ...state, 
-                ...action.data
+                error_message: action.error_message
             }
-             return newState
+            console.log(newState)
+            return newState
         }
         default: 
         return state
@@ -27,12 +34,21 @@ const authReducer = (state = initialState, action) => {
 
 export const loginUser = (email, password, rememberMe = false) => 
 async (dispatch) => {
-    let response = await authAPI.login(email, password, rememberMe)
-    if(response.status === 200){
-        dispatch(getAuthUserData())
-    } else {
-        let message = 'Zaglushko error strashne'
-        dispatch(stopSubmit('login', {_error: message}))
+    try{
+        let response = await authAPI.login(email, password, rememberMe)
+        console.log('loginUser', response)
+        if(response.status === 200){
+            dispatch(getAuthUserData())
+        } else {
+            let message = 'Zaglushko error strashne'
+            dispatch(stopSubmit('login', {_error: message}))
+        }
+    }
+    catch (e) {
+        if (e.response && e.response.data) {
+          console.log(e.response.data.message)
+          dispatch(setErrorMessage(e.response.data.message))
+        }
     }
 }
 
@@ -52,6 +68,11 @@ async (dispatch) => {
         dispatch(stopSubmit('registration', {_error: 'Error'}))
     }
 }
+
+export const setErrorMessage = (text) => ({
+    type: SET_ERROR_MESSAGE,
+    error_message: text
+})
 
 export const setAuthUserData = (userId, login, email, isAuth) => 
 ({type: SET_USER_DATA, data:{userId, login, email, isAuth}})
