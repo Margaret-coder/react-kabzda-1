@@ -1,12 +1,12 @@
 import s from "./ProfileInfo.module.css"
 import blankImage from "../../../assets/images/samurai.png"
-import Preloader from "../../Common/Preloader/Preloader"
 import ProfileStatusWithHooks from "../ProfileStatusWithHooks"
-import { useEffect, useState } from "react"
-import * as axios from 'axios'
+import { Redirect } from 'react-router'
+import { Link } from 'react-router-dom'
+import { useState } from "react"
 
 const ProfileInfo = (props) => {
-    const [uploadStatus, setUploadStatus] = useState('');
+    const [uploadStatus] = useState('');
     const imageHandler = (event) => {
         const file = event.target.files[0]
         const formData = new FormData()
@@ -18,18 +18,16 @@ const ProfileInfo = (props) => {
     return (
         <div>
             <div className={s.item}>
-                {/* <img
-                    src="https://images.pexels.com/photos/1143006/pexels-photo-1143006.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                    alt="sea img"
-                /> */}
                 <div className={s.descriptionBlock}>
-                    {/* <img src={props.profile.photos.large} alt="large_pic"/> */}
                     <img src={props.profile.avaPath ? props.profile.avaPath : blankImage} alt="large_pic"/>
                 </div>
                 <div>
             <div className={s.item}>
             <input type="file" name="image" accept="image/*" multiple={false} onChange={imageHandler} />
-            <h2> {uploadStatus} </h2>
+            <div><Link to = {{
+            pathname: "/profile",
+            state: { editMode: true }}
+        }><button>Edit profile</button></Link></div>
             </div>
         </div>
                 <div>
