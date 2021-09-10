@@ -39,6 +39,7 @@ async (dispatch) => {
         console.log('loginUser', response)
         if(response.status === 200){
             dispatch(getAuthUserData())
+            dispatch(setErrorMessage(""))
         } else {
             let message = 'Zaglushko error strashne'
             dispatch(stopSubmit('login', {_error: message}))
