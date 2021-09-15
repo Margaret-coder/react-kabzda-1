@@ -1,10 +1,32 @@
 .item{
     color:red;
+    max-width: 40%;
+    border: 1px solid violet;
 }
-.item img{
-    width: 6%;
-    height: 6%;
-    border-radius:20px;
-    float: left; 
-    margin: 0 [x] [y] 0;
+.upperBlock{
+    overflow: auto;
+}
+.upperBlock span{
+    max-width: 10%;
+    /* border: 1px solid blueviolet; */
+    float:left;
+}
+.upperBlock div{
+    /* border: solid 1px gold; */
+}
+.photoImage {
+    max-width:90%;
+    height:auto;
+}
+.item .operations{
+    padding-bottom: 5px;
+    /* border: solid 1px red; */
+}
+.message div{
+    margin:1%;
+    /* border: solid black 2px; */
+    margin-left: 13%;
+}
+.message textarea{
+    width: 98%;
 }
