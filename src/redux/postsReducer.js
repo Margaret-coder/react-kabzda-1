@@ -99,12 +99,14 @@ export const editPost = (post) => async (dispatch) => {
 
 export const likePost = (post_id, user_id) => async (dispatch) => {
   const response = await postsAPI.likePost(post_id, user_id)
-  dispatch(likePostActionCreator(response.data))
+ // dispatch(likePostActionCreator(response.data)) // likePostActionCreator is not needed
+  dispatch(getProfilePosts())
 }
 
 export const sendNewPost = (message = "message", userId) => async (dispatch) => {
   const response = await postsAPI.sendNewPost(message, userId)
-  dispatch(addPostActionCreator(response.data))
+//  dispatch(addPostActionCreator(response.data)) // addPostActionCreator is not needed
+  dispatch(getProfilePosts())
 }
 
 export default profileReducer
