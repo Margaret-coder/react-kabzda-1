@@ -12,19 +12,16 @@ let contacts_arr = []
 
 const ProfileInfoContacts_Form = (props) => {
     const profile = props.profile
-    var Fields_content_placeholders = {}
-    Fields_content_placeholders.phone = "Phone" 
-    Fields_content_placeholders.address = "Address:" 
-    if(profile&&profile.contacts){
-        Fields_content_placeholders.phone = profile.contacts[0] 
-        Fields_content_placeholders.address = profile.contacts[1]
-    }
+    const [phone, setPhone] = useState(profile.contacts[0]) 
+    const [address, setAddress] = useState(profile.contacts[1]) 
+    // console.log('phone:::', phone)
+    // console.log('address:::', address)
     return (
             <form onSubmit={props.handleSubmit} className={s.profileInfoBlock}>
             <div>
-                {createFieldsArray("Contacts", "contacts", 
-                [Fields_content_placeholders.phone, Fields_content_placeholders.address], 
-                ['phone', 'address'], Input)}
+                {createFieldsArray("Contacts", "contacts", ['Phone', 'Address'], ['phone', 'address'],
+                Input, [{value:phone, onChange:(e) => setPhone(e.target.value)},
+                    {value:address, onChange:(e) => setAddress(e.target.value)}])}
             </div> 
             <div>
                 <button>Save info contacts</button>
@@ -35,33 +32,34 @@ const ProfileInfoContacts_Form = (props) => {
 
 const ProfileInfoEditMode_Form = (props) => {
     const profile = props.profile
+    const [aboutMe, setAboutMe] = useState(profile.aboutMe) 
+    const [jobDescription, setLFJobDescription] = useState(profile.LFJobDescription) 
+    const [fullname, setFullname] = useState(profile.fullname) 
     var Fields_content_placeholders = {}
+    var Fields_content_values = {}
     Fields_content_placeholders.aboutMe = "About me:" 
     Fields_content_placeholders.jobDescription = "Job description:" 
     Fields_content_placeholders.fullname = "Fullname:" 
-    if(profile){
-        Fields_content_placeholders.aboutMe = profile.aboutMe 
-        Fields_content_placeholders.jobDescription = profile.LFJobDescription 
-        Fields_content_placeholders.fullname = profile.fullname
-    }
     let [isChecked, setChecked] = useState(false);
-    const fileHandler = (event) => {
-        const file = event.target.files[0]
-        editInfoFormData.set('image', file)
-    }
     return (
             <form onSubmit={props.handleSubmit} className={s.profileInfoBlock}>
                 <div>
-                    {createField("Load image", "image", [], Input, {type:"file", accept:"image/*", multiple:false, 
-                    function:{fileHandler}
+                    {createField("Load image", "image",
+                    [], Input, {type:"file", accept:"image/*", multiple:false, 
+                    onChange:(e) => editInfoFormData.set('image', e.target.files[0])
                     })}
-                    {createField(Fields_content_placeholders.aboutMe, "aboutMe", [required], Input)}
-                    {createField("", "lookingForJob", [], Input, {type: "checkbox", 
+                    {createField(Fields_content_placeholders.aboutMe, "aboutMe", 
+                    [required], Input, {value:aboutMe, onChange:(e) => setAboutMe(e.target.value)},
+                    )}
+                    {createField("", "lookingForJob",
+                    [], Input, {type: "checkbox", 
                     onClick:() => setChecked(!isChecked)}, "looking for a job")}
                     {/* if looking for a job is true */}
-                    {createField (Fields_content_placeholders.jobDescription, "jobDescription", [required, maxLength10], Textarea,
-                    {hidden:!isChecked})}
-                    {createField (Fields_content_placeholders.fullname, "fullname", [required, maxLength10], Input)}
+                    {createField (Fields_content_placeholders.jobDescription, "jobDescription",
+                    [required, maxLength10], Textarea,
+                    {hidden:!isChecked, value:jobDescription, onChange:(e) => setLFJobDescription(e.target.value)})}
+                    {createField (Fields_content_placeholders.fullname, "fullname", 
+                    [required, maxLength10], Input, {value:fullname, onChange:(e) => setFullname(e.target.value)})}
                 </div> 
                 <div>
                     <button>Save info</button>
@@ -76,6 +74,7 @@ const ProfileInfoContactsReduxForm = reduxForm({form: 'profile_contacts'})(Profi
 const ProfileInfoEditMode = (props) => {
     let history = useHistory();
     const onSubmitForm = (formData) => {
+        console.log('-----------------------------Submit Form')
         let {aboutMe, lookingForJob, jobDescription, fullname} = formData
         const status = ""
         editInfoFormData.set('userId', props.authorizedUserId)

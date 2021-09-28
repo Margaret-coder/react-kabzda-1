@@ -15,7 +15,6 @@ let initialState = {
 const authReducer = (state = initialState, action) => {
     switch(action.type){
         case SET_USER_DATA:{
-            console.log('SET_USER_DATA', action.data)
             return {...state, ...action.data}
         }
         case SET_ERROR_MESSAGE:{
