@@ -1,6 +1,12 @@
 export const required = (value) => {
-    if(value) return undefined
-    return "Field is required"
+    console.log('-------///VALIDATOR', value)
+    if(value) {
+        return undefined
+    }
+    else {
+        console.log("-------////Field is required VALUE", value)
+        return "Field is required"
+    }
 }
 
 export const maxLengthCreator = (maxLength) => (value) => {

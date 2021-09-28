@@ -74,11 +74,13 @@ router.get('/profile', async(req, res) => {
 router.get('/profile/:id', async(req, res) => {
     console.log('GET PROFILE BY ID')
     if(req.params.id) { 
+        console.log('ID:::', req.params.id)
         Profile.findOne({userId: req.params.id}, function(err, profile) {
             if(profile) {
                 res.send(profile)
             }
             else {
+                console.log('No profile res.send(null)')
                 res.send(null)
             }
         })
@@ -112,16 +114,16 @@ router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => 
     console.log("POST EDIT/CREATE PROFILE")
 //    console.log("req.session.user.id create profile", req.session.user.id) // session in not available in formData req
 //ss    console.log("req.body", req.body)
-    const image = req.file.filename
+    const image = req.file?req.file.filename:''
     const id = req.body.userId
     console.log('User id', id)
-    if(!req.file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)){
+    if(req.file&&!req.file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)){
         res.send({msg: 'Only image files (jpg, jpeg, png) are allowed!'})
     }
     else{
         Profile.findOne({userId: id}, function(err, profile){
             if(profile) {
-                profile.avaPath = image
+                profile.avaPath = image?image:profile.avaPath
                 profile.status = req.body.status,
                 profile.aboutMe = req.body.aboutMe,
                 profile.contacts = req.body.contacts,
