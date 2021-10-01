@@ -132,7 +132,7 @@ router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => 
                 profile.fullname = req.body.fullname
                 profile.save(function(err){
                     if(err){
-                        return res.send('/image', {
+                        return res.status(412).send({
                             errors:err.errors,
                             profile: profile
                         })
