@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Field } from "redux-form";
+import { required } from "../../../utils/validators/validators";
 import styles from "./FormControls.module.css";
 
 export const Textarea = ({ input, meta, ...props }) => {
@@ -48,13 +49,24 @@ export const Input = (data) => {
       );
     }
     else {
-      console.log('!!!hasError', hasError)
-      console.log('!!!input:::', <input {...input} {...props}/>)
-      console.log('!!!meta', meta)
+      meta.pristine = false
+      meta.dirty = true
+      meta.valid = true
+      meta.visited = true
+      meta.initial = ''
+      meta.touched = true
+      // console.log('!!!hasError', hasError)
+      if(input.name==="fullname"){
+        console.log('!!!input:::', <input {...input} {...props}/>)
+      }
+      // console.log('!!!meta', meta)
       return (
           <div className={hasError ? styles.error : ""}>
             <div>
-              <input {...input} {...props}/>
+              <input {...input} {...props} 
+              onFocus = {props.onFocus}
+              // onFocus = {(e) => {console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')}}
+              />
             </div>
             {hasError && <span>{meta.error}</span>}
           </div>
@@ -64,9 +76,13 @@ export const Input = (data) => {
 };
 
 export const createField = (placeholder, name, validators, component, props = {}, text = "") => {
-  console.log('FIELD:::', <Field props={props} placeholder={placeholder} name={name} 
-  validate={validators} component={component}
-/>)
+  // if(name==="fullname"){
+  //   console.log('Create Field::: Field Validate={validators}')
+  //   console.log('FIELD:::', <Field props={props} placeholder={placeholder} name={name}
+  //   component={component}
+  //   /> )
+  // } 
+  console.log('VALIDATORS', validators)
   return(
   <div>
     <Field props={props} placeholder={placeholder} name={name} 
