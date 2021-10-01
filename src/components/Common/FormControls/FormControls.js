@@ -63,3 +63,4 @@ export const createFieldsArray = (header, arrayName, placeholders, fieldNames, c
     </ul>
   </div>)
 }
+
