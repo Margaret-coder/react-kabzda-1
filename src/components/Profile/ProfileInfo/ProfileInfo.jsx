@@ -42,7 +42,8 @@ const ProfileInfo = (props) => {
                         return (
                         <li key={key} className={s.no_bullets}>{props.profile.contacts[key]}</li>
                         )
-                    })}</ul>
+                    })}
+                </ul>
                 {/* <div>Looking for a job: {props.profile.lookingForAJob.toString()}</div> */}
                 <div>Looking for a job: <input type="checkbox" defaultChecked={props.profile.lookingForJob.toString()}/></div>
                 {/* <div>Looking for a job description: {props.profile.lookingForAJobDescription}</div> */}
