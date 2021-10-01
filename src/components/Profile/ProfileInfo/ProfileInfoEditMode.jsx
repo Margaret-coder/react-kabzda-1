@@ -1,5 +1,5 @@
 import s from "./ProfileInfo.module.css"
-import { Field, reduxForm, change } from "redux-form"
+import { Field, reduxForm } from "redux-form"
 import { Redirect, withRouter } from 'react-router';
 import { Textarea, Input, createField, createFieldsArray } from "../../Common/FormControls/FormControls"
 import { maxLengthCreator, required } from "../../../utils/validators/validators"
@@ -41,46 +41,6 @@ const ProfileInfoEditMode_Form = (props) => {
     Fields_content_placeholders.jobDescription = "Job description:" 
     Fields_content_placeholders.fullname = "Fullname:" 
     let [isChecked, setChecked] = useState(false);
-    const clickHandler = (e) => {
-        setAboutMe('AAAAAAAAA')
-        setLFJobDescription('BBBBBBBB')
-        setFullname('CCCCCCCCCCCCC')
-        var node = document.getElementsByName('fullname')[0]
-
-    //     console.log('-----------------------------BUTTON CLICK')
-    //     console.log(e)
-    //     var node = document.getElementsByName('fullname')[0];
-    //     console.log('----------NODE', node)
-    //     var ev = new Event('change', { bubbles: true});
-    //     ev.simulated = true;
-    //     console.log('NODE.value', node.value)
-    //     var ev4 = new Event('input', {
-    //         bubbles: true
-    //      });
-    //     var ev5 = new Event('focus', {
-    //         bubbles: true
-    //      });
-    //     var ev3 = new MouseEvent('click', {
-    //         'view': window, 
-    //         'bubbles': true, 
-    //         'cancelable': false
-    //        });
-    //     var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
-    //     nativeInputValueSetter.call(node, 'Smthinnew');
-    //     console.log('NODE.value smth new', node.value)
-        
-    //     var ev2 = new Event('input', { bubbles: true});
-    //     node.dispatchEvent(ev2);
-    //     node.dispatchEvent(ev3);
-    //     node.dispatchEvent(ev4);
-    //     node.dispatchEvent(ev5);
-    //     console.log('EVENT 2', ev2)
-    //  //   node.value = 'Something new';
-    //     console.log('NODE.value', node.value)
-    //     node.dispatchEvent(ev);
-    //     console.log('EVENT', ev)
-    //     console.log('----------NODE', node)
-    }
     return (
             <form onSubmit={props.handleSubmit} className={s.profileInfoBlock}>
                 <div>
@@ -99,12 +59,10 @@ const ProfileInfoEditMode_Form = (props) => {
                     [required, maxLength10], Textarea,
                     {hidden:!isChecked, value:jobDescription, onChange:(e) => setLFJobDescription(e.target.value)})}
                     {createField (Fields_content_placeholders.fullname, "fullname", 
-                    [required, maxLength10], Input, {value:fullname, 
-                    })}
-                    
+                    [required, maxLength10], Input, {value:fullname, onChange:(e) => setFullname(e.target.value)})}
                 </div> 
                 <div>
-                    <button onClick={clickHandler}>Save info</button>
+                    <button>Save info</button>
                 </div>
             </form>
     )
