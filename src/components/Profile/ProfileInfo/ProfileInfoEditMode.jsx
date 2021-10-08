@@ -43,6 +43,14 @@ const ProfileInfoEditMode_Form = (props) => {
         setImage(e.target.files[0].name)
         console.log(e.target.files[0])
     }
+    const handleParentClick = (e) => { 
+        e.preventDefault();
+        console.log('parent CLICK');
+    }
+    const handleChildClick = (e) => {
+        e.stopPropagation();
+        console.log('child CLICK');
+    }
     return (
             <form onSubmit={props.handleSubmit} className={s.profileInfoBlock}>
                 <div>
@@ -54,12 +62,18 @@ const ProfileInfoEditMode_Form = (props) => {
                         {value:address, onChange:(e) => setAddress(e.target.value)}])}
                 </div> 
                 <div>
-                    {/* Select File */}
-                    {createField(Fields_placeholders.loadImage, Fields_names.image,
-                    [], Input, {type:"file", accept:"image/*", multiple:false, 
-                    value:'', // problematic value => custom file load
-                    onChange:(e) => loadImage(e)
-                    })}
+                    <div className={s.imageWrap}>
+                        <button onClick={handleParentClick} id={s.button_id}>
+                            {/* Select File */}
+                            {createField(Fields_placeholders.loadImage, Fields_names.image,
+                            [], Input, {type:"file", accept:"image/*", multiple:false, 
+                            value:'', // problematic value => custom file load
+                            onClick:(e) => handleChildClick(e),
+                            onChange:(e) => loadImage(e)
+                            })}
+                        </button>
+                    </div>
+                    <div>{image}</div>
                     {createField(Fields_placeholders.aboutMe, Fields_names.aboutMe, 
                     [required], Input, {value:aboutMe, onChange:(e) => setAboutMe(e.target.value)},
                     )}
