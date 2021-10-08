@@ -1,3 +1,27 @@
+#button_id{
+    /* border: solid yellow; */
+}
+
+.imageWrap{
+    margin-top: 2px;
+    width:9%;
+    overflow:hidden;
+    /* border: solid blueviolet; */
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex; 
+
+}
+input[type='file'] {
+    /* opacity: 0; */
+    border: solid red;
+    margin: -10px; 
+    -moz-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
 .descriptionBlock{
     padding: 10px;
 }
