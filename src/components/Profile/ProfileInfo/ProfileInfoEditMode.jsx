@@ -4,68 +4,73 @@ import { bindActionCreators } from 'redux';
 import { Redirect, withRouter } from 'react-router';
 import { Textarea, Input, createField, createFieldsArray } from "../../Common/FormControls/FormControls"
 import { maxLengthCreator, required } from "../../../utils/validators/validators"
-import { useState } from "react"
+import React, { useRef, useState } from "react"
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
+import { Fields_names, Fields_placeholders } from "./data_names";
 
 const maxLength10 = maxLengthCreator(10)
 let editInfoFormData = new FormData()
 let contacts_arr = []
 
-const ProfileInfoContacts_Form = (props) => {
+const ProfileInfoEditMode_Form = (props) => {
     const profile = props.profile
+    console.log(profile)
+    
     const [phone, setPhone] = useState(profile.contacts[0]) 
     const [address, setAddress] = useState(profile.contacts[1]) 
     if(phone === undefined) setPhone('')
     if(address === undefined) setAddress('')
-    return (
-            <form onSubmit={props.handleSubmit} className={s.profileInfoBlock}>
-            <div>
-                {createFieldsArray("Contacts", "contacts", ['Phone', 'Address'], ['phone', 'address'],
-                Input, [{value:phone, onChange:(e) => setPhone(e.target.value)},
-                    {value:address, onChange:(e) => setAddress(e.target.value)}])}
-            </div> 
-            <div>
-                <button>Save info contacts</button>
-            </div>
-        </form>
-    )
-} 
+    contacts_arr[0] = phone
+    contacts_arr[1] = address
 
-const ProfileInfoEditMode_Form = (props) => {
-    const profile = props.profile
+    const [image, setImage] = useState(profile.avaPath)
     const [lookingForJob, setLookingForJob] = useState(profile.lookingForJob)
     const [aboutMe, setAboutMe] = useState(profile.aboutMe) 
     const [jobDescription, setLFJobDescription] = useState(profile.LFJobDescription) 
     const [fullname, setFullname] = useState(profile.fullname) 
-    var Fields_content_placeholders = {}
-    Fields_content_placeholders.aboutMe = "About me:" 
-    Fields_content_placeholders.jobDescription = "Job description:" 
-    Fields_content_placeholders.fullname = "Fullname:" 
+    
     const clickHandler = (e) => {
-        props.change('fullname', fullname);
-        props.change('aboutMe', aboutMe);
-        props.change('jobDescription', jobDescription);
-        props.change('lookingForJob', lookingForJob);
+        props.change(Fields_names.phone, phone);
+        props.change( Fields_names.address, address);
+        props.change(Fields_names.aboutMe, aboutMe);
+        props.change(Fields_names.lookingForJob, lookingForJob);
+        props.change(Fields_names.jobDescription, jobDescription);
+        props.change(Fields_names.fullname, fullname);
+    }
+    const loadImage = (e) => {
+        editInfoFormData.set('image', e.target.files[0])
+        setImage(e.target.files[0].name)
+        console.log(e.target.files[0])
     }
     return (
             <form onSubmit={props.handleSubmit} className={s.profileInfoBlock}>
                 <div>
-                    {createField("Load image", "image",
+                    {createFieldsArray("Contacts", "contacts", 
+                    [Fields_placeholders.phone, Fields_placeholders.address], 
+                    [Fields_names.phone, Fields_names.address], 
+                    [[required, maxLength10],[required, maxLength10]],
+                    Input, [{value:phone, onChange:(e) => setPhone(e.target.value)},
+                        {value:address, onChange:(e) => setAddress(e.target.value)}])}
+                </div> 
+                <div>
+                    {/* Select File */}
+                    {createField(Fields_placeholders.loadImage, Fields_names.image,
                     [], Input, {type:"file", accept:"image/*", multiple:false, 
-                    onChange:(e) => editInfoFormData.set('image', e.target.files[0])
+                    value:'', // problematic value => custom file load
+                    onChange:(e) => loadImage(e)
                     })}
-                    {createField(Fields_content_placeholders.aboutMe, "aboutMe", 
+                    {createField(Fields_placeholders.aboutMe, Fields_names.aboutMe, 
                     [required], Input, {value:aboutMe, onChange:(e) => setAboutMe(e.target.value)},
                     )}
-                     {createField("", "lookingForJob",
+                     {createField("", Fields_names.lookingForJob,
                     [], Input, {type: "checkbox", checked:lookingForJob,
                     onClick:() => setLookingForJob(!lookingForJob)}, "looking for a job")}
                     {/* if looking for a job is true */}
-                    {createField (Fields_content_placeholders.jobDescription, "jobDescription",
+                    {createField (Fields_placeholders.jobDescription, Fields_names.jobDescription,
                     [required, maxLength10], Textarea,
                     {hidden:!lookingForJob, value:jobDescription, onChange:(e) => setLFJobDescription(e.target.value)})}
-                    {createField (Fields_content_placeholders.fullname, "fullname", 
+                    {createField (Fields_placeholders.fullname, Fields_names.fullname, 
                     [required, maxLength10], Input, {value:fullname, onChange:(e) => setFullname(e.target.value)})}
                     
                 </div> 
@@ -77,22 +82,17 @@ const ProfileInfoEditMode_Form = (props) => {
 } 
 
 const ProfileInfoEditModeReduxForm = reduxForm({form: 'profile_info_edit'})(ProfileInfoEditMode_Form)
-const ProfileInfoContactsReduxForm = reduxForm({form: 'profile_contacts'})(ProfileInfoContacts_Form)
 
 const ProfileInfoEditMode = (props) => {
+    console.log('Props ProfileInfoEditMode:', props)
     let history = useHistory();
-    const onSubmit = (formData) => {
-        const {contacts} = formData
-        for (var key in contacts) {
-                contacts_arr.push(contacts[key])
-        }
-    }
     const onSubmitForm = (formData) => {
         console.log('-----------------------------Submit Form')
         let {aboutMe, lookingForJob, jobDescription, fullname} = formData
         const status = ""
-        editInfoFormData.append("contacts[]", contacts_arr[0])
+        editInfoFormData.set("contacts[]", contacts_arr[0])
         editInfoFormData.append("contacts[]", contacts_arr[1])
+        contacts_arr = []
         editInfoFormData.set('userId', props.authorizedUserId)
         editInfoFormData.set("status", status)
         editInfoFormData.set("aboutMe", aboutMe)
@@ -108,8 +108,6 @@ const ProfileInfoEditMode = (props) => {
     
     return <div className={s.descriptionBlock}>
         <h1>Profile Info</h1>
-        <ProfileInfoContactsReduxForm profile={props.profile} 
-        onSubmit={onSubmit}/>
         <ProfileInfoEditModeReduxForm profile={props.profile} 
         onSubmit={onSubmitForm}/>
     </div>
