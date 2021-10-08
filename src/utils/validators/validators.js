@@ -1,4 +1,5 @@
 export const required = (value) => {
+    console.log('Validators value', value)
     if(value) {
         return undefined
     }

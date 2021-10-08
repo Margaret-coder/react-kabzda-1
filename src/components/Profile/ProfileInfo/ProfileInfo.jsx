@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useState } from "react"
 
 const ProfileInfo = (props) => {
-    const [uploadStatus] = useState('');
+    // const [uploadStatus] = useState('');
     const imageHandler = (event) => {
         const file = event.target.files[0]
         const formData = new FormData()

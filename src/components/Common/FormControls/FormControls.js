@@ -17,24 +17,15 @@ export const Textarea = ({ input, meta, ...props }) => {
 export const Input = (data) => {
   const { input, meta, ...props } = data
   const hasError = meta.error&&meta.touched ;
-  if(props.type === "file"){
-    return( 
-      <div>
-        <input onChange={props.onChange} {...props}/>
-      </div>
-    )
-  }
-  else {
     return (
     <div className={hasError ? styles.error : ""}>
       <div>
-        <input {...input} {...props} 
+        <input {...input} {...props}
         />
       </div>
       {hasError && <span>{meta.error}</span>}
     </div>
     )
-  }
 }  
 
 export const createField = (placeholder, name, validators, component, props = {}, text = "") => {
@@ -47,13 +38,16 @@ export const createField = (placeholder, name, validators, component, props = {}
   )
 }
 
-export const createFieldsArray = (header, arrayName, placeholders, fieldNames, component, props) => {
+export const createFieldsArray = (header, arrayName, placeholders, fieldNames, validators, component, props) => {
   var rows = [];
   for (var i = 0; i < fieldNames.length; i++) {
-    rows.push(<li key={i} >
+    rows.push(
+    <div key={i} >
       {createField(placeholders[i], 
-      `${arrayName}.${fieldNames[i]}`, 
-      [], component, props[i])}</li>);
+      fieldNames[i], 
+      validators[i], component, props[i])}
+    </div>
+    );
   }
   return (
   <div>
