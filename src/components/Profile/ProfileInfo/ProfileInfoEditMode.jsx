@@ -70,7 +70,7 @@ const ProfileInfoEditMode_Form = (props) => {
                             value:'', // problematic value => custom file load
                             onClick:(e) => handleChildClick(e),
                             onChange:(e) => loadImage(e)
-                            })}
+                            })}Load img
                         </button>
                     </div>
                     <div>{image}</div>
