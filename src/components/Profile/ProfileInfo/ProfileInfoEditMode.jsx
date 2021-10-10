@@ -15,7 +15,6 @@ let contacts_arr = []
 
 const ProfileInfoEditMode_Form = (props) => {
     const profile = props.profile
-    console.log(profile)
     
     const [phone, setPhone] = useState(profile.contacts[0]) 
     const [address, setAddress] = useState(profile.contacts[1]) 
@@ -98,7 +97,6 @@ const ProfileInfoEditMode_Form = (props) => {
 const ProfileInfoEditModeReduxForm = reduxForm({form: 'profile_info_edit'})(ProfileInfoEditMode_Form)
 
 const ProfileInfoEditMode = (props) => {
-    console.log('Props ProfileInfoEditMode:', props)
     let history = useHistory();
     const onSubmitForm = (formData) => {
         console.log('-----------------------------Submit Form')
