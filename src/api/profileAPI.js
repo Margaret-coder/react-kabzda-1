@@ -18,7 +18,6 @@ const my_instance = axios.create({
 export const profileAPI = {
     /* PROFILE */
     getProfile(){
-        console.log('profileAPI: get Auth profile')
         return my_instance.get(`profile/`)
     },
     getProfilePostInfo(userId){

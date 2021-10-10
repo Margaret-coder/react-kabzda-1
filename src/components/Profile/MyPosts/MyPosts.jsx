@@ -28,7 +28,6 @@ const MyPostsReduxForm = reduxForm({form: 'message form'})
 (MyPostsForm)
 
 const MyPosts = (props) => {
-    console.log('props.posts.postsData', props.posts.postsData)
     const posts = props.posts.postsData
     const postsElements = posts.map(
         post=>posts&&<Post key={post._id} post={post} deletePost={props.deletePost}
