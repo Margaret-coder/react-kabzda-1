@@ -9,16 +9,16 @@ import { withAuthRedirect } from '../../hoc/withAuthRedirect'
 import { compose } from 'redux'
 
 class ProfileContainer extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {editMode : false};
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {editMode : false};
+    // }
     componentDidUpdate(prevProps){
-        if (prevProps.location.key !== this.props.location.key) {
-            this.setState({
-                editMode: this.props.location.state,
-            })
-        }
+        // if (prevProps.location.key !== this.props.location.key) {
+        //     this.setState({
+        //         editMode: this.props.location.state,
+        //     })
+        // }
         if(!this.props.authorizedUserId) { // redirect to Login page if logout
             this.props.history.push("/login")
         }
@@ -39,13 +39,18 @@ class ProfileContainer extends React.Component{
         else this.props.history.push("/login")
     }
     render(){
+        console.log('Profile Container RENDER')
+        console.log(this.props.location)
+        // if(this.props.location) console.log(this.props.location.state)
+        // else console.log('no this.props.location.state')
+        // console.log('this.state.editMode',this.state.editMode)
         if (!this.props.authorizedUserId) {
             return <Redirect to="/login"/>
         }
         else {
             return (
                 <Profile {...this.props} 
-                editMode={this.state.editMode}
+                // editMode={this.state.editMode}
                 profile={this.props.profile}
                 status={this.props.status} 
                 updateStatus={this.props.updateStatus}
