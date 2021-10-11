@@ -4,10 +4,11 @@ import MyPostsContainer from "./MyPosts/MyPostsContainer"
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import ProfileInfoEditMode from "./ProfileInfo/ProfileInfoEditMode"
 const Profile = (props) => {
+    const editMode = props.location.state ? props.location.state.editMode : false
     if(!props.profile){
         return <Preloader/>        
     }
-    else if (props.editMode) {
+    else if (editMode) {
         return (
             <div>
                 <ProfileInfoEditMode profile={props.profile}
@@ -16,7 +17,7 @@ const Profile = (props) => {
             </div>
         )
     }
-    else if(!props.editMode){
+    else if(!editMode){
         return (
             <div>
                 <ProfileInfo profile={props.profile}
