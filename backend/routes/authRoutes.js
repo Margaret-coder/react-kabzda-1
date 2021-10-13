@@ -7,7 +7,7 @@ const router = express.Router()
 const createSession = (user, req, res) => {
     let sessionUser = {}
     sessionUser.id = user._id
-    sessionUser.username = user.username
+    sessionUser.username = user.email
     req.session.user = sessionUser
     res.session = req.session
     return res    
@@ -26,10 +26,9 @@ router.get("/me", async(req, res) => {
 
 /*Create new User and Profile account. Registration and login*/
 router.post("/registration", async(req, res) => {
-    console.log("post /users new user____")
+    console.log("post /users new user")
     console.log('post req.body', req.body)
     const user = new User({
-        username: req.body.username,
         email: req.body.email,
         password: req.body.password
     })

@@ -41,6 +41,14 @@ export const getAuthProfile = () => async (dispatch) => {
   }
 }
 
+export const getProfileById = (userId) => async (dispatch) => {
+  const response = await profileAPI.getProfileById(userId)
+  if(response.status === 200){
+    dispatch(setUserProfile(response.data))
+    return response.data
+  }
+}
+
 export const createNewProfile = () => async(dispatch) => {
   const response = profileAPI.createNewProfile()
   dispatch(setUserProfile(response.data))

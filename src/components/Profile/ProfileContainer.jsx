@@ -29,7 +29,7 @@ class ProfileContainer extends React.Component{
                 editMode : this.props.location.state.editMode
             })
         }
-        if(this.props.authorizedUserId){
+        if(this.props.authorizedUserId){ // logged in profile only. should be profile by id
             var profile = this.props.getAuthProfile()
             if(profile){
                 this.props.getStatus(this.props.authorizedUserId)
