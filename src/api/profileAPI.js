@@ -20,6 +20,9 @@ export const profileAPI = {
     getProfile(){
         return my_instance.get(`profile/`)
     },
+    getProfileById(userId){
+        return my_instance.get(`profile/` + userId)
+    },
     getProfilePostInfo(userId){
         return my_instance.get(`profile/` + userId).then(response => {
             return response.data

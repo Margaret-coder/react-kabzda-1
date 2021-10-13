@@ -12,7 +12,6 @@ const maxLengthPassword = maxLengthCreator(10)
 const RegistrationForm = (props) => {
     return(
         <form onSubmit={props.handleSubmit}>
-            {createField("Login", "login", [required], Input)}
             {createField("Email", "email", [required], Input)}
             {createField("Password", "password", [required, maxLengthPassword], Input, {type:'password'})}
             {props.error&&<div className={style.formSummaryError}>{props.error}</div>}
@@ -27,8 +26,8 @@ const RegistrationReduxForm = reduxForm({form: 'registration'})(RegistrationForm
 
 const Registration = (props) => {
     const onSubmit = (formData) => {
-        let {login, email, password} = formData
-        props.registrationUser(login, email, password)
+        let {email, password} = formData
+        props.registrationUser(email, password)
     }
     if(props.isAuth){
         return<Redirect  to={{

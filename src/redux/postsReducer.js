@@ -71,18 +71,24 @@ export const setPostsData = (posts) => ({
 
 export const getProfilePosts = () => async (dispatch) => {
   const posts = await postsAPI.requestPosts()
+  console.log('POSTS', posts)
   var profiles = await Promise.all(posts.map(async item => {
-    return await profileAPI.getProfilePostInfo(item.userId)
+    return await profileAPI.getProfilePostInfo(item.ownerUserId
+      )
   }))
-  const post_profile = posts.map(post => {
+  console.log('PROFILES', profiles)
+  const post_profile = posts.filter(post => {
     var found
-    found = profiles.find(profile => profile.userId === post.userId)
+    found = profiles.find(profile => profile.userId === post.ownerUserId)
     if(found) {
       post.fullname = found.fullname
       post.avaPath = found.avaPath
       return post 
     }
-    else {console.log('Not found', post)}
+    else {
+      console.log('Not found post:', post)
+      return false
+    }
   })
   dispatch(setPostsData(post_profile))
 }

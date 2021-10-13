@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom"
 import userPhoto from '../../assets/images/samurai.png'
 
 const User = (props) => {
-    console.log('props.userId', props.userId)
     const user = props.user
     return(
         <div>

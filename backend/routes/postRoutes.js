@@ -3,16 +3,17 @@ const Post = require("../models/Post")
 const router = express.Router()
 
 router.get("/posts", async(req, res) => {
-	console.log("GET POSTS")
-    const posts = await Post.find()
+	console.log("GET POSTS FOR LOGGED IN PROFILE")
+	console.log('req.session.user.id:::', req.session.user.id)
+    const posts = await Post.find({ownerUserId : req.session.user.id})
     res.send(posts)
 })
 
 router.get("/posts/:id", async(req, res) => {
-	console.log("get single post by id")
+	console.log("get wall posts by user id")
 	try{
-	const post = await Post.findOne({ _id: req.params.id})
-	res.send(post)
+	const posts = await Post.findOne({ ownerUserId: req.params.id})
+	res.send(posts)
 	}
 	catch{
 		res.status(404)
@@ -21,18 +22,20 @@ router.get("/posts/:id", async(req, res) => {
 })
 
 router.post("/posts", async (req, res) => {
-	var userId
+	var authorUserId
+	var ownerUserId
     if(req.session&&req.session.user){
 		console.log("Post new message req.session.user", req.session.user.id)
-		userId = req.session.user.id
+		authorUserId = req.session.user.id
 	}
-	else {
-		console.log("Post new message req.body.userId", req.body)
-		userId = req.body.userId
+	if(req.body) {
+		console.log("Post new message req.body.userId", req.body.userId)
+		ownerUserId = req.body.userId
 	}
 	console.log("post new message")
 	const post = new Post({
-		userId: userId,
+		ownerUserId: ownerUserId,
+		authorUserId: authorUserId,
 		message: req.body.message,
 		likesCount: 0
 	})

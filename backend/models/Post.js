@@ -6,7 +6,8 @@ const mongoose = require("mongoose")
 
 
 const postSchema = mongoose.Schema({
-    userId: String,
+    ownerUserId: String,
+    authorUserId: String,
     message: String,
     likesCount: Number,
     likeIds: [{type: String}]

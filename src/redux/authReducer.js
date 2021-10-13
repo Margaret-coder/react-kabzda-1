@@ -59,11 +59,12 @@ export const logoutUser = () => async (dispatch) => {
         }
 }
 
-export const registrationUser = (login, email, password) =>
+export const registrationUser = (email, password) =>
+
 async (dispatch) => {
-    let response = await authAPI.register(login, email, password)
+    let response = await authAPI.register(email, password)
     if(response.status === 200){
-        dispatch(setAuthUserData(response.data._id, response.data.username, response.data.email, true))
+        dispatch(setAuthUserData(response.data._id, response.data.email, true))
     } else {
         dispatch(stopSubmit('registration', {_error: 'Error'}))
     }
@@ -74,14 +75,14 @@ export const setErrorMessage = (text) => ({
     error_message: text
 })
 
-export const setAuthUserData = (userId, login, email, isAuth) => 
-({type: SET_USER_DATA, data:{userId, login, email, isAuth}})
+export const setAuthUserData = (userId, email, isAuth) => 
+({type: SET_USER_DATA, data:{userId, email, isAuth}})
 
 export const getAuthUserData = () => async (dispatch) => {
     let response = await authAPI.me()
     if(response.data&&response.status === 200){
-            let{id, email, username} = response.data
-            dispatch(setAuthUserData(id, username, email, true))
+            let{id, email} = response.data
+            dispatch(setAuthUserData(id, email, true))
             return(id)
     }
     else {
