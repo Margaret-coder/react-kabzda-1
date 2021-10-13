@@ -39,8 +39,6 @@ class ProfileContainer extends React.Component{
         else this.props.history.push("/login")
     }
     render(){
-        console.log('Profile Container RENDER')
-        console.log(this.props.location)
         // if(this.props.location) console.log(this.props.location.state)
         // else console.log('no this.props.location.state')
         // console.log('this.state.editMode',this.state.editMode)
