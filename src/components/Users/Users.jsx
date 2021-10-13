@@ -17,7 +17,7 @@ const Users = (props) => {
         paginatorPortionSize={props.paginatorPortionSize}
         onPageChanged={props.onPageChanged}/>
         {
-            props.users.map(u=> u.userId===props.userId&&
+            props.users.map(u=> u.userId!==props.userId&&
            // <User key = {u.id} 
             <User key = {u._id} 
             user={u} follow={props.follow} unfollow={props.unfollow}
