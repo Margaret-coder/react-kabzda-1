@@ -2,7 +2,7 @@ import Users from './Users'
 import {connect} from 'react-redux'
 import {follow, unfollow, 
     setCurrentPage, toggleFollowingProgress,
-    requestUsers} from '../../redux/usersReducer'
+    requestProfiles} from '../../redux/usersReducer'
 import React from 'react'
 import { getUsers, getUsersCurrentPage,
      getUsersPageSize, getUsersTotalCount, 
@@ -10,14 +10,17 @@ import { getUsers, getUsersCurrentPage,
 
 class UsersContainer extends React.Component {
     componentDidMount(){
-        this.props.requestUsers(this.props.currentPage, this.props.pageSize)
+        this.props.requestProfiles(this.props.currentPage, this.props.pageSize)
     }
     onPageChanged = (pageNumber) => {
-        this.props.requestUsers(pageNumber, this.props.pageSize)
+        this.props.requestProfiles(pageNumber, this.props.pageSize)
     }
     render () {
+        console.log('this.props.userId::::', this.props.userId)
+
         return (
         <Users
+        userId={this.props.userId}
         totalUsersCount={this.props.totalUsersCount}
         pageSize={this.props.pageSize}
         paginatorPortionSize={this.props.paginatorPortionSize}
@@ -33,7 +36,9 @@ class UsersContainer extends React.Component {
 }
 
 let mapStateToProps = (state) => {
+    console.log('state::::', state)
     return {
+        userId: state.auth.userId,
         users: getUsers(state),
         pageSize: getUsersPageSize(state),
         paginatorPortionSize: getPaginatorPortionSize(state),
@@ -48,5 +53,5 @@ let mapStateToProps = (state) => {
 export default 
     connect (mapStateToProps, {
          follow, unfollow, setCurrentPage,
-         toggleFollowingProgress, requestUsers
+         toggleFollowingProgress, requestProfiles
          })(UsersContainer)

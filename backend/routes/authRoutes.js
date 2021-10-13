@@ -16,7 +16,6 @@ const createSession = (user, req, res) => {
 router.get("/me", async(req, res) => {
     console.log('router /me')
     if (req.session&&req.session.user) {
-        console.log('req.session.user.id', req.session.user.id)
         res.send(req.session.user)
     } 
     else {
@@ -45,7 +44,6 @@ router.post("/registration", async(req, res) => {
         return res.status(500).send(err)
     }
     res = createSession(user, req, res)
-    console.log('RES:::', res.session.user.id)
     saveEmptyProfile(res.session.user.id)
     res.send(user)
 })
@@ -65,7 +63,6 @@ router.post("/login", async(req, res) => {
             else{
                 if(user){
                     user.comparePassword(req.body.password, function(err, isMatch){
-                    console.log(req.body.password)
                     try{
                         if(err) {
                             throw err

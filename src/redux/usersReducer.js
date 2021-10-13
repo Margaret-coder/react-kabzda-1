@@ -10,7 +10,7 @@ let TOGGLE_IS_FETCHING = 'social-network/users/TOGGLE_IS_FETCHING'
 let TOGGLE_IS_FOLLOWING_PROGRESS = 'social-network/users/TOGGLE_IS_FOLLOWING_PROGRESS'
 
 let initialState = {
-    users: [],
+    users: [], // user_profiles in current implementation
     pageSize: 5,
     paginatorPortionSize: 10,
     totalUsersCount: 0,
@@ -61,17 +61,17 @@ const usersReducer = (state = initialState, action) => {
 
 export const followSuccess = (userId) => ({type: FOLLOW, userId})
 export const unfollowSuccess = (userId) => ({ type: UNFOLLOW, userId})
-export const setUsers = (users) => ({type: SET_USERS, users})
+export const setProfilesArray = (users) => ({type: SET_USERS, users})
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage})
 export const setTotalUsersCount = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, count: totalUsersCount})
 export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
 export const toggleFollowingProgress = (isFetching, userId) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId})
 
 /* Samurai method */
-// export const requestUsers = (currentPage, pageSize) => {
+// export const requestProfiles = (currentPage, pageSize) => {
 //     return async (dispatch) => {
 //         dispatch(toggleIsFetching(true))
-//         const response = await usersAPI.requestUsers(currentPage, pageSize)
+//         const response = await usersAPI.requestProfiles(currentPage, pageSize)
 //             dispatch(toggleIsFetching(false))
 //             dispatch(setUsers(response.items))
 //             dispatch(setTotalUsersCount(response.totalCount))
@@ -79,16 +79,16 @@ export const toggleFollowingProgress = (isFetching, userId) => ({type: TOGGLE_IS
 //         }
 // }
 
-export const requestUsers = (currentPage, pageSize) => {
-    console.log("requestUsers")
+export const requestProfiles = (currentPage, pageSize) => {
+    console.log("requestProfiles")
     return async (dispatch) => {
         dispatch(toggleIsFetching(true))
-        const response = await usersAPI.requestUsers(currentPage, pageSize)
-        console.log("response Users", response)
-        if(response.status === 200){
+        const res_profiles = await usersAPI.requestProfiles(currentPage, pageSize)
+        console.log("<<<response Profiles", res_profiles)
+        if(res_profiles.status === 200){
             dispatch(toggleIsFetching(false))
             console.log("OK dispatch")
-            dispatch(setUsers(response.data))
+            dispatch(setProfilesArray(res_profiles.data))
 
             // dispatch(setTotalUsersCount(response.totalCount))
             // dispatch(setCurrentPage(currentPage))
