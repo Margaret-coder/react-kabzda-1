@@ -28,7 +28,6 @@ class ProfileContainer extends React.Component{
     componentDidMount(){
         if(this.props.authorizedUserId){ // logged in profile only. should be profile by id
             if(this.props.location.state) {
-                console.log('Props location state:::this.props.location.state', this.props.location.state)
                 const editMode = this.props.location.state ? this.props.location.state.editMode : false
                 const edible = this.props.location.state ? this.props.location.state.edible : true
                 if(this.props.authorizedUserId&&edible){

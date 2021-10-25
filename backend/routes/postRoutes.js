@@ -13,7 +13,6 @@ router.get("/posts/:id", async(req, res) => {
 	console.log("GET WALL POSTS BY USER ID")
 	try{
 		const posts = await Post.find({ ownerUserId: req.params.id})
-		console.log(posts)
 		res.send(posts)
 	}
 	catch{

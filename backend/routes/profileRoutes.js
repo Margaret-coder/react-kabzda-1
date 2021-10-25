@@ -59,7 +59,9 @@ router.get('/profile', async(req, res) => {
     if(req.session&&req.session.user) { 
         Profile.findOne({userId: req.session.user.id}, function(err, profile) {
             if(profile) {
-                console.log('GOT PROFILE:', profile)
+                req.session.user.login = profile.fullname
+                req.session.user.avaPath = profile.avaPath
+                console.log('REQ SESSION USER', req.session.user)
                 res.send(profile)
             }
             else {
