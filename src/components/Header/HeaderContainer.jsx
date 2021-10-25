@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 class HeaderContainer extends React.Component{
     render()
     {
+        console.log('STATE:::', this.props.state)
         return(
             <Header {...this.props}/>
         )
@@ -14,7 +15,9 @@ class HeaderContainer extends React.Component{
 
 const mapStateToProps = (state) => ({
     isAuth: state.auth.isAuth,
-    login: state.auth.login
+    email: state.auth.email,
+    login: state.auth.login,
+    state: state
 })
 
 export default connect(mapStateToProps, 

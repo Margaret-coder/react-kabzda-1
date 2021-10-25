@@ -8,6 +8,7 @@ let initialState = {
     userId: null,
     email: null,
     login: null,
+    avaPath: null,
     isAuth: false,
     error_message: ""
 }
@@ -18,7 +19,6 @@ const authReducer = (state = initialState, action) => {
             return {...state, ...action.data}
         }
         case SET_ERROR_MESSAGE:{
-            console.log('SET_ERROR_MESSAGE', action.error_message)
             let newState = { 
                 ...state, 
                 error_message: action.error_message
@@ -35,10 +35,9 @@ export const loginUser = (email, password, rememberMe = false) =>
 async (dispatch) => {
     try{
         let response = await authAPI.login(email, password, rememberMe)
-        console.log('loginUser', response)
+        console.log('loginUser::::', response.data)
         if(response.status === 200){
             dispatch(getAuthUserData())
-            dispatch(setErrorMessage(""))
         } else {
             let message = 'Zaglushko error strashne'
             dispatch(stopSubmit('login', {_error: message}))
@@ -60,7 +59,6 @@ export const logoutUser = () => async (dispatch) => {
 }
 
 export const registrationUser = (email, password) =>
-
 async (dispatch) => {
     let response = await authAPI.register(email, password)
     if(response.status === 200){
@@ -75,14 +73,16 @@ export const setErrorMessage = (text) => ({
     error_message: text
 })
 
-export const setAuthUserData = (userId, email, isAuth) => 
-({type: SET_USER_DATA, data:{userId, email, isAuth}})
+export const setAuthUserData = (userId, email, login, avaPath, isAuth, error_message) => 
+({type: SET_USER_DATA, data:{userId, email, login, avaPath, isAuth, error_message}})
 
 export const getAuthUserData = () => async (dispatch) => {
+    console.log('GetAuthUserData----')
     let response = await authAPI.me()
     if(response.data&&response.status === 200){
-            let{id, email} = response.data
-            dispatch(setAuthUserData(id, email, true))
+        console.log('response.data', response.data)
+            let{id, email, login, avaPath} = response.data
+            dispatch(setAuthUserData(id, email, login, avaPath, true, ""))
             return(id)
     }
     else {

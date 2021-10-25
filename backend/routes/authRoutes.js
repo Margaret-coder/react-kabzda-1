@@ -7,7 +7,8 @@ const router = express.Router()
 const createSession = (user, req, res) => {
     let sessionUser = {}
     sessionUser.id = user._id
-    sessionUser.username = user.email
+    console.log('user:::', user)
+    sessionUser.email = user.email
     req.session.user = sessionUser
     res.session = req.session
     return res    
@@ -73,6 +74,8 @@ router.post("/login", async(req, res) => {
                         else{
                             createSession(user, req, res)
                             // res.send(user)
+    console.log('/api/profile ::: GET PROFILE BY AUTH DATA')
+
                             res.redirect('/api/profile')
                         }
                     }
