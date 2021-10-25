@@ -59,7 +59,7 @@ router.get('/profile', async(req, res) => {
     if(req.session&&req.session.user) { 
         Profile.findOne({userId: req.session.user.id}, function(err, profile) {
             if(profile) {
-                // console.log('GOT PROFILE:', profile)
+                console.log('GOT PROFILE:', profile)
                 res.send(profile)
             }
             else {
@@ -74,7 +74,6 @@ router.get('/profile', async(req, res) => {
 router.get('/profile/:id', async(req, res) => {
     console.log('GET PROFILE BY ID')
     if(req.params.id) { 
-        console.log('ID:::', req.params.id)
         Profile.findOne({userId: req.params.id}, function(err, profile) {
             if(profile) {
                 res.send(profile)

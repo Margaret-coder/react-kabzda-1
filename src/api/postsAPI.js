@@ -24,11 +24,17 @@ export const postsAPI = {
         return my_instance.patch(`/posts/${post._id}`, 
             {message: post.message})
     },
-    likePost(post_id, user_id ){
-        return my_instance.patch(`/posts/${post_id}`, {user_id: user_id})
+    likePost(post_id){
+        return my_instance.patch(`/posts/${post_id}`)
     },
     requestPosts(){
         return my_instance.get(`posts/`, 
+        {crossdomain: true}).then(response => {
+            return response.data
+        })
+    },
+    requestPostsByUserId(user_id){
+        return my_instance.get(`posts/${user_id}`, 
         {crossdomain: true}).then(response => {
             return response.data
         })

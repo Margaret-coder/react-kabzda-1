@@ -10,14 +10,15 @@ router.get("/posts", async(req, res) => {
 })
 
 router.get("/posts/:id", async(req, res) => {
-	console.log("get wall posts by user id")
+	console.log("GET WALL POSTS BY USER ID")
 	try{
-	const posts = await Post.findOne({ ownerUserId: req.params.id})
-	res.send(posts)
+		const posts = await Post.find({ ownerUserId: req.params.id})
+		console.log(posts)
+		res.send(posts)
 	}
 	catch{
 		res.status(404)
-		res.send({error: "No post with such id"})
+		res.send({error: "No posts for such owner"})
 	}
 })
 
@@ -44,32 +45,33 @@ router.post("/posts", async (req, res) => {
 })
 
 router.patch("/posts/:id", async(req, res) => {
-	console.log("patch update post")
+	console.log("patch update post", req.params.id, req.session.user.id)
+	const postId = req.params.id
+	const userId = req.session.user.id
 	try{
-		const post = await Post.findOne({_id: req.params.id})
+		const post = await Post.findOne({_id: postId})
 		if(req.body.message){
 			post.message = req.body.message
 			await post.save()
 			res.send(post)
 			console.log("Post was sent")
 		}
-		if(req.body.user_id){
+		if(userId){
 			// console.log("Hello from patch user_id")
 			var find
-			console.log('req.body.user_id',req.body.user_id)
 			if(post.likeIds.length > 0){
-				find = post.likeIds.find(item => item === req.body.user_id)
+				find = post.likeIds.find(item => item === userId)
 				console.log("find", find)
 			}
 			if(find){ // take your like back
 				console.log("found", find)
-				post.likeIds = post.likeIds.filter(item => item !== req.body.user_id);
+				post.likeIds = post.likeIds.filter(item => item !== userId);
 				console.log("post.likeIds after filter", post.likeIds)
 				post.likesCount = post.likeIds.length
 			}
 			else {
 				console.log('adding')
-				post.likeIds.push(req.body.user_id)
+				post.likeIds.push(userId)
 				post.likesCount = post.likeIds.length
 			}
 		}

@@ -34,6 +34,7 @@ export const setStatus = (text) => ({
 })
 
 export const getAuthProfile = () => async (dispatch) => {
+  console.log('---profileReducer::getAuthProfile')
   const response = await profileAPI.getProfile()
   if(response.status === 200){
     dispatch(setUserProfile(response.data))
@@ -42,6 +43,7 @@ export const getAuthProfile = () => async (dispatch) => {
 }
 
 export const getProfileById = (userId) => async (dispatch) => {
+  // console.log('---profileReducer::getProfileById')
   const response = await profileAPI.getProfileById(userId)
   if(response.status === 200){
     dispatch(setUserProfile(response.data))

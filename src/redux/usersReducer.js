@@ -80,14 +80,11 @@ export const toggleFollowingProgress = (isFetching, userId) => ({type: TOGGLE_IS
 // }
 
 export const requestProfiles = (currentPage, pageSize) => {
-    console.log("requestProfiles")
     return async (dispatch) => {
         dispatch(toggleIsFetching(true))
         const res_profiles = await usersAPI.requestProfiles(currentPage, pageSize)
-        console.log("<<<response Profiles", res_profiles)
         if(res_profiles.status === 200){
             dispatch(toggleIsFetching(false))
-            console.log("OK dispatch")
             dispatch(setProfilesArray(res_profiles.data))
 
             // dispatch(setTotalUsersCount(response.totalCount))

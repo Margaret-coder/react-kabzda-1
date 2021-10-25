@@ -35,7 +35,6 @@ const profileReducer = (state = initialState, action) => {
         return state // post value is already in state inside class jsx
       }
       case SET_POSTS: {
-        console.log('SET_POSTS')
         return {...state, postsData: action.posts}
       }
       default: {
@@ -69,18 +68,16 @@ export const setPostsData = (posts) => ({
     posts: posts
 })
 
-export const getProfilePosts = () => async (dispatch) => {
-  const posts = await postsAPI.requestPosts()
-  console.log('POSTS', posts)
-  var profiles = await Promise.all(posts.map(async item => {
-    return await profileAPI.getProfilePostInfo(item.ownerUserId
+export const getProfilePosts = (user_id) => async (dispatch) => {
+  const posts = await postsAPI.requestPostsByUserId(user_id)
+  var profiles = await Promise.all(posts.map(async post => {
+    return await profileAPI.getProfilePostInfo(post.authorUserId
       )
   }))
-  console.log('PROFILES', profiles)
   const post_profile = posts.filter(post => {
     var found
-    found = profiles.find(profile => profile.userId === post.ownerUserId)
-    if(found) {
+    found = profiles.find(profile => profile.userId === post.authorUserId)
+    if(found) { 
       post.fullname = found.fullname
       post.avaPath = found.avaPath
       return post 
@@ -100,19 +97,21 @@ export const deletePost = (id) => async (dispatch) => {
 
 export const editPost = (post) => async (dispatch) => {
   const response = await postsAPI.editPost(post)
+  console.log('POST AUTHOR ID', post.authorUserId)
   dispatch(updatePostActionCreator(response.data)) // updatePostActionCreator is not needed 
 }
 
-export const likePost = (post_id, user_id) => async (dispatch) => {
-  const response = await postsAPI.likePost(post_id, user_id)
+export const likePost = (post_id, profile_id) => async (dispatch) => {
+  const response = await postsAPI.likePost(post_id)
  // dispatch(likePostActionCreator(response.data)) // likePostActionCreator is not needed
-  dispatch(getProfilePosts())
+  dispatch(getProfilePosts(profile_id))
 }
 
 export const sendNewPost = (message = "message", userId) => async (dispatch) => {
+  console.log('sendNewPost USER ID', userId)
   const response = await postsAPI.sendNewPost(message, userId)
 //  dispatch(addPostActionCreator(response.data)) // addPostActionCreator is not needed
-  dispatch(getProfilePosts())
+  dispatch(getProfilePosts(userId))
 }
 
 export default profileReducer

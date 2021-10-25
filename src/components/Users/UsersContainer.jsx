@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {follow, unfollow, 
     setCurrentPage, toggleFollowingProgress,
     requestProfiles} from '../../redux/usersReducer'
+import {getProfileById} from '../../redux/profileReducer'    
 import React from 'react'
 import { getUsers, getUsersCurrentPage,
      getUsersPageSize, getUsersTotalCount, 
@@ -29,6 +30,7 @@ class UsersContainer extends React.Component {
         users={this.props.users}
         follow={this.props.follow}
         unfollow={this.props.unfollow}
+        getProfileById={this.props.getProfileById}
         followingInProgress={this.props.followingInProgress}
         />
         )
@@ -36,7 +38,6 @@ class UsersContainer extends React.Component {
 }
 
 let mapStateToProps = (state) => {
-    console.log('state::::', state)
     return {
         userId: state.auth.userId,
         users: getUsers(state),
@@ -53,5 +54,5 @@ let mapStateToProps = (state) => {
 export default 
     connect (mapStateToProps, {
          follow, unfollow, setCurrentPage,
-         toggleFollowingProgress, requestProfiles
+         toggleFollowingProgress, requestProfiles, getProfileById
          })(UsersContainer)

@@ -5,19 +5,27 @@ import s from './Post.module.css'
 class Post extends React.Component {
     state = {
         editPost : false,
+        edible: this.props.post.authorUserId === this.props.profilePageUserId,
+        deletable: this.props.post.authorUserId === this.props.profilePageUserId,
         message: this.props.post.message
 
     }
-    onDeleteButtonClick = (id) => {
-        this.props.deletePost(id)
+    onDeleteButtonClick = (postId, profileUId) => {
+        this.props.deletePost(postId, profileUId)
     }
     onEditButtonClick = (id) => {
         this.props.editPost(id)
     }
     activateEditMode = () => {
-        this.setState({
-            editPost : true
-        })
+        console.log("PROPS", this.props)
+        console.log("PROPS this.props.post.authorUserId", this.props.post.authorUserId)
+        console.log("PROPS this.props.profilePageUserId", this.props.profilePageUserId)
+        console.log("edible", this.state.edible)
+        // if(this.props.post.authorUserId === this.props.profilePageUserId){
+            this.setState({
+                editPost : true
+            })
+        // }
     }
     deactivateEditMode = () => {
         this.setState({
@@ -32,16 +40,18 @@ class Post extends React.Component {
             message : e.currentTarget.value
         })
     }
-    Like = (post_id) => {
-        const currentUser_id = '2' // TO DO get current user id
-        this.props.likePost(post_id, currentUser_id)
+    Like = (postId, profileUId) => {
+        this.props.likePost(postId, profileUId)
     }
     render(){
+        const image = window.location.origin + '/' + this.props.img
+        const postId = this.props.post._id
+        const profileUId = this.props.profilePageUserId
         return (
             <div className={s.item}>
                 <div className={s.upperBlock}>
                     <span className={s.photoBorder}>
-                        <img className={s.photoImage} src={this.props.img} alt="avatar"/>
+                        <img className={s.photoImage} src={image} alt="avatar"/>
                     </span>
                     <div>
                     <div>{this.props.post.fullname}:</div>
@@ -57,9 +67,9 @@ class Post extends React.Component {
                 </div>
                 <div className={s.operations}>
                     <div>like:{this.props.post.likesCount}</div>
-                    <span><button onClick={() => this.onDeleteButtonClick(this.props.post._id)}>delete</button></span>
-                    <span><button onClick={this.activateEditMode}>edit</button></span>
-                    <span><button onClick={() => this.Like(this.props.post._id)}>like</button></span>
+                    <span><button onClick={() => this.onDeleteButtonClick(postId, profileUId)}>delete</button></span>
+                    {this.state.edible&&<span><button onClick={this.activateEditMode}>edit</button></span>}
+                    <span><button onClick={() => this.Like(postId, profileUId)}>like</button></span>
                 </div>
             </div>
         )

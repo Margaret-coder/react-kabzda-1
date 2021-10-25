@@ -114,7 +114,7 @@ const ProfileInfoEditMode = (props) => {
         props.editProfileInfo(editInfoFormData)
         history.push({
             pathname: "/profile",
-            state: { editMode: false }
+            state: { editMode: false, edible: true }
         })
     }
     
