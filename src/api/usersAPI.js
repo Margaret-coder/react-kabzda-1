@@ -20,6 +20,12 @@ export const usersAPI = {
     requestProfiles(currentPage = 1, pageSize = 10){
             return my_instance.get('/profiles')
         },
+        follow(userId){
+            return my_instance.post(`follow/${userId}`)
+        },
+        unfollow(userId){
+            return my_instance.delete(`follow/${userId}`)
+        }
     // requestUsers(currentPage = 1, pageSize = 10){
     //     return my_instance.get('/users')
     // },
@@ -30,11 +36,11 @@ export const usersAPI = {
     //         return response.data 
     //     })
     // },
-    follow(userId){
-        return instance.post(`follow/${userId}`)
-    },
-    unfollow(userId){
-        return instance.delete(`follow/${userId}`)
-    }
+    // follow(userId){
+    //     return instance.post(`follow/${userId}`)
+    // },
+    // unfollow(userId){
+    //     return instance.delete(`follow/${userId}`)
+    // }
 }
 

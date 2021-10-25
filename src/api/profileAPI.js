@@ -12,40 +12,42 @@ const instance = axios.create({
 
 const my_instance = axios.create({
     withCredentials: true,
-    baseURL: 'http://localhost:5500/api/'
+    baseURL: 'http://localhost:5500/api/profile/'
   })
 
 export const profileAPI = {
     /* PROFILE */
     getProfile(){
-        return my_instance.get(`profile/`)
+        console.log('-getProfile')
+        return my_instance.get()
     },
     getProfileById(userId){
-        return my_instance.get(`profile/` + userId)
+        // console.log('-userId-getProfileById', userId)
+        return my_instance.get(userId)
     },
     getProfilePostInfo(userId){
-        return my_instance.get(`profile/` + userId).then(response => {
+        return my_instance.get(userId).then(response => {
             return response.data
         })
     },
     createNewProfile(){
-        return my_instance.post(`profile/`)
+        return my_instance.post()
     },
     /* IMAGE */
     uploadImage(formData){
-        console.log("Profile API uploadImage(formData)")
-        return my_instance.post(`profile/image`, formData)
+        console.log("Profile API uploadImage(formData)",formData)
+        return my_instance.post(`image`, formData)
     },
     /* STATUS */
     getStatus(userId){
-        return my_instance.get(`profile/status/` + userId)
+        return my_instance.get(`status/` + userId)
     }, 
     updateStatus(status){
-        return my_instance.patch(`profile/status/`, {status: status})
+        return my_instance.patch(`status/`, {status: status})
     },
     /* INFO */
     editInfo(formData){
-        return my_instance.post(`/profile/edit_profile`, formData)
+        return my_instance.post(`edit_profile/`, formData)
     }
 }    
 

@@ -32,7 +32,7 @@ const Login = (props) => {
     if(props.isAuth){
         return<Redirect to={{
             pathname: "/profile",
-            state: { editMode: false }
+            state: { editMode: false, edible: true }
         }}/>
     }
     return <div>

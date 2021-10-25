@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Profile from './Profile'
-import { getAuthProfile, getStatus, updateStatus, 
+import { getAuthProfile, getProfileById, getStatus, updateStatus, 
     editProfileInfo, uploadImage} from '../../redux/profileReducer'
 import { getProfilePosts} from '../../redux/postsReducer'    
 import { Redirect, withRouter } from 'react-router'
@@ -9,39 +9,46 @@ import { withAuthRedirect } from '../../hoc/withAuthRedirect'
 import { compose } from 'redux'
 
 class ProfileContainer extends React.Component{
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {editMode : false};
-    // }
     componentDidUpdate(prevProps){
-        // if (prevProps.location.key !== this.props.location.key) {
-        //     this.setState({
-        //         editMode: this.props.location.state,
-        //     })
-        // }
+        if (prevProps.location.key !== this.props.location.key) {
+            console.log('componentDidUpdate(prevProps)')
+            const edible = this.props.location.state ? this.props.location.state.edible : true
+            if(this.props.authorizedUserId&&edible){
+                var profile = this.props.getAuthProfile()
+                if(profile){
+                    this.props.getStatus(this.props.authorizedUserId)
+                    this.props.getProfilePosts(this.props.authorizedUserId) 
+                }
+            }
+        }
         if(!this.props.authorizedUserId) { // redirect to Login page if logout
             this.props.history.push("/login")
         }
     }
     componentDidMount(){
-        if(this.props.location.state) {
-            this.setState({
-                editMode : this.props.location.state.editMode
-            })
-        }
         if(this.props.authorizedUserId){ // logged in profile only. should be profile by id
-            var profile = this.props.getAuthProfile()
-            if(profile){
-                this.props.getStatus(this.props.authorizedUserId)
-                this.props.getProfilePosts() 
+            if(this.props.location.state) {
+                console.log('Props location state:::this.props.location.state', this.props.location.state)
+                const editMode = this.props.location.state ? this.props.location.state.editMode : false
+                const edible = this.props.location.state ? this.props.location.state.edible : true
+                if(this.props.authorizedUserId&&edible){
+                    var profile = this.props.getAuthProfile()
+                    if(profile){
+                        this.props.getStatus(this.props.authorizedUserId)
+                        this.props.getProfilePosts(this.props.authorizedUserId) 
+                    }
+                }
+                else if(!edible){
+                  var profile = this.props.getProfileById(this.props.location.state.userId)
+                  var posts = this.props.getProfilePosts(this.props.location.state.userId)
+                }
             }
         }
-        else this.props.history.push("/login")
+        else{
+            this.props.history.push("/login")
+        }
     }
     render(){
-        // if(this.props.location) console.log(this.props.location.state)
-        // else console.log('no this.props.location.state')
-        // console.log('this.state.editMode',this.state.editMode)
         if (!this.props.authorizedUserId) {
             return <Redirect to="/login"/>
         }
@@ -60,6 +67,7 @@ class ProfileContainer extends React.Component{
 }
 
 let mapStateToProps = (state) => ({
+    state: state,
     profile: state.profilePage.profile,
     postsData: state.profilePage.postsData,
     status: state.profilePage.status,
@@ -68,7 +76,7 @@ let mapStateToProps = (state) => ({
 
 export default compose (
     connect (mapStateToProps, 
-    {getAuthProfile, getStatus, getProfilePosts, updateStatus, editProfileInfo, uploadImage}),
+    {getAuthProfile, getProfileById, getStatus, getProfilePosts, updateStatus, editProfileInfo, uploadImage}),
     withRouter,
 //    withAuthRedirect
 )

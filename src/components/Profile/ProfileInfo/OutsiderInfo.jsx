@@ -1,38 +1,19 @@
 import s from "./ProfileInfo.module.css"
 import blankImage from "../../../assets/images/samurai.png"
 import ProfileStatusWithHooks from "../ProfileStatusWithHooks"
-import { Redirect } from 'react-router'
-import { Link } from 'react-router-dom'
-import { useState } from "react"
 
-const ProfileInfo = (props) => {
+const OutsiderInfo = (props) => {
     // const [uploadStatus] = useState('');
-    const imageHandler = (event) => {
-        const file = event.target.files[0]
-        const formData = new FormData()
-        console.log('file', file)
-        formData.append('image', file)
-        formData.append('userId', props.authorizedUserId)
-        props.uploadImage(formData)
-    }
+    const image = window.location.origin + '/' + props.profile.avaPath
     return (
         <div>
             <div className={s.item}>
-            {props.profile.avaPath&&<div className={s.descriptionBlock}>
-                    <img src={props.profile.avaPath ? props.profile.avaPath : blankImage} alt="large_pic"/>
-                </div>}
+            <div className={s.descriptionBlock}>
+                    <img src={image ? image : blankImage} 
+                    alt="large_pic"/>
+                </div>
                 <div>
-            <div className={s.item}>
-            <input type="file" name="image" accept="image/*" multiple={false} onChange={imageHandler} />
-            <div><Link to = {{
-            pathname: "/profile",
-            state: { editMode: true, edible: true }}
-        }><button>Edit profile</button></Link></div>
-            </div>
-        </div>
-                <div>
-                    <ProfileStatusWithHooks status={props.status}
-                    updateStatus={props.updateStatus}/>
+                    {props.status}
                 </div>
                 <div>About me: {props.profile.aboutMe}</div>
                 <ul className={s.no_bullets}>Contacts: 
@@ -53,4 +34,4 @@ const ProfileInfo = (props) => {
         </div>
     )
 }
-export default ProfileInfo
+export default OutsiderInfo
