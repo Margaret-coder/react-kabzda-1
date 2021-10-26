@@ -170,7 +170,7 @@ router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => 
 
 router.post('/profile/image', upload.single('image'), (req, res, err) => {
     console.log('POST IMAGE')
-  //  console.log("req.session.user.id image", req.session.user.id)
+    console.log("req.session.user.avaPath", req.session.user.avaPath)
     const image = req.file.filename
     console.log('image', image)
     const id = req.body.userId
@@ -198,6 +198,9 @@ router.post('/profile/image', upload.single('image'), (req, res, err) => {
                 console.log("upload image error: profile not found")
             }
             console.log("profile to send", profile)
+            req.session.user.avaPath = profile.avaPath
+    console.log("req.session.user.avaPath", req.session.user.avaPath)
+
             res.send(profile)
         })
     }
