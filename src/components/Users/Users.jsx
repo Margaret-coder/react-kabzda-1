@@ -5,6 +5,7 @@ import User from './User'
 import Paginator from './Paginator'
 
 const Users = (props) => {
+    console.log('Users props', props)
     return (
         <div>
         <div>{props.isFetching? <Preloader/> : null}</div>
@@ -17,7 +18,7 @@ const Users = (props) => {
             props.users.map(u=> u.userId!==props.userId&&
            // <User key = {u.id} 
             <User key = {u._id} 
-            user={u} follow={props.follow} unfollow={props.unfollow}
+            user={u} avaPath={u.avaPath} follow={props.follow} unfollow={props.unfollow}
             followingInProgress={props.followingInProgress} getProfileById={props.getProfileById}/>)
         }
     </div>

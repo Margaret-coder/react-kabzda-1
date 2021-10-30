@@ -14,12 +14,6 @@ class PostsContainer extends React.Component{
     }
     componentDidUpdate(prevProps){
         if (prevProps.posts.length !== this.props.posts.length) {
-        //     console.log('U P D A T E prevProps.posts', prevProps.posts)
-        //     console.log('U P D A T E this.props.posts', this.props.posts)
-        //     const userId = this.props.profilePageUserId
-        //     var posts = this.props.getProfilePosts(userId)
-        // console.log('render POSTS in POSTS CONTAINER UPDATE::::', posts)
-
         console.log('C O M P O N E N T   D I D   U P D A T E')
         }
     }
