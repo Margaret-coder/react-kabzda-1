@@ -14,11 +14,13 @@ const ProfileInfo = (props) => {
         formData.append('image', file)
         formData.append('userId', props.authorizedUserId)
         props.uploadImage(formData)
+    console.log('Blank image', blankImage)
+
     }
     return (
         <div>
-            <div className={s.item}>
-            {props.profile.avaPath&&<div className={s.descriptionBlock}>
+            <div className={s.descriptionBlock}>
+            {props.profile.avaPath&&<div className={s.ava}>
                     <img src={props.profile.avaPath ? props.profile.avaPath : blankImage} alt="large_pic"/>
                 </div>}
                 <div>

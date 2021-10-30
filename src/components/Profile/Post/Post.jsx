@@ -1,12 +1,14 @@
 import React from 'react'
+import blankImage from '../../../assets/images/samurai.png'
 import { toggleIsFetching } from '../../../redux/usersReducer'
 import s from './Post.module.css'
 
 class Post extends React.Component {
     state = {
         editPost : false,
-        edible: this.props.post.authorUserId === this.props.profilePageUserId,
-        deletable: this.props.post.authorUserId === this.props.profilePageUserId,
+        edible: this.props.post.authorUserId === this.props.authorizedUserId,
+        deletable: this.props.post.authorUserId === this.props.authorizedUserId||
+        this.props.post.ownerUserId === this.props.authorizedUserId,
         message: this.props.post.message
 
     }
@@ -18,9 +20,7 @@ class Post extends React.Component {
     }
     activateEditMode = () => {
         console.log("PROPS", this.props)
-        console.log("PROPS this.props.post.authorUserId", this.props.post.authorUserId)
-        console.log("PROPS this.props.profilePageUserId", this.props.profilePageUserId)
-        console.log("edible", this.state.edible)
+      
         // if(this.props.post.authorUserId === this.props.profilePageUserId){
             this.setState({
                 editPost : true
@@ -44,9 +44,10 @@ class Post extends React.Component {
         this.props.likePost(postId, profileUId)
     }
     render(){
-        const image = window.location.origin + '/' + this.props.img
+        // const edible = this.props.authorizedUserId === this.props.post.authorUserId
+        var image
+        this.props.img ? image = window.location.origin + '/' + this.props.img : image = blankImage
         const postId = this.props.post._id
-        const profileUId = this.props.profilePageUserId
         return (
             <div className={s.item}>
                 <div className={s.upperBlock}>
@@ -66,10 +67,11 @@ class Post extends React.Component {
                 </div>
                 </div>
                 <div className={s.operations}>
-                    <div>like:{this.props.post.likesCount}</div>
-                    <span><button onClick={() => this.onDeleteButtonClick(postId, profileUId)}>delete</button></span>
+                    <div>like:{this.props.post.likeIds.length}</div>
+                    {this.state.deletable&&<span>
+                        <button onClick={() => this.onDeleteButtonClick(postId)}>delete</button></span>}
                     {this.state.edible&&<span><button onClick={this.activateEditMode}>edit</button></span>}
-                    <span><button onClick={() => this.Like(postId, profileUId)}>like</button></span>
+                    <span><button onClick={() => this.Like(postId)}>like</button></span>
                 </div>
             </div>
         )
