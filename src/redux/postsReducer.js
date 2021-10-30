@@ -9,20 +9,26 @@ const LIKE_POST = 'social-network/profile/LIKE_POST'
 
 let initialState = {
   postsData : [],
+  ownerUserId: ''
 }
 
 const profileReducer = (state = initialState, action) => {
     switch (action.type){
       case ADD_POST: {
-        let stateCopy = {...state}
-        stateCopy.postsData.push(action.content)
-        return stateCopy
+        console.log('Action content', action.content)
+        const postsDataNew = state.postsData.slice()
+        postsDataNew.push(action.content)
+        console.log('ADD_POST state b4 update:::::', state)
+        return {...state, 
+          postsData: postsDataNew}
       }
       case LIKE_POST: {
         let stateCopy = {...state}
         var index = stateCopy.postsData.findIndex(item => item._id === action.element._id)
         if(index !== -1){
-          stateCopy.postsData.splice(index, 1, action.element)
+          console.log('element:::', action.element.likeIds)
+          // stateCopy.postsData.splice(index, 1, action.element)
+          stateCopy.postsData[index].likeIds = action.element.likeIds
         }
         return stateCopy
       }
@@ -35,7 +41,8 @@ const profileReducer = (state = initialState, action) => {
         return state // post value is already in state inside class jsx
       }
       case SET_POSTS: {
-        return {...state, postsData: action.posts}
+        console.log('---------------SET_POSTS', action.posts, action.id)
+        return {...state, postsData: action.posts, ownerUserId: action.id}
       }
       default: {
         return state
@@ -63,12 +70,15 @@ export const likePostActionCreator = (post_data) => ({
   element: post_data
 })
 
-export const setPostsData = (posts) => ({
+export const setPostsData = (posts, id) => ({
     type: SET_POSTS,
-    posts: posts
+    posts: posts,
+    id:id
 })
 
 export const getProfilePosts = (user_id) => async (dispatch) => {
+  console.log('------------------------GET PROFILE POSTS-----------------------------')
+  console.log('Request posts by userId', user_id)
   const posts = await postsAPI.requestPostsByUserId(user_id)
   var profiles = await Promise.all(posts.map(async post => {
     return await profileAPI.getProfilePostInfo(post.authorUserId
@@ -87,7 +97,8 @@ export const getProfilePosts = (user_id) => async (dispatch) => {
       return false
     }
   })
-  dispatch(setPostsData(post_profile))
+  // return post_profile
+  dispatch(setPostsData(post_profile, user_id))
 }
 
 export const deletePost = (id) => async (dispatch) => {
@@ -101,17 +112,19 @@ export const editPost = (post) => async (dispatch) => {
   dispatch(updatePostActionCreator(response.data)) // updatePostActionCreator is not needed 
 }
 
-export const likePost = (post_id, profile_id) => async (dispatch) => {
+export const likePost = (post_id) => async (dispatch) => {
+  console.log('POSTS REDUCER LIKE POST')
   const response = await postsAPI.likePost(post_id)
- // dispatch(likePostActionCreator(response.data)) // likePostActionCreator is not needed
-  dispatch(getProfilePosts(profile_id))
+  console.log('Response like post', response)
+ dispatch(likePostActionCreator(response.data))
 }
 
-export const sendNewPost = (message = "message", userId) => async (dispatch) => {
-  console.log('sendNewPost USER ID', userId)
-  const response = await postsAPI.sendNewPost(message, userId)
-//  dispatch(addPostActionCreator(response.data)) // addPostActionCreator is not needed
-  dispatch(getProfilePosts(userId))
+export const sendNewPost = (message = "message", ownerPageUId) => async (dispatch) => {
+  console.log('sendNewPost owner USER ID', ownerPageUId)
+  const response = await postsAPI.sendNewPost(message, ownerPageUId)
+  console.log('response sendNewPost', response.data)
+  dispatch(addPostActionCreator(response.data))
+  dispatch(getProfilePosts(ownerPageUId))
 }
 
 export default profileReducer

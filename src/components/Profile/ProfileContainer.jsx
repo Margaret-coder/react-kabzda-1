@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Profile from './Profile'
-import { getAuthProfile, getProfileById, getStatus, updateStatus, 
+import {getProfileById, getStatus, updateStatus, 
     editProfileInfo, uploadImage} from '../../redux/profileReducer'
-import { getProfilePosts} from '../../redux/postsReducer'    
 import { Redirect, withRouter } from 'react-router'
 import { withAuthRedirect } from '../../hoc/withAuthRedirect'
 import { compose } from 'redux'
@@ -14,10 +13,9 @@ class ProfileContainer extends React.Component{
             console.log('componentDidUpdate(prevProps)')
             const edible = this.props.location.state ? this.props.location.state.edible : true
             if(this.props.authorizedUserId&&edible){
-                var profile = this.props.getAuthProfile()
+                var profile = this.props.getProfileById(this.props.authorizedUserId)
                 if(profile){
                     this.props.getStatus(this.props.authorizedUserId)
-                    this.props.getProfilePosts(this.props.authorizedUserId) 
                 }
             }
         }
@@ -26,20 +24,20 @@ class ProfileContainer extends React.Component{
         }
     }
     componentDidMount(){
-        if(this.props.authorizedUserId){ // logged in profile only. should be profile by id
+        if(this.props.authorizedUserId){ // logged in profile only
+            var userId
             if(this.props.location.state) {
-                const editMode = this.props.location.state ? this.props.location.state.editMode : false
+                // const editMode = this.props.location.state ? this.props.location.state.editMode : false
                 const edible = this.props.location.state ? this.props.location.state.edible : true
-                if(this.props.authorizedUserId&&edible){
-                    var profile = this.props.getAuthProfile()
-                    if(profile){
-                        this.props.getStatus(this.props.authorizedUserId)
-                        this.props.getProfilePosts(this.props.authorizedUserId) 
-                    }
+                if(edible){
+                    userId = this.props.authorizedUserId
                 }
                 else if(!edible){
-                  var profile = this.props.getProfileById(this.props.location.state.userId)
-                  var posts = this.props.getProfilePosts(this.props.location.state.userId)
+                  userId = this.props.location.state.userId
+                }
+                const profile = this.props.getProfileById(userId)
+                if(profile){
+                    this.props.getStatus(userId)
                 }
             }
         }
@@ -68,14 +66,13 @@ class ProfileContainer extends React.Component{
 let mapStateToProps = (state) => ({
     state: state,
     profile: state.profilePage.profile,
-    postsData: state.profilePage.postsData,
     status: state.profilePage.status,
     authorizedUserId: state.auth.userId 
 })
 
 export default compose (
     connect (mapStateToProps, 
-    {getAuthProfile, getProfileById, getStatus, getProfilePosts, updateStatus, editProfileInfo, uploadImage}),
+    {getProfileById, getStatus, updateStatus, editProfileInfo, uploadImage}),
     withRouter,
 //    withAuthRedirect
 )

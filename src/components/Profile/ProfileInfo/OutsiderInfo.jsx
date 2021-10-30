@@ -5,6 +5,7 @@ import ProfileStatusWithHooks from "../ProfileStatusWithHooks"
 const OutsiderInfo = (props) => {
     // const [uploadStatus] = useState('');
     const image = window.location.origin + '/' + props.profile.avaPath
+    console.log('OUTSIDER INFO RENDER')
     return (
         <div>
             <div className={s.item}>

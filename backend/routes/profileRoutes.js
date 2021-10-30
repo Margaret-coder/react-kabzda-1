@@ -41,8 +41,9 @@ router.patch('/profile/status', async(req, res) => {
 })
 
 router.get('/profile/status/:id', async(req, res) => {
-    if(req.session&&req.session.user){
-        Profile.findOne({userId: req.session.user.id}, function(err, profile){ //req.userId
+    console.log('ROUTER GET STATUS by id:',req.params.id)
+    if(req.params&&req.params.id){
+        Profile.findOne({userId: req.params.id}, function(err, profile){ //req.userId
             if(profile) {
                 res.send(profile.status)
             }

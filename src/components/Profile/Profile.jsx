@@ -1,6 +1,6 @@
 import { Redirect } from "react-router"
 import Preloader from "../Common/Preloader/Preloader"
-import MyPostsContainer from "./MyPosts/MyPostsContainer"
+import PostsContainer from "./MyPosts/PostsContainer"
 import OutsiderInfo from "./ProfileInfo/OutsiderInfo"
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import ProfileInfoEditMode from "./ProfileInfo/ProfileInfoEditMode"
@@ -19,7 +19,7 @@ const Profile = (props) => {
                 status={props.profile.status} 
                 authorizedUserId={props.authorizedUserId}
                 />
-                <MyPostsContainer/>
+                <PostsContainer/>
             </div>
         )
     }
@@ -40,7 +40,7 @@ const Profile = (props) => {
                 updateStatus={props.updateStatus} 
                 authorizedUserId={props.authorizedUserId}
                 uploadImage={props.uploadImage}/>
-                <MyPostsContainer/>
+                <PostsContainer/>
             </div>
         )
     }

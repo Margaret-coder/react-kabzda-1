@@ -37,7 +37,6 @@ router.post("/posts", async (req, res) => {
 		ownerUserId: ownerUserId,
 		authorUserId: authorUserId,
 		message: req.body.message,
-		likesCount: 0
 	})
 	await post.save()
 	res.send(post)
@@ -66,12 +65,10 @@ router.patch("/posts/:id", async(req, res) => {
 				console.log("found", find)
 				post.likeIds = post.likeIds.filter(item => item !== userId);
 				console.log("post.likeIds after filter", post.likeIds)
-				post.likesCount = post.likeIds.length
 			}
 			else {
 				console.log('adding')
 				post.likeIds.push(userId)
-				post.likesCount = post.likeIds.length
 			}
 		}
 		await post.save()

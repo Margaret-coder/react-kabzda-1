@@ -9,7 +9,6 @@ const postSchema = mongoose.Schema({
     ownerUserId: String,
     authorUserId: String,
     message: String,
-    likesCount: Number,
     likeIds: [{type: String}]
 })
 
