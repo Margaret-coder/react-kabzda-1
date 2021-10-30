@@ -34,7 +34,7 @@ export const setStatus = (text) => ({
 })
 
 export const getProfileById = (userId) => async (dispatch) => {
-  console.log('--------profileReducer::GET PROFILE BY ID', userId)
+  // console.log('--------profileReducer::GET PROFILE BY ID', userId)
   const response = await profileAPI.getProfileById(userId)
   if(response.status === 200){
     dispatch(setUserProfile(response.data))

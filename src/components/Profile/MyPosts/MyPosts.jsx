@@ -29,8 +29,6 @@ const MyPostsReduxForm = reduxForm({form: 'message form'})
 
 const MyPosts = (props) => {
     const posts = props.posts
-    console.log('POSTS STATE:::', props.state)
-    console.log('POSTS:::', posts)
     var postsElements
     if(posts)
     postsElements = posts.map( post=>posts&&<Post 

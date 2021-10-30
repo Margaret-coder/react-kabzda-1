@@ -80,7 +80,7 @@ export const getAuthUserData = () => async (dispatch) => {
     console.log('GetAuthUserData----')
     let response = await authAPI.me()
     if(response.data&&response.status === 200){
-        console.log('response.data', response.data)
+        // console.log('response.data', response.data)
             let{id, email, login, avaPath} = response.data
             dispatch(setAuthUserData(id, email, login, avaPath, true, ""))
             return(id)
