@@ -47,33 +47,31 @@ router.patch("/posts/:id", async(req, res) => {
 	const postId = req.params.id
 	const userId = req.session.user.id
 	try{
+		console.log("Post.findOne", postId)
 		const post = await Post.findOne({_id: postId})
-		if(req.body.message){
-			post.message = req.body.message
-			await post.save()
+		if(post){
+			if(req.body.message){ // edit post
+				post.message = req.body.message
+				await post.save()
+				res.send(post)
+			}
+			else if(userId){ // like forward|back
+				var find
+				if(post.likeIds.length > 0){
+					find = post.likeIds.find(item => item === userId)
+				}
+				if(find){ // take your like back
+					post.likeIds = post.likeIds.filter(item => item !== userId);
+					console.log("post.likeIds after filter", post.likeIds)
+				}
+				else {
+					post.likeIds.push(userId) // like post
+				}
+			}
+			await post.save() // if post exists then edit&save
 			res.send(post)
-			console.log("Post was sent")
+			console.log("post saved and sent")
 		}
-		if(userId){
-			// console.log("Hello from patch user_id")
-			var find
-			if(post.likeIds.length > 0){
-				find = post.likeIds.find(item => item === userId)
-				console.log("find", find)
-			}
-			if(find){ // take your like back
-				console.log("found", find)
-				post.likeIds = post.likeIds.filter(item => item !== userId);
-				console.log("post.likeIds after filter", post.likeIds)
-			}
-			else {
-				console.log('adding')
-				post.likeIds.push(userId)
-			}
-		}
-		await post.save()
-		res.send(post)
-		console.log("post saved and sent")
 	}
 	catch {
 		res.status(404)
