@@ -13,9 +13,12 @@ class PostsContainer extends React.Component{
         console.log('render POSTS in POSTS CONTAINER::::', posts)
     }
     componentDidUpdate(prevProps){
-        // if (prevProps.posts.length !== this.props.posts.length) {
-        // console.log('C O M P O N E N T   D I D   U P D A T E')
-        // }
+        if (prevProps.profilePageUserId !== this.props.profilePageUserId) {
+            console.log('C O M P O N E N T   D I D   U P D A T E')
+            const userId = this.props.profilePageUserId
+            var posts = this.props.getProfilePosts(userId)
+            console.log('render POSTS in POSTS CONTAINER::::', posts)
+        }
     }
     render(){
         return (<MyPosts

@@ -40,12 +40,11 @@ class Post extends React.Component {
             message : e.currentTarget.value
         })
     }
-    Like = (postId, profileUId) => {
-        console.log('Like', postId, profileUId)
-        this.props.likePost(postId, profileUId)
+    Like = (postId) => {
+        this.props.likePost(postId)
     }
     render(){
-        console.log('this.props.post:::', this.props.post)
+        // console.log('this.props.post:::', this.props.post)
         var image
         this.props.img ? image = window.location.origin + '/' + this.props.img : image = blankImage
         const postId = this.props.post._id
