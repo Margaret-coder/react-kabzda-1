@@ -10,17 +10,26 @@ import { compose } from 'redux'
 class ProfileContainer extends React.Component{
     componentDidUpdate(prevProps){
         if (prevProps.location.key !== this.props.location.key) {
-            console.log('componentDidUpdate(prevProps)')
-            const edible = this.props.location.state ? this.props.location.state.edible : true
-            if(this.props.authorizedUserId&&edible){
-                var profile = this.props.getProfileById(this.props.authorizedUserId)
+            console.log('componentDidUpdate(prevProps.location.key !== this.props.location.key)')
+            if(this.props.authorizedUserId){ // logged in profile only
+                var userId
+                // const editMode = this.props.location.state ? this.props.location.state.editMode : false
+                const edible = this.props.location.state ? this.props.location.state.edible : true
+                if(edible){
+                    userId = this.props.authorizedUserId
+                }
+                else if(!edible){
+                    userId = this.props.location.state.userId
+                }
+                console.log('Profile user Id', userId)
+                const profile = this.props.getProfileById(userId)
                 if(profile){
-                    this.props.getStatus(this.props.authorizedUserId)
+                    this.props.getStatus(userId)
                 }
             }
-        }
-        if(!this.props.authorizedUserId) { // redirect to Login page if logout
-            this.props.history.push("/login")
+            else{
+                this.props.history.push("/login")
+            }
         }
     }
     componentDidMount(){
