@@ -26,7 +26,7 @@ const profileReducer = (state = initialState, action) => {
         let stateCopy = {...state}
         var index = stateCopy.postsData.findIndex(item => item._id === action.element._id)
         if(index !== -1){
-          console.log('element:::', action.element.likeIds)
+          console.log('Like post element:::', action.element.likeIds)
           // stateCopy.postsData.splice(index, 1, action.element)
           stateCopy.postsData[index].likeIds = action.element.likeIds
         }
