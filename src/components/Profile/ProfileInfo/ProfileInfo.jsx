@@ -14,8 +14,7 @@ const ProfileInfo = (props) => {
         formData.append('image', file)
         formData.append('userId', props.authorizedUserId)
         props.uploadImage(formData)
-    console.log('Blank image', blankImage)
-
+        console.log('Blank image', blankImage)
     }
     return (
         <div>

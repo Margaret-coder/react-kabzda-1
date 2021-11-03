@@ -40,15 +40,12 @@ const ProfileInfoEditMode_Form = (props) => {
     const loadImage = (e) => {
         editInfoFormData.set('image', e.target.files[0])
         setImage(e.target.files[0].name)
-        console.log(e.target.files[0])
     }
     const handleParentClick = (e) => { 
         e.preventDefault();
-        console.log('parent CLICK');
     }
     const handleChildClick = (e) => {
         e.stopPropagation();
-        console.log('child CLICK');
     }
     return (
             <form onSubmit={props.handleSubmit} className={s.profileInfoBlock}>
@@ -99,7 +96,7 @@ const ProfileInfoEditModeReduxForm = reduxForm({form: 'profile_info_edit'})(Prof
 const ProfileInfoEditMode = (props) => {
     let history = useHistory();
     const onSubmitForm = (formData) => {
-        console.log('-----------------------------Submit Form')
+        console.log('-----------------------------Submit Edit Form')
         let {aboutMe, lookingForJob, jobDescription, fullname} = formData
         const status = ""
         editInfoFormData.set("contacts[]", contacts_arr[0])

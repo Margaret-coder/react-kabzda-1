@@ -29,6 +29,7 @@ const MyPostsReduxForm = reduxForm({form: 'message form'})
 
 const MyPosts = (props) => {
     const posts = props.posts
+    // console.log('render POSTS in MY_POSTS::::', posts)
     var postsElements
     if(posts)
     postsElements = posts.map( post=>posts&&<Post 

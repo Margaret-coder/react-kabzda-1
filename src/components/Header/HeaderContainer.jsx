@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 class HeaderContainer extends React.Component{
     render()
     {
-        // console.log('STATE:::', this.props.state)
+        console.log('Header Container STATE:::', this.props.state)
         return(
             <Header {...this.props}/>
         )

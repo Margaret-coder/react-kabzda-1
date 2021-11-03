@@ -17,18 +17,9 @@ const my_instance = axios.create({
 
 export const profileAPI = {
     /* PROFILE */
-    getProfile(){
-        console.log('-getProfile')
-        return my_instance.get()
-    },
     getProfileById(userId){
         // console.log('-userId-getProfileById', userId)
         return my_instance.get(userId)
-    },
-    getProfilePostInfo(userId){
-        return my_instance.get(userId).then(response => {
-            return response.data
-        })
     },
     createNewProfile(){
         return my_instance.post()
