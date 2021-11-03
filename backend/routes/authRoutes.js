@@ -15,7 +15,8 @@ const createSession = (user, req, res) => {
 }
 
 router.get("/me", async(req, res) => {
-    console.log('router /me')
+    console.log('AUTH router /me')
+    console.log('REQ.SESSION', req.session)
     if (req.session&&req.session.user) {
         res.send(req.session.user)
     } 

@@ -41,7 +41,7 @@ const profileReducer = (state = initialState, action) => {
         return state // post value is already in state inside class jsx
       }
       case SET_POSTS: {
-        console.log('---------------SET_POSTS', action.posts, action.id)
+        // console.log('---------------SET_POSTS', action.posts, action.id)
         return {...state, postsData: action.posts, ownerUserId: action.id}
       }
       default: {
@@ -77,12 +77,13 @@ export const setPostsData = (posts, id) => ({
 })
 
 export const getProfilePosts = (user_id) => async (dispatch) => {
-  console.log('------------------------GET PROFILE POSTS-----------------------------')
-  console.log('Request posts by userId', user_id)
+  // console.log('------------------------GET PROFILE POSTS-----------------------------')
+  // console.log('Request posts by userId', user_id)
   const posts = await postsAPI.requestPostsByUserId(user_id)
   var profiles = await Promise.all(posts.map(async post => {
-    return await profileAPI.getProfilePostInfo(post.authorUserId
-      )
+    return await profileAPI.getProfileById(post.authorUserId).then(response => {
+      return response.data
+  })
   }))
   const post_profile = posts.filter(post => {
     var found

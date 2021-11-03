@@ -79,6 +79,7 @@ router.get('/profile/:id', async(req, res) => {
     if(req.params.id) { 
         Profile.findOne({userId: req.params.id}, function(err, profile) {
             if(profile) {
+                // console.log('got profile:::', profile)
                 res.send(profile)
             }
             else {
@@ -114,8 +115,6 @@ router.get('/profiles', async(req, res) => {
 
 router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => {
     console.log("POST EDIT/CREATE PROFILE")
-//    console.log("req.session.user.id create profile", req.session.user.id) // session in not available in formData req
-//ss    console.log("req.body", req.body)
     const image = req.file?req.file.filename:''
     const id = req.body.userId
     console.log('User id', id)
@@ -140,6 +139,7 @@ router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => 
                         })
                    }
                     else {
+                        req.session.user.avaPath = profile.avaPath
                         res.jsonp(profile)
                     }
                 })
@@ -162,8 +162,7 @@ router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => 
                 catch(err){
                     console.log(err)
                 }
-                console.log("profile to send", profile)
-                res.send(profile)
+                res.jsonp(profile)
             }
         })
     }
@@ -172,6 +171,8 @@ router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => 
 router.post('/profile/image', upload.single('image'), (req, res, err) => {
     console.log('POST IMAGE')
     console.log("req.session.user.avaPath", req.session.user.avaPath)
+    console.log("req.session.user.id", req.session.user.id)
+    console.log('req.body.userId', req.body.userId)
     const image = req.file.filename
     console.log('image', image)
     const id = req.body.userId
@@ -200,8 +201,7 @@ router.post('/profile/image', upload.single('image'), (req, res, err) => {
             }
             console.log("profile to send", profile)
             req.session.user.avaPath = profile.avaPath
-    console.log("req.session.user.avaPath", req.session.user.avaPath)
-
+            console.log("req.session.user.avaPath", req.session.user.avaPath)
             res.send(profile)
         })
     }

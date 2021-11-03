@@ -3,7 +3,6 @@ import blankImage from "../../assets/images/samurai.png"
 import s from './Header.module.css'
 
 const Header = (props) => {
-  // console.log('avaPath', props.avaPath)
   const image = window.location.origin + '/' + props.avaPath
     return (
       <header className={s.header}>Header jsx
