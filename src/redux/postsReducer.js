@@ -81,7 +81,7 @@ export const getProfilePosts = (user_id) => async (dispatch) => {
   // console.log('Request posts by userId', user_id)
   const posts = await postsAPI.requestPostsByUserId(user_id)
   var profiles = await Promise.all(posts.map(async post => {
-    return await profileAPI.getProfileById(post.authorUserId).then(response => {
+    return await profileAPI.getProfileByUserId(post.authorUserId).then(response => {
       return response.data
   })
   }))

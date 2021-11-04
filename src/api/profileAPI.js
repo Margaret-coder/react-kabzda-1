@@ -17,8 +17,8 @@ const my_instance = axios.create({
 
 export const profileAPI = {
     /* PROFILE */
-    getProfileById(userId){
-        // console.log('-userId-getProfileById', userId)
+    getProfileByUserId(userId){
+        // console.log('-userId-getProfileByUserId', userId)
         return my_instance.get(userId)
     },
     createNewProfile(){

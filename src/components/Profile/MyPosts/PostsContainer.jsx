@@ -8,15 +8,11 @@ import MyPosts from './MyPosts'
 class PostsContainer extends React.Component{
     componentDidMount(){
         const userId = this.props.profilePageUserId
-        var posts = this.props.getProfilePosts(userId)
+        this.props.getProfilePosts(userId)
     }
     componentDidUpdate(prevProps){
-        // if (prevProps.profilePageUserId !== this.props.profilePageUserId) {
-        if(prevProps.profile&&prevProps.profile.avaPath !== this.props.profile.avaPath){
-
-            console.log('P O S T C O N T A I N E R ::: C O M P O N E N T   D I D   U P D A T E')
-            const userId = this.props.profilePageUserId
-            var posts = this.props.getProfilePosts(userId)
+        if(prevProps.state.profilePage.profile&&prevProps.state.profilePage.profile.avaPath !== this.props.state.profilePage.profile.avaPath){
+            this.props.getProfilePosts(this.props.profilePageUserId)
         }
     }
     render(){

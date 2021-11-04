@@ -1,12 +1,16 @@
 import React from "react";
 import Header from './Header'
-import {logoutUser } from '../../redux/authReducer'
+import { getAuthUserData, logoutUser } from '../../redux/authReducer'
 import { connect } from "react-redux";
 
 class HeaderContainer extends React.Component{
+    componentDidUpdate(prevProps){
+        if(prevProps.state.profilePage.profile&&prevProps.state.profilePage.profile.avaPath !== this.props.state.profilePage.profile.avaPath){
+            this.props.getAuthUserData()
+        }
+    }
     render()
     {
-        console.log('Header Container STATE:::', this.props.state)
         return(
             <Header {...this.props}/>
         )
@@ -22,4 +26,4 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps, 
-    {logoutUser})(HeaderContainer)
+    { getAuthUserData, logoutUser })(HeaderContainer)
