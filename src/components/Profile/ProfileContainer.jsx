@@ -1,8 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Profile from './Profile'
-import { getAuthUserData } from "../../redux/authReducer";
-import { getProfilePosts } from "../../redux/postsReducer";
 import {getProfileById, getStatus, updateStatus, 
     editProfileInfo, uploadImage} from '../../redux/profileReducer'
 import { Redirect, withRouter } from 'react-router'
@@ -11,46 +9,7 @@ import { compose } from 'redux'
 
 class ProfileContainer extends React.Component{
     componentDidUpdate(prevProps){
-        /* Synchronous avatar update. Posts, Header, Profile */
-        if(prevProps.profile&&prevProps.profile.avaPath !== this.props.profile.avaPath){
-            console.log('------prevProps.profile&&prevProps.profile.avaPath', prevProps.profile&&prevProps.profile.avaPath)
-            console.log('------this.props.profile.avaPath', this.props.profile.avaPath)
-            const authData = this.props.getAuthUserData()
-            if(this.props.authorizedUserId){
-                const profile = this.props.getProfileById(this.props.authorizedUserId)
-                console.log('PROFILE____________________DATA::::', profile)
-                const posts = this.props.getProfilePosts(this.props.authorizedUserId)
-                console.log('POSTS____________________DATA::::', posts)
-            }
-            console.log('AUTH____________________DATA::::', authData)
-        }
-        if (prevProps.location.key !== this.props.location.key) {
-            console.log('componentDidUpdate(prevProps.location.key !== this.props.location.key)')
-            console.log('prevProps.location', prevProps.location)
-            console.log('this.props.location', this.props.location)
-            if(this.props.authorizedUserId){ // logged in profile only
-                var userId
-                const editMode = this.props.location.state ? this.props.location.state.editMode : false
-                const edible = this.props.location.state ? this.props.location.state.edible : true
-                if(edible){
-                    userId = this.props.authorizedUserId
-                }
-                else if(!edible){
-                    userId = this.props.location.state.userId
-                }
-                if (editMode === false){
-                    const profile = this.props.getProfileById(userId)
-                    console.log('GET PROFILE COMPONENT UPDATE editMode === false')
-                    if(profile&&edible){
-                        this.props.getStatus(userId)
-                    }
-                }
-            }
-            else{
-                this.props.history.push("/login")
-            }
-        }
-        else console.log('COMPONENT DID UPDATE WITHOUT A CONDITION -- PROFILE CONTAINER')
+        console.log('COMPONENT DID UPDATE WITHOUT A CONDITION -- PROFILE CONTAINER', this.props.state)
     }
     componentDidMount(){
         if(this.props.authorizedUserId){ // logged in profile only
@@ -102,7 +61,7 @@ let mapStateToProps = (state) => ({
 
 export default compose (
     connect (mapStateToProps, 
-    {getAuthUserData, getProfilePosts, getProfileById, getStatus, updateStatus, editProfileInfo, uploadImage}),
+    { getProfileById, getStatus, updateStatus, editProfileInfo, uploadImage }),
     withRouter,
 //    withAuthRedirect
 )

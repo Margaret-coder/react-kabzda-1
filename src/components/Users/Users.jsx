@@ -19,7 +19,7 @@ const Users = (props) => {
            // <User key = {u.id} 
             <User key = {u._id} 
             user={u} avaPath={u.avaPath} follow={props.follow} unfollow={props.unfollow}
-            followingInProgress={props.followingInProgress} getProfileById={props.getProfileById}/>)
+            followingInProgress={props.followingInProgress}/>)
         }
     </div>
     )

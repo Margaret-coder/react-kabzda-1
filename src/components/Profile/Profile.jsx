@@ -33,8 +33,7 @@ const Profile = (props) => {
         )
     }
     else if(!editMode){
-        console.log('-------Profile Info RENDER')
-        console.log('state PROFILE_Container', props.state)
+        console.log('state PROFILE_Container render', props.state)
         return (
             <div>
                 <ProfileInfo profile={props.profile}
