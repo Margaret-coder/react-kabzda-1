@@ -2,3 +2,18 @@ img{
     width: 100px;
     height: 100px;
 }
+.ava img{
+    border: darkblue solid 1px;
+    width: 10%;
+    height: 10%;
+}
+.usersBlock{
+    border: cyan solid 3px;
+    padding: 10px;
+}
+.paginator{
+    border: greenyellow solid 3px;
+    margin: 10px;
+    margin-left: 0;
+
+}

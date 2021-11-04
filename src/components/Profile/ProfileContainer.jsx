@@ -10,6 +10,14 @@ import { compose } from 'redux'
 class ProfileContainer extends React.Component{
     componentDidUpdate(prevProps){
         console.log('COMPONENT DID UPDATE WITHOUT A CONDITION -- PROFILE CONTAINER', this.props.state)
+        if(this.props.location.state&&prevProps.location.state&&this.props.authorizedUserId){
+            console.log('prevProps.location.state.edible', prevProps.location.state.edible)
+            console.log('this.props.location.state.edible', this.props.location.state.edible)
+            if(this.props.location.state.edible !== prevProps.location.state.edible)
+            {
+                this.props.getProfileById(this.props.authorizedUserId)
+            }
+        }
     }
     componentDidMount(){
         if(this.props.authorizedUserId){ // logged in profile only
