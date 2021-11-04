@@ -1,3 +1,4 @@
+import s from './Users.module.css'
 import { NavLink } from "react-router-dom"
 import userPhoto from '../../assets/images/samurai.png'
 // onclick Load Profile Info By Id, then redirect to Profile Page
@@ -11,9 +12,11 @@ const User = (props) => {
                     state: { editMode: false, edible: false, userId: user.userId }}}>
                         {/* <img src={user.photos&&user.photos.small !== null? 
                         user.photos.small : userPhoto} */}
-                        <img src={user.avaPath||user.photos.small !== null? 
-                        user.avaPath : userPhoto}
-                    alt="profilePhoto"/>
+                        <div className={s.ava}>
+                            <img src={user.avaPath||user.photos.small !== null? 
+                            user.avaPath : userPhoto}
+                            alt="profilePhoto"/>
+                        </div>
                     </NavLink>
                 </div>
                 <div>

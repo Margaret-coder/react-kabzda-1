@@ -1,7 +1,6 @@
 import { Redirect } from "react-router"
 import Preloader from "../Common/Preloader/Preloader"
 import PostsContainer from "./MyPosts/PostsContainer"
-import OutsiderInfo from "./ProfileInfo/OutsiderInfo"
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import ProfileInfoEditMode from "./ProfileInfo/ProfileInfoEditMode"
 const Profile = (props) => {
@@ -15,9 +14,10 @@ const Profile = (props) => {
     else if(!edible){
         return(
             <div>
-                <OutsiderInfo profile={props.profile}
+                <ProfileInfo profile={props.profile}
                 status={props.profile.status} 
                 authorizedUserId={props.authorizedUserId}
+                edible={false}
                 />
                 <PostsContainer/>
             </div>
@@ -40,7 +40,8 @@ const Profile = (props) => {
                 status={props.status} 
                 updateStatus={props.updateStatus} 
                 authorizedUserId={props.authorizedUserId}
-                uploadImage={props.uploadImage}/>
+                uploadImage={props.uploadImage}
+                edible={true}/>
                 <PostsContainer/>
             </div>
         )
