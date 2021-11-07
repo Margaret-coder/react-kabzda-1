@@ -125,7 +125,7 @@ router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => 
         Profile.findOne({userId: id}, function(err, profile){
             if(profile) {
                 profile.avaPath = image?image:profile.avaPath
-                profile.status = req.body.status,
+                profile.status = req.body.status?req.body.status:profile.status,
                 profile.aboutMe = req.body.aboutMe,
                 profile.contacts = req.body.contacts,
                 profile.lookingForJob = req.body.lookingForJob,
