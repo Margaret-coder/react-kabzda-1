@@ -4,7 +4,9 @@ var mongoose = require("mongoose"),
 
 var UserSchema = mongoose.Schema({
     email: {type: String, required: true, index: {unique: true}},
-    password: {type: String, required: true}
+    password: {type: String, required: true},
+    following: [String],
+    followers: [String]
 })
 
 UserSchema.pre('save', function(next) {
