@@ -4,6 +4,7 @@ import userPhoto from '../../assets/images/samurai.png'
 // onclick Load Profile Info By Id, then redirect to Profile Page
 const User = (props) => {
     const user = props.user
+    console.log('users props', user)
     return(
         <div>
             <span>
@@ -27,9 +28,9 @@ const User = (props) => {
                         </button> 
                         :
                         <button 
-                            disabled={props.followingInProgress.some(id => id === user.id)}
-                            onClick={()=> {props.follow(user.id)}}
-                        >Follow {user.id}
+                            disabled={props.followingInProgress.some(id => id === user.userId)}
+                            onClick={()=> {props.follow(user.userId)}}
+                        >Follow {user.userId}
                         </button>
                         }
                 </div>

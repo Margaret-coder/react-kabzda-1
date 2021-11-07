@@ -21,7 +21,8 @@ export const usersAPI = {
             return my_instance.get('/profiles')
         },
         follow(userId){
-            return my_instance.post(`follow/${userId}`)
+            console.log('follow userId', userId)
+            return my_instance.get(`/users/follow/${userId}`)
         },
         unfollow(userId){
             return my_instance.delete(`follow/${userId}`)

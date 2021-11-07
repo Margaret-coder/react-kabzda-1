@@ -106,10 +106,19 @@ export const followUnfollowFlow = async (dispatch, userId, apiRequest, actionCre
 export const follow = (userId) => {
     return async(dispatch) => {
         const apiRequest = usersAPI.follow
+        console.log('apiRequest', apiRequest)
         const actionCreator = followSuccess
         followUnfollowFlow(dispatch, userId, apiRequest, actionCreator)
     }
 }
+
+// export const follow = (userId) => {
+//     return async(dispatch) => {
+//         const apiRequest = usersAPI.follow
+//         const actionCreator = followSuccess
+//         followUnfollowFlow(dispatch, userId, apiRequest, actionCreator)
+//     }
+// }
 export const unfollow = (userId) => {
     return async (dispatch) => {
         const apiRequest = usersAPI.unfollow
