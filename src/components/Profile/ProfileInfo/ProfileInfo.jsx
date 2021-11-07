@@ -7,7 +7,7 @@ import { useState } from "react"
 
 const ProfileInfo = (props) => {
     const image = window.location.origin + '/' + props.profile.avaPath
-
+console.log(props.profile.status)
     // const [uploadStatus] = useState('');
     const imageHandler = (event) => {
         const file = event.target.files[0]
@@ -45,6 +45,7 @@ const ProfileInfo = (props) => {
                 </>
                 }
                 {/* end of block */}
+                {!props.edible&&<div>{props.profile.status}</div>}
                 <div>About me: {props.profile.aboutMe}</div>
                 <ul className={s.no_bullets}>Contacts:
                     {Object.keys(props.profile.contacts).map
