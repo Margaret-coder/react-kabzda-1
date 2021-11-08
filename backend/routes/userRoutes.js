@@ -22,6 +22,39 @@ router.get("/users", async(req, res) => {
     res.send(users)
 }) 
 
+router.delete("/users/follow/:id", async(req, res) => {
+	console.log('Users delete', req.params.id)
+	const auth_uid = req.session.user.id
+	const user_to_follow_id = req.params.id
+	console.log('req.session.user', req.session.user.id)
+	try{
+		const user = await User.findOne({_id: user_to_follow_id})
+		if(user){
+			var followers = user.followers
+			followers.remove(auth_uid)
+			user.followers = followers
+			user.update({followers : followers})
+			user.save()
+		}
+	}
+	catch(e){
+		console.log('Error', e)
+	}
+	try{
+		const user = await User.findOne({_id: auth_uid})
+		if(user){
+			var following = user.following
+			following.remove(user_to_follow_id)
+			user.update({following : following})
+			user.save()
+			res.jsonp(user)
+		}
+	}
+	catch(e){
+		console.log('Error', e)
+	}
+})
+
 router.get("/users/follow/:id", async(req, res) => {
 	const auth_uid = req.session.user.id
 	const user_to_follow_id = req.params.id

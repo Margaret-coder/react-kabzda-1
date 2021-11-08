@@ -2,7 +2,7 @@ import Users from './Users'
 import {connect} from 'react-redux'
 import {follow, unfollow, 
     setCurrentPage, toggleFollowingProgress,
-    requestProfiles} from '../../redux/usersReducer'
+    requestUsers} from '../../redux/usersReducer'
 import React from 'react'
 import { getUsers, getUsersCurrentPage,
      getUsersPageSize, getUsersTotalCount, 
@@ -10,26 +10,24 @@ import { getUsers, getUsersCurrentPage,
 
 class UsersContainer extends React.Component {
     componentDidMount(){
-        this.props.requestProfiles(this.props.currentPage, this.props.pageSize)
+        this.props.requestUsers(this.props.currentPage, this.props.pageSize)
     }
     onPageChanged = (pageNumber) => {
-        this.props.requestProfiles(pageNumber, this.props.pageSize)
+        this.props.requestUsers(pageNumber, this.props.pageSize)
     }
     render () {
-        console.log('this.props.userId::::', this.props.userId)
-
         return (
         <Users
-        userId={this.props.userId}
-        totalUsersCount={this.props.totalUsersCount}
-        pageSize={this.props.pageSize}
-        paginatorPortionSize={this.props.paginatorPortionSize}
-        currentPage={this.props.currentPage}
-        onPageChanged={this.onPageChanged}
-        users={this.props.users}
-        follow={this.props.follow}
-        unfollow={this.props.unfollow}
-        followingInProgress={this.props.followingInProgress}
+            authUserId={this.props.authUserId}
+            totalUsersCount={this.props.totalUsersCount}
+            pageSize={this.props.pageSize}
+            paginatorPortionSize={this.props.paginatorPortionSize}
+            currentPage={this.props.currentPage}
+            onPageChanged={this.onPageChanged}
+            users={this.props.users}
+            follow={this.props.follow}
+            unfollow={this.props.unfollow}
+            followingInProgress={this.props.followingInProgress}
         />
         )
     }
@@ -37,7 +35,7 @@ class UsersContainer extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        userId: state.auth.userId,
+        authUserId: state.auth.userId,
         users: getUsers(state),
         pageSize: getUsersPageSize(state),
         paginatorPortionSize: getPaginatorPortionSize(state),
@@ -52,4 +50,4 @@ let mapStateToProps = (state) => {
 export default 
     connect (mapStateToProps, {
          follow, unfollow, setCurrentPage,
-         toggleFollowingProgress, requestProfiles})(UsersContainer)
+         toggleFollowingProgress, requestUsers})(UsersContainer)
