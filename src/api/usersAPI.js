@@ -20,13 +20,17 @@ export const usersAPI = {
     requestProfiles(currentPage = 1, pageSize = 10){
             return my_instance.get('/profiles')
         },
-        follow(userId){
-            console.log('follow userId', userId)
-            return my_instance.get(`/users/follow/${userId}`)
-        },
-        unfollow(userId){
-            return my_instance.delete(`follow/${userId}`)
-        }
+    requestUsers(currentPage = 1, pageSize = 10){
+        return my_instance.get('/users')
+    },    
+    follow(userId){
+        console.log('follow userId', userId)
+        return my_instance.get(`/users/follow/${userId}`)
+    },
+    unfollow(userId){
+        console.log('unfollow userId', userId)
+        return my_instance.delete(`/users/follow/${userId}`)
+    }
     // requestUsers(currentPage = 1, pageSize = 10){
     //     return my_instance.get('/users')
     // },

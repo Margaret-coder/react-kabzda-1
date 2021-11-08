@@ -5,7 +5,6 @@ import User from './User'
 import Paginator from './Paginator'
 
 const Users = (props) => {
-    console.log('Users props', props)
     return (
         <div className={s.usersBlock}>
             <div>
@@ -18,9 +17,9 @@ const Users = (props) => {
                         onPageChanged={props.onPageChanged}/>
                 </div>
                 {
-                props.users.map(u=> u.userId!==props.userId&&
+                props.users.map(u=> u._id!==props.authUserId&&
             // <User key = {u.id} 
-                <User key = {u._id} 
+                <User key = {u._id} authUserId = {props.authUserId}
                 user={u} avaPath={u.avaPath} follow={props.follow} unfollow={props.unfollow}
                 followingInProgress={props.followingInProgress}/>)
                 }
