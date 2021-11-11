@@ -2,18 +2,23 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { compose } from 'redux'
-import { sendNewPost, deletePost, editPost, likePost, getProfilePosts } from '../../../redux/postsReducer'
+import { sendNewPost, deletePost, editPost, likePost, getUsersPosts } from '../../../redux/postsReducer'
 import MyPosts from './MyPosts'
 
 class PostsContainer extends React.Component{
     componentDidMount(){
         const userId = this.props.profilePageUserId
-        this.props.getProfilePosts(userId)
-    }
+        this.props.getUsersPosts(userId)
+    }  
     componentDidUpdate(prevProps){
-        if(prevProps.state.profilePage.profile&&prevProps.state.profilePage.profile.avaPath !== this.props.state.profilePage.profile.avaPath){
-            this.props.getProfilePosts(this.props.profilePageUserId)
+        if(prevProps.state.profilePage.profile&&prevProps.state.profilePage.profile.userId !== this.props.state.profilePage.profile.userId){
+            this.props.getUsersPosts(this.props.profilePageUserId)
         }
+        /* Synchronization avatar upload */
+        else if(prevProps.state.auth&&prevProps.state.auth.avaPath !== this.props.state.auth.avaPath){
+            this.props.getUsersPosts(this.props.profilePageUserId)
+        }
+        console.log('P O S T S  C O N T A I N E R  Component did update without condition', this.props.state)
     }
     render(){
         return (<MyPosts
@@ -40,5 +45,5 @@ let mapStateToProps = (state) => {
 
 export default compose (
     connect(mapStateToProps, 
-    {getProfilePosts, sendNewPost, deletePost, editPost, likePost}),
+    {getUsersPosts, sendNewPost, deletePost, editPost, likePost}),
      withRouter)(PostsContainer)

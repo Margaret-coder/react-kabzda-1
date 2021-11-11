@@ -3,12 +3,69 @@ const User = require("../models/User")
 const saveEmptyProfile = require("./routeUtils")
 const router = express.Router()
 
+const multer = require("multer")
+const { connection } = require("mongoose")
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./")
+    },
+    filename: function(req, file, cb){
+        const ext = file.mimetype.split("/")[1]
+        cb(null, `uploads/${file.originalname}-${Date.now()}.${ext}`)
+    } 
+})
+const upload = multer({
+    storage: storage
+})
+
+router.post('/image', upload.single('image'), (req, res, err) => {
+    console.log('POST IMAGE')
+    console.log("req.session.user.avaPath", req.session.user.avaPath)
+    console.log("req.session.user.id", req.session.user.id)
+    console.log('req.body.userId', req.body.userId)
+    const image = req.file.filename
+    console.log('image', image)
+    const id = req.body.userId
+    if(!req.file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)){
+        res.send({msg: 'Only image files (jpg, jpeg, png) are allowed!'})
+    }
+    else{
+        User.findOne({_id: id}, function(err, user){
+            if(user) {
+				console.log('User:::', user)
+                user.avaPath = image
+                user.save(function(err){
+                    try{
+                        user.save()
+                    }
+                    catch(err){
+                        console.log(err)
+                        return res.send('/image', {
+                            errors:err.errors,
+                            user: user
+                        })
+                    }
+                })
+            }
+            else {
+                console.log("upload image error: user not found")
+            }
+            console.log("user to send", user)
+            req.session.user.avaPath = user.avaPath
+            console.log("req.session.user.avaPath", req.session.user.avaPath)
+            res.send(user)
+        })
+    }
+})
+
 /* create session in browser */
 const createSession = (user, req, res) => {
     let sessionUser = {}
     sessionUser.id = user._id
     console.log('user:::', user)
     sessionUser.email = user.email
+    sessionUser.avaPath = user.avaPath
     req.session.user = sessionUser
     res.session = req.session
     return res    
@@ -16,7 +73,7 @@ const createSession = (user, req, res) => {
 
 router.get("/me", async(req, res) => {
     console.log('AUTH router /me')
-    console.log('REQ.SESSION', req.session)
+    // console.log('REQ.SESSION', req.session)
     if (req.session&&req.session.user) {
         res.send(req.session.user)
     } 

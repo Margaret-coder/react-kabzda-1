@@ -31,6 +31,11 @@ export const authAPI = {
         console.log("authAPI register user and create Profile")
       //  return my_instance.post(`register_user/`, {username, email, password}).then(user => my_instance.post(`profile/`, {id : user.data._id}))
         return my_instance.post(`registration/`, {email, password})
+    },
+    /* IMAGE */
+    uploadImage(formData){
+        console.log("API uploadImage(formData)",formData)
+        return my_instance.post(`image`, formData)
     }
 }
 

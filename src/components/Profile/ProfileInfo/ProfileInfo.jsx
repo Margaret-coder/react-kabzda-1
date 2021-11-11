@@ -6,7 +6,9 @@ import { Link } from 'react-router-dom'
 import { useState } from "react"
 
 const ProfileInfo = (props) => {
-    const image = window.location.origin + '/' + props.profile.avaPath
+    console.log('ProfileInfo ::: props', props)
+   if(!props.avaPath) console.log('Props ava path::', props.avaPath)
+    const image = window.location.origin + '/' + props.avaPath
     // const [uploadStatus] = useState('');
     const imageHandler = (event) => {
         const file = event.target.files[0]
@@ -20,10 +22,13 @@ const ProfileInfo = (props) => {
     return (
         <div>
             <div className={s.descriptionBlock}>
-                {props.profile.avaPath && <div className={s.ava}>
-                    <img src={image ? image : blankImage} 
+                <div>
+                    Name: {props.username}
+                </div>
+                <div className={s.ava}>
+                    <img src={props.avaPath ? image : blankImage} 
                     alt="large_pic"/>
-                </div>}
+                </div>
                 {/* For Authorized Profile Only - block - props.edible condition */}
                 {props.edible &&
                 <> 

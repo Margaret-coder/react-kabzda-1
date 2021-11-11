@@ -53,11 +53,6 @@ export const editProfileInfo = (formData) => async(dispatch) => {
   dispatch(setUserProfile(response.data))
 }
 
-export const uploadImage = (formData) => async(dispatch) => {
-  const response = await profileAPI.uploadImage(formData)
-  dispatch(setUserProfile(response.data))
-}
-
 export const getStatus = (userId) => async (dispatch) => {
   const response = await profileAPI.getStatus(userId)
   dispatch(setStatus(response.data) )

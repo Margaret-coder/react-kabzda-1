@@ -3,7 +3,10 @@ var mongoose = require("mongoose"),
     SALT_WORK_FACTOR = 10
 
 var UserSchema = mongoose.Schema({
+    avaPath: String,
+    username: String,
     email: {type: String, required: true, index: {unique: true}},
+    login: {type: String},
     password: {type: String, required: true},
     following: [String],
     followers: [String]

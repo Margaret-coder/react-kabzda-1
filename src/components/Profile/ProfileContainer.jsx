@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Profile from './Profile'
 import {getProfileById, getStatus, updateStatus, 
-    editProfileInfo, uploadImage} from '../../redux/profileReducer'
+    editProfileInfo} from '../../redux/profileReducer'
+import {uploadImage} from '../../redux/authReducer'    
 import { Redirect, withRouter } from 'react-router'
 import { withAuthRedirect } from '../../hoc/withAuthRedirect'
 import { compose } from 'redux'
@@ -19,6 +20,8 @@ class ProfileContainer extends React.Component{
                 this.props.getStatus(this.props.authorizedUserId)
             }
         }
+        console.log('P R O F I L E Container Component did update without condition', this.props.state)
+
     }
     componentDidMount(){
         if(this.props.authorizedUserId){ // logged in profile only
@@ -49,7 +52,6 @@ class ProfileContainer extends React.Component{
         else {
             return (
                 <Profile {...this.props} 
-                // editMode={this.state.editMode}
                 state={this.props.state}
                 profile={this.props.profile}
                 status={this.props.status} 
