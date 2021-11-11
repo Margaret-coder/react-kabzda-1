@@ -24,11 +24,6 @@ export const profileAPI = {
     createNewProfile(){
         return my_instance.post()
     },
-    /* IMAGE */
-    uploadImage(formData){
-        console.log("Profile API uploadImage(formData)",formData)
-        return my_instance.post(`image`, formData)
-    },
     /* STATUS */
     getStatus(userId){
         return my_instance.get(`status/` + userId)

@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require("mongoose")
 const multer = require("multer")
 const postRoutes = require("./routes/postRoutes")
-const userRoutes = require("./routes/userRoutes")
+const usersRoutes = require("./routes/usersRoutes")
 const profileRoutes = require("./routes/profileRoutes")
 const authRoutes = require("./routes/authRoutes")
 const { connection_string } = require('./config');
@@ -56,7 +56,7 @@ mongoose
             next();
         });  
         app.use("/api", postRoutes)
-        app.use("/api", userRoutes)
+        app.use("/api", usersRoutes)
         app.use("/api", profileRoutes)
         app.use("/api", authRoutes)
         app.listen(5500, () => {

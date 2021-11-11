@@ -1,21 +1,7 @@
 const express = require("express")
 const Profile = require("../models/Profile")
 const router = express.Router()
-const multer = require("multer")
-const { connection } = require("mongoose")
 const saveEmptyProfile = require("./routeUtils")
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "./")
-    },
-    filename: function(req, file, cb){
-        const ext = file.mimetype.split("/")[1]
-        cb(null, `uploads/${file.originalname}-${Date.now()}.${ext}`)
-    } 
-})
-const upload = multer({
-    storage: storage
-})
 
 router.patch('/profile/status', async(req, res) => {
     console.log('Router PATCH')
@@ -61,7 +47,7 @@ router.get('/profile', async(req, res) => {
         Profile.findOne({userId: req.session.user.id}, function(err, profile) {
             if(profile) {
                 req.session.user.login = profile.fullname
-                req.session.user.avaPath = profile.avaPath
+                // req.session.user.avaPath = profile.avaPath
                 console.log('REQ SESSION USER', req.session.user)
                 res.send(profile)
             }
@@ -79,7 +65,7 @@ router.get('/profile/:id', async(req, res) => {
     if(req.params.id) { 
         Profile.findOne({userId: req.params.id}, function(err, profile) {
             if(profile) {
-                console.log('got profile:::', profile)
+                // console.log('got profile:::', profile)
                 res.send(profile)
             }
             else {
@@ -113,18 +99,21 @@ router.get('/profiles', async(req, res) => {
     res.send(profiles)
 })
 
-router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => {
+router.post('/profile/edit_profile', 
+// upload.single('image'), 
+(req, res, err) => {
     console.log("POST EDIT/CREATE PROFILE")
-    const image = req.file?req.file.filename:''
+    // const image = req.file?req.file.filename:''
     const id = req.body.userId
     console.log('User id', id)
-    if(req.file&&!req.file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)){
-        res.send({msg: 'Only image files (jpg, jpeg, png) are allowed!'})
-    }
-    else{
+    // if(req.file&&!req.file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)){
+    //     res.send({msg: 'Only image files (jpg, jpeg, png) are allowed!'})
+    // }
+    // else
+    // {
         Profile.findOne({userId: id}, function(err, profile){
             if(profile) {
-                profile.avaPath = image?image:profile.avaPath
+                // profile.avaPath = image?image:profile.avaPath
                 profile.status = req.body.status?req.body.status:profile.status,
                 profile.aboutMe = req.body.aboutMe,
                 profile.contacts = req.body.contacts,
@@ -139,16 +128,16 @@ router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => 
                         })
                    }
                     else {
-                        req.session.user.avaPath = profile.avaPath
+                        // req.session.user.avaPath = profile.avaPath
                         res.jsonp(profile)
                     }
                 })
             }
             else {
-                console.log("upload image error: profile not found")
+                // console.log("upload image error: profile not found")
                 const profile = new Profile ({
                     userId: id,
-                    avaPath: image,
+                    // avaPath: image,
                     status: req.body.status,
                     aboutMe: req.body.aboutMe,
                     contacts: req.body.contacts,
@@ -165,45 +154,7 @@ router.post('/profile/edit_profile', upload.single('image'), (req, res, err) => 
                 res.jsonp(profile)
             }
         })
-    }
+    //}
 })
 
-router.post('/profile/image', upload.single('image'), (req, res, err) => {
-    console.log('POST IMAGE')
-    console.log("req.session.user.avaPath", req.session.user.avaPath)
-    console.log("req.session.user.id", req.session.user.id)
-    console.log('req.body.userId', req.body.userId)
-    const image = req.file.filename
-    console.log('image', image)
-    const id = req.body.userId
-    if(!req.file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)){
-        res.send({msg: 'Only image files (jpg, jpeg, png) are allowed!'})
-    }
-    else{
-        Profile.findOne({userId: id}, function(err, profile){
-            if(profile) {
-                profile.avaPath = image
-                profile.save(function(err){
-                    try{
-                        profile.save()
-                    }
-                    catch(err){
-                        console.log(err)
-                        return res.send('/image', {
-                            errors:err.errors,
-                            profile: profile
-                        })
-                    }
-                })
-            }
-            else {
-                console.log("upload image error: profile not found")
-            }
-            console.log("profile to send", profile)
-            req.session.user.avaPath = profile.avaPath
-            console.log("req.session.user.avaPath", req.session.user.avaPath)
-            res.send(profile)
-        })
-    }
-})
 module.exports = router

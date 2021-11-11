@@ -13,23 +13,23 @@ const instance = axios.create({
 
 const my_instance = axios.create({
     withCredentials: true,
-    baseURL: 'http://localhost:5500/api/'
+    baseURL: 'http://localhost:5500/api/users'
   })
 
 export const usersAPI = {
-    requestProfiles(currentPage = 1, pageSize = 10){
-            return my_instance.get('/profiles')
-        },
     requestUsers(currentPage = 1, pageSize = 10){
-        return my_instance.get('/users')
+        return my_instance.get('/')
     },    
+    requestUserById(userId){
+        return my_instance.get(`/${userId}`)
+    },
     follow(userId){
         console.log('follow userId', userId)
-        return my_instance.get(`/users/follow/${userId}`)
+        return my_instance.get(`/follow/${userId}`)
     },
     unfollow(userId){
         console.log('unfollow userId', userId)
-        return my_instance.delete(`/users/follow/${userId}`)
+        return my_instance.delete(`/follow/${userId}`)
     }
     // requestUsers(currentPage = 1, pageSize = 10){
     //     return my_instance.get('/users')

@@ -2,6 +2,7 @@ import { authAPI } from "../api/authAPI"
 import {stopSubmit} from "redux-form" 
 
 const SET_USER_DATA = 'social-network/auth/SET_USER_DATA'
+const SET_IMAGE = 'social-network/auth/SET_IMAGE'
 const SET_ERROR_MESSAGE = 'social-network/auth/SET_ERROR_MESSAGE'
 
 let initialState = {
@@ -17,6 +18,9 @@ const authReducer = (state = initialState, action) => {
     switch(action.type){
         case SET_USER_DATA:{
             return {...state, ...action.data}
+        }
+        case SET_IMAGE:{
+            return {...state, avaPath: action.avaPath}
         }
         case SET_ERROR_MESSAGE:{
             let newState = { 
@@ -68,9 +72,20 @@ async (dispatch) => {
     }
 }
 
+export const uploadImage = (formData) => async(dispatch) => {
+    const response = await authAPI.uploadImage(formData)
+    console.log('response upload image', response)
+    dispatch(setImage(response.data.avaPath))
+}
+
 export const setErrorMessage = (text) => ({
     type: SET_ERROR_MESSAGE,
     error_message: text
+})
+
+export const setImage = (avaPath) => ({
+    type: SET_IMAGE,
+    avaPath
 })
 
 export const setAuthUserData = (userId, email, login, avaPath, isAuth, error_message) => 

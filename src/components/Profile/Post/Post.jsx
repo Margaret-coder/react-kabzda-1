@@ -55,7 +55,7 @@ class Post extends React.Component {
                         <img className={s.photoImage} src={image} alt="avatar"/>
                     </span>
                     <div>
-                    <div>{this.props.post.fullname}:</div>
+                    <div>{this.props.post.username}:</div>
                     <div className={s.message}>
                         {this.state.editPost ? 
                         <div><textarea value={this.state.message}

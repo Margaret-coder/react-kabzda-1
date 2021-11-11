@@ -13,13 +13,16 @@ const User = (props) => {
             <span>
                 <div>
                     <NavLink to={{pathname:'/profile/' + user._id, 
-                    state: { editMode: false, edible: false, userId: user._id }}}>
+                    state: { userId: user._id, avaPath: user.avaPath, username: user.username }}}>
                         {/* <img src={user.photos&&user.photos.small !== null? 
                         user.photos.small : userPhoto} */}
                         <div className={s.ava}>
                             <img src={user.avaPath||user.photos&&user.photos.small !== null? 
                             user.avaPath : userPhoto}
                             alt="profilePhoto"/>
+                        </div>
+                        <div>
+                            {user.username}
                         </div>
                     </NavLink>
                 </div>

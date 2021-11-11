@@ -1,5 +1,5 @@
 import { postsAPI} from "../api/postsAPI"
-import { profileAPI} from "../api/profileAPI"
+import { usersAPI} from "../api/usersAPI"
 
 const ADD_POST = 'social-network/profile/ADD-POST'
 const DELETE_POST = 'social-network/profile/DELETE_POST'
@@ -12,7 +12,7 @@ let initialState = {
   ownerUserId: ''
 }
 
-const profileReducer = (state = initialState, action) => {
+const postsReducer = (state = initialState, action) => {
     switch (action.type){
       case ADD_POST: {
         console.log('Action content', action.content)
@@ -76,20 +76,20 @@ export const setPostsData = (posts, id) => ({
     id:id
 })
 
-export const getProfilePosts = (user_id) => async (dispatch) => {
+export const getUsersPosts = (user_id) => async (dispatch) => {
   // console.log('------------------------GET PROFILE POSTS-----------------------------')
   // console.log('Request posts by userId', user_id)
   const posts = await postsAPI.requestPostsByUserId(user_id)
-  var profiles = await Promise.all(posts.map(async post => {
-    return await profileAPI.getProfileByUserId(post.authorUserId).then(response => {
+  const users = await Promise.all(posts.map(async post => {
+    return await usersAPI.requestUserById(post.authorUserId).then(response => {
       return response.data
   })
   }))
-  const post_profile = posts.filter(post => {
+  const post_uinfo = posts.filter(post => {
     var found
-    found = profiles.find(profile => profile.userId === post.authorUserId)
+    found = users.find(user => user._id === post.authorUserId)
     if(found) { 
-      post.fullname = found.fullname
+      post.username = found.username
       post.avaPath = found.avaPath
       return post 
     }
@@ -99,7 +99,7 @@ export const getProfilePosts = (user_id) => async (dispatch) => {
     }
   })
   // return post_profile
-  dispatch(setPostsData(post_profile, user_id))
+  dispatch(setPostsData(post_uinfo, user_id))
 }
 
 export const deletePost = (id) => async (dispatch) => {
@@ -110,7 +110,7 @@ export const deletePost = (id) => async (dispatch) => {
 export const editPost = (post) => async (dispatch) => {
   const response = await postsAPI.editPost(post)
   console.log('POST AUTHOR ID', post.authorUserId)
-  dispatch(updatePostActionCreator(response.data)) // updatePostActionCreator is not needed 
+  // dispatch(updatePostsActionCreator(response.data)) // updatePostActionCreator is not needed 
 }
 
 export const likePost = (post_id) => async (dispatch) => {
@@ -125,7 +125,7 @@ export const sendNewPost = (message = "message", ownerPageUId) => async (dispatc
   const response = await postsAPI.sendNewPost(message, ownerPageUId)
   console.log('response sendNewPost', response.data)
   dispatch(addPostActionCreator(response.data))
-  dispatch(getProfilePosts(ownerPageUId))
+  dispatch(getUsersPosts(ownerPageUId))
 }
 
-export default profileReducer
+export default postsReducer

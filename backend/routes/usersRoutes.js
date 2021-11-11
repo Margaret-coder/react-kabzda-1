@@ -18,9 +18,26 @@ router.delete("/users/:id", async(req, res) => {
 router.get("/users", async(req, res) => {
 	console.log("get all users")
     const users = await User.find()
-    console.log('users', users)
+     console.log('users', users)
     res.send(users)
 }) 
+
+router.get('/users/:id', async(req, res) => {
+    console.log('GET USER BY ID', req.params.id)
+    if(req.params.id) { 
+        User.findOne({_id: req.params.id}, function(err, user) {
+            if(user) {
+                console.log('got user:::', user)
+                res.send(user)
+            }
+            else {
+                console.log('No user res.send(null)')
+                res.send(null)
+            }
+        })
+    }
+    else console.log('NO PROFILE. req.params.id:::', req.params.id)
+})
 
 router.delete("/users/follow/:id", async(req, res) => {
 	console.log('Users delete', req.params.id)
