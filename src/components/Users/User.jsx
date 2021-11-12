@@ -4,7 +4,7 @@ import userPhoto from '../../assets/images/samurai.png'
 // onclick Load Profile Info By Id, then redirect to Profile Page
 const User = (props) => {
     const user = props.user
-    console.log('props::', props)
+    console.log('USER / U S E R  props::', props)
     console.log('user._id::', user._id)
     const follow = user.followers.includes(props.authUserId)
     console.log('is_follow', follow)
@@ -26,7 +26,7 @@ const User = (props) => {
                         </div>
                     </NavLink>
                 </div>
-                <div>
+                {props.authUserId&&<div>
                     {/* {user.followed ? */}
                     {user.followers.includes(props.authUserId) ?
                         // <button disabled={props.followingInProgress.some(id => id === user.id)}
@@ -41,7 +41,7 @@ const User = (props) => {
                         >Follow {user._id}
                         </button>
                         }
-                </div>
+                </div>}
             </span>
             <span>
                     <span>
